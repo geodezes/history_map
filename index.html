@@ -13,21 +13,26 @@
 		
 		<title>Объекты культурного наследия города Иркутска</title>
       <!--   <meta name="description" content="Карта ОКН Иркутска позволит вам узнать где находится " />		 -->
-		<link rel="stylesheet" href="leaflet/leaflet.css" /><!-- leaflet -->
-        <script src="leaflet/leaflet.js"></script><!-- leaflet -->
-			
+      
+    <!-- leaflet library -->  
+		<link rel="stylesheet" href="leaflet/leaflet.css" />
+    <script src="leaflet/leaflet.js"></script>
+    
+		<!-- jquery library -->
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+		
+		<!-- I don't know what is this -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!-- разобраться на счет иконки -->
-		<link rel="stylesheet" href="plugins/leaflet-locatecontrol/L.Control.Locate.min.css" /><!-- Geolocation -->
-		<script src="plugins/leaflet-locatecontrol/L.Control.Locate.min.js"></script><!-- Geolocation -->
+		
+		<!-- Geolocation don't work yet. Need https --> 
+		<!--
+		<link rel="stylesheet" href="plugins/leaflet-locatecontrol/L.Control.Locate.min.css" />
+		<script src="plugins/leaflet-locatecontrol/L.Control.Locate.min.js"></script>
+		-->
+		
 		
 		<link rel="stylesheet" href="css/style.css">
 		
-		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/8.5.1/nouislider.min.js"></script>
-
-	
 		<!-- Leaflet.Control.Search -->
 		<link rel="stylesheet" href="css/leaflet-search.css" />
 		<script src="js/leaflet-search.js"></script>
@@ -50,6 +55,8 @@
 
 
     </head>
+    
+    
     <body>
 		 
 		  
@@ -66,13 +73,11 @@
 
 		<script src="js/main.js"></script>
 		
-		
-		
-	  <!--  <script src="js/accordion.js"</script> -->
 	  
-	  
-		 <!-- And nav menu  -->
+	 <!-- And nav menu sidebar -->
 		<nav id="menu" class="panel" role="navigation">
+		  
+		
 		<!-- accordion -->
 		<button class="collapsible">Легенда карты</button>
 		<div class="content">			
@@ -133,23 +138,10 @@
 		<p align="left">Тестовая версия</p>
 		<p align="left">Карта реализуется Иркутским региональным отделением Всероссийского общества охраны памятников истории и культуры. При поддержке Фонда Президентских Грантов</p>
 		</div>
-																				<!-- accordion -->
-																				<script>
-																				var coll = document.getElementsByClassName("collapsible");
-																				var i;
-
-																				for (i = 0; i < coll.length; i++) {
-																					coll[i].addEventListener("click", function() {
-																						this.classList.toggle("active");
-																						var content = this.nextElementSibling;
-																						if (content.style.display === "block") {
-																							content.style.display = "none";
-																						} else {
-																							content.style.display = "block";
-																						}
-																					});
-																				}
-																				</script>	
+		
+	<!-- accordion collapsible nav menu-->
+	<script src="js/accordion.js"></script> 			
+	  
 		</nav>
 		
 		<script src="js/bigSlide.js"></script>
