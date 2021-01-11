@@ -1,26 +1,24 @@
     //для фильтра
 	let checkboxStates
-	//создание карты
+	//create leaflet map
 	var map = new L.Map('map', {
 	center: new L.LatLng(52.2839771, 104.2877651),
 	zoom: 14
 	});
-     //подложка       
+	// create openstreetmap base layer  
 	var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osm);
 	
-	
-	
-/* 	Кварталы */
-	function loadGeoJsonQ(response2) { 
- console.log(response2); 
- quartals.addData(response2);
- map.addLayer(quartals); 
+// loadGeoJson(quartals) from geoserver
+function loadGeoJsonQ(response2) { 
+console.log(response2); 
+quartals.addData(response2);
+map.addLayer(quartals); 
 }; 
-
- var quartals = new L.GeoJSON(null,{
-				//стиль слоя
+// create wfs layer quartals
+var quartals = new L.GeoJSON(null,{
+				//layer style
 				style: function (feature) {
         return {
 				color: 'white',
@@ -30,18 +28,17 @@
 				fillOpacity: 0.2,
 				}			 
 				},
+				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 300};
                 layer.bindPopup("<b>"+"Квартал №"+feature.properties.quarter+"</b>"
 				,popupOptions);
 				}
-				
-				
-				});
- map.addLayer(quartals);
-
+});
+map.addLayer(quartals);
+// loadGeoJson(quartals) from geoserver
 var geoJsonUrlQ ='http://79.141.65.187:8080/geoserver/ows'; 
- var defaultParametersQ = { 
+var defaultParametersQ = { 
   service: 'WFS', 
   version: '2.0.0', 
   request: 'GetFeature', 
@@ -50,11 +47,10 @@ var geoJsonUrlQ ='http://79.141.65.187:8080/geoserver/ows';
   format_options : 'callback:getJson',
   SrsName : 'EPSG:4326'
   }; 
+var parametersQ = L.Util.extend(defaultParametersQ); 
+console.log(geoJsonUrlQ + L.Util.getParamString(parametersQ)); 
 
- var parametersQ = L.Util.extend(defaultParametersQ); 
- console.log(geoJsonUrlQ + L.Util.getParamString(parametersQ)); 
-
- var ajax = $.ajax({ 
+var ajax = $.ajax({ 
   url: geoJsonUrlQ + L.Util.getParamString(parametersQ), 
   datatype: 'json', 
   jsonCallback: 'getJson', 
