@@ -196,6 +196,7 @@ function updateCheckboxStates() {
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
 				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
 				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				},
 				
@@ -263,6 +264,7 @@ function updateCheckboxStates() {
 				+"<dt>"+"Архитектурный стиль:"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
 				+"<dt>"+"Адрес по решениям и постановлениям:"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
 				+"<dt>"+"Адрес:"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				},
 				
@@ -428,3 +430,33 @@ var searchControl = new L.Control.Search({
 	});
 	
 	map.addControl( searchControl );  //inizialize search control
+	
+	
+ 
+ 
+// 3D model popup window
+
+function openModal(modelName)
+{
+	var loadingProgress = document.getElementById("loadingProgress");
+	
+	loadingProgress.innerText = 'Загрузка...';	
+	
+	var modal = document.getElementById("modalOverlayId");
+	modal.classList.remove('is-inactive');
+	modal.classList.add('is-active');
+
+	window.loadModel(modelName, /*onStatus:*/ function(text) {
+		loadingProgress.innerText = text;	
+	});
+}
+ 
+function closeModal()
+{
+	var modal = document.getElementById("modalOverlayId");
+	modal.classList.remove('is-active');
+	modal.classList.add('is-inactive');
+}
+ 
+	
+	

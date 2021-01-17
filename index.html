@@ -36,6 +36,9 @@
 		<!-- Leaflet.Control.Search -->
 		<link rel="stylesheet" href="css/leaflet-search.css" />
 		<script src="js/leaflet-search.js"></script>
+
+		<!-- 3D model popup window -->
+		<link rel="stylesheet" href="css/modelpanel.css">
 	
 		<!-- Yandex.Metrika counter -->
 		<script type="text/javascript" >
@@ -70,6 +73,14 @@
 	 		
 		<div style="width:100%; height:80%" id="map">
 		</div>
+
+
+		<!-- 3D model popup window -->
+		<script type="module" src="js/models.js"></script>
+		<script type="module">
+			import {loadModel} from "./js/models.js";
+			window.loadModel = loadModel;
+		</script>
 
 		<script src="js/main.js"></script>
 		
@@ -158,6 +169,16 @@
 		</script>
 		
 		
+		<!-- 3D model popup window -->
+		<div id="modalOverlayId" class="modalOverlay is-inactive" style="z-index:10000; position: fixed;" onclick="if (this === event.target) {closeModal()}">
+			<div class="modal">
+				<div id="renderSurface"> 
+				</div><br/>
+				<button class="btnClose" onclick="closeModal()">Закрыть</button>
+				<div id="loadingProgress"></div>
+			</div>
+		</div>
+
 		
 
 		
