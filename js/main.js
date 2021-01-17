@@ -72,21 +72,9 @@ var ajax = $.ajax({
               transparent: 'true'
              }).addTo(map);
 	var fireGroup = L.layerGroup([fireLine, firePoli]).addTo(map);
-	
-	
-	/* var quartals = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
-              format: 'image/png',
-              layers: 'quarters',
-              transparent: 'true'
-             }).addTo(map);
-	 */
-	
-	
-	
-	
-	
+
 	/*Leaflet.Control.Search GeoCoding - OSM Nominatim */	
-	/* map.addControl( new L.Control.Search({
+	/*  map.addControl( new L.Control.Search({
 		url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
 		jsonpParam: 'json_callback',
 		propertyName: 'display_name',
@@ -100,10 +88,6 @@ var ajax = $.ajax({
 
 //Geolocation
 /* L.control.locate().addTo(map);  */
-
-
-
-
 
 //добавление векторного слоя
 function loadGeoJsonSP(response) { 
@@ -403,7 +387,7 @@ infolegend.addTo(map);
 /* Leaflet.Control.Search */
 var searchControl = new L.Control.Search({
 		layer: geojsonStateProtection,
-		propertyName: 'faddress',
+		propertyName: ['Name','faddress'],
 		marker: false,
 		moveToLocation: function(latlng, title, map) {
 			//map.fitBounds( latlng.layer.getBounds() );

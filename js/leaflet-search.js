@@ -70,7 +70,7 @@ L.Control.Search = L.Control.extend({
 		container: '',					//container id to insert Search Control		
 		zoom: null,						//default zoom level for move to location
 		minLength: 1,					//minimal text length for autocomplete
-		initial: true,					//search elements only by initial text
+		initial: false,					//search elements only by initial text
 		casesensitive: false,			//search elements in case sensitive text
 		autoType: true,					//complete input with first suggested result and select this filled-in text.
 		delayType: 400,					//delay while typing for show tooltip
