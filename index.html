@@ -37,6 +37,13 @@
 		<link rel="stylesheet" href="css/leaflet-search.css" />
 		<script src="js/leaflet-search.js"></script>
 
+    <!--tag filter-->
+		<link rel="stylesheet" href="css/easy-button.css" />
+		<link rel="stylesheet" href="css/leaflet-tag-filter-button.css" />
+		<script src="js/easy-button.js"></script>
+		<script src="js/leaflet-tag-filter-button.js"></script>
+		<!--tag filter-->
+
 		<!-- 3D model popup window -->
 		<link rel="stylesheet" href="css/modelpanel.css">
 	
@@ -55,7 +62,22 @@
 		<noscript><div><img src="https://mc.yandex.ru/watch/69335350" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 		<!-- /Yandex.Metrika counter -->
    
+        <!--tag_filter-->
+    <style>
+      .leaflet-map {
+        height: 500px;
+        width: 100%;
+      }
 
+      .easy-button-button {
+        display: block !important;
+      }
+
+      .tag-filter-tags-container {
+        left: 30px;
+      }
+    </style>
+    <!--tag_filter-->
 
     </head>
     
@@ -94,55 +116,7 @@
 		<div class="content">			
 			<p><img src="images/infoLegend.png" alt="Легенда"></p>
 		</div>
-		<!-- accordion -->
-		<button class="collapsible">Фильтр </button>
-		<div class="content">
-			<div id="titleMaterial">
-				<h4>Материал постройки</h4>
-			</div>
-			<div class="inputs" id="Materials">
-				<dt><input type="checkbox" class="Material" name="дерево" value="дерево" checked="true">
-				<label for="дерево">Деревяные</label></dt>
-				<dt><input type="checkbox" class="Material" name="камень" value="камень" checked="true">
-				<label for="камень">Каменные</label></dt>
-				<dt><input type="checkbox" class="Material" name="песчаник" value="песчаник" checked="true">
-				<label for="песчаник">Из песчаника</label></dt>
-				<dt><input type="checkbox" class="Material" name="песчаник/дерево" value="песчаник/дерево" checked="true">
-				<label for="песчаник/дерево">Из песчаника и дерева</label></dt>
-				<dt><input type="checkbox" class="Material" name="камень/дерево" value="камень/дерево" checked="true">
-				<label for="камень/дерево">Из камня и дерева</label></dt>
-			</div>
-			<div id="titleGO">
-				<h4>Категория государственной охраны</h4>
-			</div>
-			<div class="inputs" id="gos">
-				<dt><input type="checkbox" class="go" name="ГО н" value="ГО н" checked="true">
-				<label for="ГО н">Выявленные</label></dt>
-				<dt><input type="checkbox" class="go" value="ГО р" checked="true">
-				<label for="ГО р">Региональная</label></dt>
-				<dt><input type="checkbox" class="go" value="ГО ф" checked="true">
-				<label for="ГО ф">Федеральная</label></dt>
-				<dt><input type="checkbox" class="go" value="ГО м" checked="true">
-				<label for="ГО м">Муниципальная</label></dt>
-			</div>
-			<div id="titleAstyle">
-				<h4>Архитектурный стиль</h4>
-			</div>		
-				<div class="inputs" id="Archstyle">
-					<dt><input type="checkbox" class="Architectu" name="Эклектика" value="Эклектика" checked="true">
-					<label for="Эклектика">Эклектика</label></dt>
-					<dt><input type="checkbox" class="Architectu" value="-" checked="true">
-					<label for="-">-</label></dt>
-					<dt><input type="checkbox" class="Architectu" value="Классицизм" checked="true">
-					<label for="Классицизм">Классицизм</label></dt>
-					<dt><input type="checkbox" class="Architectu" value="Модерн" checked="true">
-					<label for="Модерн">Модерн</label></dt>
-					<dt><input type="checkbox" class="Architectu" value="Сибирское барокко" checked="true">
-					<label for="Сибирское барокко">Сибирское барокко</label></dt>
-					<dt><input type="checkbox" class="Architectu" value="Конструктивизм" checked="true">
-					<label for="Конструктивизм">Конструктивизм</label></dt>		
-				</div>
-		</div>
+	
 		<!-- accordion -->
 		<button class="collapsible">Информация об авторах</button>
 		<div class="content">

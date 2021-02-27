@@ -1,5 +1,3 @@
-    //для фильтра
-	let checkboxStates
 	//create leaflet map
 	var map = new L.Map('map', {
 	center: new L.LatLng(52.2839771, 104.2877651),
@@ -73,67 +71,18 @@ var ajax = $.ajax({
              }).addTo(map);
 	var fireGroup = L.layerGroup([fireLine, firePoli]).addTo(map);
 
-	/*Leaflet.Control.Search GeoCoding - OSM Nominatim */	
-	/*  map.addControl( new L.Control.Search({
-		url: 'https://nominatim.openstreetmap.org/search?format=json&q={s}',
-		jsonpParam: 'json_callback',
-		propertyName: 'display_name',
-		propertyLoc: ['lat','lon'],
-		marker: L.circleMarker([0,0],{radius:30}),
-		autoCollapse: true,
-		autoType: false,
-		minLength: 2
-	}) ); */
 	
 
 //Geolocation
 /* L.control.locate().addTo(map);  */
 
 //добавление векторного слоя
-function loadGeoJsonSP(response) { 
+function loadGeoJson(response) { 
  console.log(response); 
-	//geojsonLayerWells.addData(response); 
- 
- //filter
- for (let input of document.querySelectorAll('input')) {
-  //Listen to 'change' event of all inputs
-  input.onchange = (e) => {
-    geojsonStateProtection.clearLayers()
-  	updateCheckboxStates()
-    geojsonStateProtection.addData(response)   
-  }
-}
- map.addLayer(geojsonStateProtection); 
- /***** INIT ******/
- updateCheckboxStates()
- geojsonStateProtection.addData(response)
+ geojsonStateProtection.addData(response);
+ geojsonMaterial.addData(response);
+ map.addLayer(geojsonStateProtection,geojsonMaterial);
 }; 
-
-
-
- //filter
-function updateCheckboxStates() {
-	checkboxStates = {
-  	Matereals: [],
-    gos: [],
-	Archstyle: []
-  }
-  
-	for (let input of document.querySelectorAll('input')) {
-  	if(input.checked) {
-    	switch (input.className) {
-      	case 'go': checkboxStates.gos.push(input.value); break
-        case 'Material': checkboxStates.Matereals.push(input.value); break
-		case 'Architectu': checkboxStates.Archstyle.push(input.value); break
-      }
-    }
-  }
-}
-
-
-
-
-
 
 
 //слой отображающий категорию гос охраны
@@ -182,24 +131,40 @@ function updateCheckboxStates() {
 				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
+          layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
 				},
-				
-				
-				
-				
-				
-				 //filter
-				filter: function (feature) {
-				const isMaterealChecked = checkboxStates.Matereals.includes(feature.properties.Material)
-				const isGoChecked = checkboxStates.gos.includes(feature.properties.go)
-				const isArchitectuChecked = checkboxStates.Archstyle.includes(feature.properties.Architectu)
-				return isMaterealChecked && isGoChecked && isArchitectuChecked //only true if both are true
-				}
-				
 	});
  map.addLayer(geojsonStateProtection);
 
+				
+    var materialFilterButton = L.control.tagFilterButton({
+      data: ['дерево','камень','песчаник','песчаник/дерево','камень/дерево'],
+      icon: '<img src="m_filter.png">',
+      filterOnEveryClick: true
+    }).addTo(map);
+    
+    var stateProtectionFilterButton = L.control.tagFilterButton({
+      data: ['ГО н','ГО р','ГО ф','ГО м'],
+			icon: '<img src="sp_filter.png">',	
+      filterOnEveryClick: true
+    }).addTo(map);
+  
+     
+    var archStyleFilterButton = L.control.tagFilterButton({
+      data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','-'],
+      icon: '<img src="style_filter.png">',
+      filterOnEveryClick: true
+    }).addTo(map);
+  
+    materialFilterButton.addToReleated(stateProtectionFilterButton,archStyleFilterButton);
 
+    jQuery('.easy-button-button').click(function() {
+        target = jQuery('.easy-button-button').not(this);
+        target.parent().find('.tag-filter-tags-container').css({
+            'display' : 'none',
+        });
+    });
+  /*tag filter*/
 
 
  //для получения векторного слоя 
@@ -217,24 +182,6 @@ function updateCheckboxStates() {
 
 
 //second layer отображает матереал постройки
-//работает при отключеном фильтре (filter 2)
-
- function loadGeoJsonM(response1) { 
-
- console.log(response1); 
- geojsonMaterial.addData(response1);
- //filter 2
- /* for (let input1 of document.querySelectorAll('input')) {
-  //Listen to 'change' event of all inputs
-  input1.onchange = (e) => {
-    geojsonMaterial.clearLayers()
-  	updateCheckboxStates1()
-    geojsonMaterial.addData(response1)   
-  }
-} */
- 
- map.addLayer(geojsonMaterial); 
-}; 
 
 
  var geojsonMaterial = new L.GeoJSON(null,{
@@ -250,6 +197,7 @@ function updateCheckboxStates() {
 				+"<dt>"+"Адрес:"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
+          layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
 				},
 				
 				style: function (feature) {
@@ -295,37 +243,12 @@ function updateCheckboxStates() {
         }
 			};
 			
-     },
-			//filter 2
-			/* filter: function (feature) {
-				const isMaterealChecked1 = checkboxStates1.Matereals1.includes(feature.properties.Material)
-				const isGoChecked1 = checkboxStates1.gos1.includes(feature.properties.go)
-				const isArchitectuChecked1 = checkboxStates1.Archstyle1.includes(feature.properties.Architectu)
-				return isMaterealChecked && isGoChecked && isArchitectuChecked //only true if both are true
-				} */
+     }
      
  });
 
  map.addLayer(geojsonMaterial);
  
-   //filter 2
-  /* function updateCheckboxStates1() {
-	checkboxStates1 = {
-  	Matereals1: [],
-    gos1: [],
-	Archstyle1: []
-  }
-  
-	for (let input of document.querySelectorAll('input')) {
-  	if(input.checked) {
-    	switch (input.className) {
-      	case 'go': checkboxStates1.gos1.push(input.value); break
-        case 'Material': checkboxStates1.Matereals1.push(input.value); break
-		case 'Architectu': checkboxStates1.Archstyle1.push(input.value); break
-      }
-    }
-  }
-} */
   
   
  //add json layers 
@@ -336,7 +259,7 @@ function updateCheckboxStates() {
   url: geoJsonUrl + L.Util.getParamString(parameters), 
   datatype: 'json', 
   jsonCallback: 'getJson', 
-  success: [loadGeoJsonSP, loadGeoJsonM]
+  success: [loadGeoJson]
   }); 
  
  
@@ -344,7 +267,7 @@ function updateCheckboxStates() {
  //legenda
 var baseLayers = {
    /*  "OpenStreetMap": osm */
-		"Категория государственной охраны(Фильтр)": geojsonStateProtection,
+		"Категория государственной охраны": geojsonStateProtection,
 		"Материал": geojsonMaterial
 };
 var overlays = {
@@ -380,14 +303,10 @@ infolegend.addTo(map);
  */
 
 
-
-
-
-
 /* Leaflet.Control.Search */
 var searchControl = new L.Control.Search({
 		layer: geojsonStateProtection,
-		propertyName: ['Name','faddress'],
+		propertyName: 'Name',
 		marker: false,
 		moveToLocation: function(latlng, title, map) {
 			//map.fitBounds( latlng.layer.getBounds() );
