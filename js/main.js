@@ -19,8 +19,9 @@ var quartals = new L.GeoJSON(null,{
 				//layer style
 				style: function (feature) {
         return {
-				color: 'white',
-				stroke: 1,
+				color: '#9ACD32',//'white',
+				stroke: 0.1,
+				weight: 1,
 				dashArray: 4,
 				fillColor: '#9ACD32',
 				fillOpacity: 0.2,
@@ -112,7 +113,7 @@ function loadGeoJson(response) {
       } else {
         return {
           color: "green",
-		  illOpacity: 0.5,
+		  fillOpacity: 0.5,
 		  stroke: 0.1
         }
 			};
@@ -139,20 +140,20 @@ function loadGeoJson(response) {
 				
     var materialFilterButton = L.control.tagFilterButton({
       data: ['дерево','камень','песчаник','песчаник/дерево','камень/дерево'],
-      icon: '<img src="m_filter.png">',
+      icon: '<img src="images/m_filter.png">',
       filterOnEveryClick: true
     }).addTo(map);
     
     var stateProtectionFilterButton = L.control.tagFilterButton({
       data: ['ГО н','ГО р','ГО ф','ГО м'],
-			icon: '<img src="sp_filter.png">',	
+			icon: '<img src="images/sp_filter.png">',	
       filterOnEveryClick: true
     }).addTo(map);
   
      
     var archStyleFilterButton = L.control.tagFilterButton({
       data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','-'],
-      icon: '<img src="style_filter.png">',
+      icon: '<img src="images/style_filter.png">',
       filterOnEveryClick: true
     }).addTo(map);
   
@@ -197,7 +198,7 @@ function loadGeoJson(response) {
 				+"<dt>"+"Адрес:"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
-          layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
+				layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
 				},
 				
 				style: function (feature) {

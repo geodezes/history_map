@@ -19,18 +19,18 @@ window.addEventListener("load", function(){
 	renderer = new THREE.WebGLRenderer();
 //	renderer.setSize( renderSurface.innerWidth, renderSurface.innerHeight );
 	renderer.setSize( 720, 540 );
-	renderer.setClearColor(new THREE.Color( 0x8080a0 ), 1.0);
+	renderer.setClearColor(new THREE.Color( 0xD3D3D3 ), 1.0);
 	renderSurface.appendChild( renderer.domElement );
 
-	const light = new THREE.AmbientLight( 0xffffff );
+	const light = new THREE.AmbientLight( 0xE0FFFF );
 	scene.add( light );
 
 	// Условная поверхность земли
-	var geometry = new THREE.BoxGeometry( 50, 0.01, 50 );
-	var material = new THREE.MeshBasicMaterial( { color: 0x406040 } );
-	var cube = new THREE.Mesh( geometry, material );
+	//var geometry = new THREE.BoxGeometry( 50, 0.01, 50 );
+	//var material = new THREE.MeshBasicMaterial( { color: 0x406040 } );
+	//var cube = new THREE.Mesh( geometry, material );
 //	cube.position.y = -0.1;
-	scene.add( cube );
+	//scene.add( cube );
 
 	camera.position.z = 30;
 	camera.position.y = 10;
