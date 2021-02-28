@@ -18,10 +18,15 @@
 }
 
 .modal {
-	margin: 100px auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
 	background: #fff;
-	width: 800px;
-	height: 600px;
+	width: 90%;
+	height: 90%;
 	padding: 20px;
 	-webkit-transition: 0.4s 0.1s;
 }
@@ -44,6 +49,6 @@ canvas {
 }
 
 #renderSurface {
-	width: 90%;
+	width: 95%;
 	height: 90%;
 }

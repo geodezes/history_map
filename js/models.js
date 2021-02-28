@@ -17,8 +17,6 @@ window.addEventListener("load", function(){
 	camera = new THREE.PerspectiveCamera( 60, /*renderSurface.innerWidth/renderSurface.innerHeight*/ 1.2, 0.1, 200 );
 
 	renderer = new THREE.WebGLRenderer();
-//	renderer.setSize( renderSurface.innerWidth, renderSurface.innerHeight );
-	renderer.setSize( 720, 540 );
 	renderer.setClearColor(new THREE.Color( 0xD3D3D3 ), 1.0);
 	renderSurface.appendChild( renderer.domElement );
 
@@ -69,7 +67,11 @@ export function loadModel(modelName, onStatus)
 	const loader = new GLTFLoader();
 
 	loader.load( modelsRootPath + modelName /*'models/Sverdlova9/Sverdlova9.glb'*/, function ( gltf ) {
-
+		// Adjust buffer size to current window size
+		renderer.setSize( renderSurface.clientWidth, renderSurface.clientHeight );
+		camera.aspect = renderSurface.clientWidth / renderSurface.clientHeight;
+		camera.updateProjectionMatrix();
+		
 		model = gltf.scene;
 		scene.add( model );
 		// In model, up-axis is Z. We want Y
