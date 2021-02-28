@@ -157,7 +157,8 @@ function loadGeoJson(response) {
       filterOnEveryClick: true
     }).addTo(map);
   
-    materialFilterButton.addToReleated(stateProtectionFilterButton,archStyleFilterButton);
+    materialFilterButton.addToReleated(stateProtectionFilterButton);
+    materialFilterButton.addToReleated(archStyleFilterButton);
 
     jQuery('.easy-button-button').click(function() {
         target = jQuery('.easy-button-button').not(this);
