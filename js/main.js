@@ -72,6 +72,37 @@ var ajax = $.ajax({
              }).addTo(map);
 	var fireGroup = L.layerGroup([fireLine, firePoli]).addTo(map);
 
+/* Leaflet.Control.Search */
+var searchControl = new L.Control.Search({
+		layer: geojsonStateProtection,
+		propertyName: 'Name',
+		marker: false,
+		moveToLocation: function(latlng, title, map) {
+			//map.fitBounds( latlng.layer.getBounds() );
+			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+  			map.setView(latlng, zoom); // access the zoom
+		}
+	});
+
+	searchControl.on('search:locationfound', function(e) {
+		
+		//console.log('search:locationfound', );
+
+		//map.removeLayer(this._markerSearch)
+
+		e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+		if(e.layer._popup)
+			e.layer.openPopup();
+
+	}).on('search:collapsed', function(e) {
+
+		featuresLayer.eachLayer(function(layer) {	//restore feature color
+			featuresLayer.resetStyle(layer);
+		});	
+	});
+	
+	map.addControl( searchControl );  //inizialize search control
+	/* Leaflet.Control.Search */
 	
 
 //Geolocation
@@ -140,20 +171,20 @@ function loadGeoJson(response) {
 				
     var materialFilterButton = L.control.tagFilterButton({
       data: ['дерево','камень','песчаник','песчаник/дерево','камень/дерево'],
-      icon: '<img src="images/m_filter.png">',
+      icon: '<img src="images/m_filter.svg">',
       filterOnEveryClick: true
     }).addTo(map);
     
     var stateProtectionFilterButton = L.control.tagFilterButton({
       data: ['ГО н','ГО р','ГО ф','ГО м'],
-			icon: '<img src="images/sp_filter.png">',	
+			icon: '<img src="images/sp_filter.svg">',	
       filterOnEveryClick: true
     }).addTo(map);
   
      
     var archStyleFilterButton = L.control.tagFilterButton({
       data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','-'],
-      icon: '<img src="images/style_filter.png">',
+      icon: '<img src="images/style_filter.svg">',
       filterOnEveryClick: true
     }).addTo(map);
   
@@ -304,39 +335,6 @@ infolegend.onAdd = function(map) {
 infolegend.addTo(map);
  */
 
-
-/* Leaflet.Control.Search */
-var searchControl = new L.Control.Search({
-		layer: geojsonStateProtection,
-		propertyName: 'Name',
-		marker: false,
-		moveToLocation: function(latlng, title, map) {
-			//map.fitBounds( latlng.layer.getBounds() );
-			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-  			map.setView(latlng, zoom); // access the zoom
-		}
-	});
-
-	searchControl.on('search:locationfound', function(e) {
-		
-		//console.log('search:locationfound', );
-
-		//map.removeLayer(this._markerSearch)
-
-		e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-		if(e.layer._popup)
-			e.layer.openPopup();
-
-	}).on('search:collapsed', function(e) {
-
-		featuresLayer.eachLayer(function(layer) {	//restore feature color
-			featuresLayer.resetStyle(layer);
-		});	
-	});
-	
-	map.addControl( searchControl );  //inizialize search control
-	
-	
  
  
 // 3D model popup window
