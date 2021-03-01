@@ -72,37 +72,7 @@ var ajax = $.ajax({
              }).addTo(map);
 	var fireGroup = L.layerGroup([fireLine, firePoli]).addTo(map);
 
-/* Leaflet.Control.Search */
-var searchControl = new L.Control.Search({
-		layer: geojsonStateProtection,
-		propertyName: 'Name',
-		marker: false,
-		moveToLocation: function(latlng, title, map) {
-			//map.fitBounds( latlng.layer.getBounds() );
-			var zoom = map.getBoundsZoom(latlng.layer.getBounds());
-  			map.setView(latlng, zoom); // access the zoom
-		}
-	});
 
-	searchControl.on('search:locationfound', function(e) {
-		
-		//console.log('search:locationfound', );
-
-		//map.removeLayer(this._markerSearch)
-
-		e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-		if(e.layer._popup)
-			e.layer.openPopup();
-
-	}).on('search:collapsed', function(e) {
-
-		featuresLayer.eachLayer(function(layer) {	//restore feature color
-			featuresLayer.resetStyle(layer);
-		});	
-	});
-	
-	map.addControl( searchControl );  //inizialize search control
-	/* Leaflet.Control.Search */
 	
 
 //Geolocation
@@ -164,6 +134,8 @@ function loadGeoJson(response) {
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
           layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
+          var p = layer.feature.properties;
+          p.index=p.faddress + "|"+ p.Name;
 				},
 	});
  map.addLayer(geojsonStateProtection);
@@ -189,7 +161,7 @@ function loadGeoJson(response) {
     }).addTo(map);
   
     materialFilterButton.addToReleated(stateProtectionFilterButton);
-    materialFilterButton.addToReleated(archStyleFilterButton);
+    stateProtectionFilterButton.addToReleated(archStyleFilterButton);
 
     jQuery('.easy-button-button').click(function() {
         target = jQuery('.easy-button-button').not(this);
@@ -198,6 +170,40 @@ function loadGeoJson(response) {
         });
     });
   /*tag filter*/
+  
+  
+  /* Leaflet.Control.Search */
+  var searchControl = new L.Control.Search({
+    layer: geojsonStateProtection,
+    propertyName: 'index',
+    marker: false,
+    moveToLocation: function(latlng, title, map) {
+      //map.fitBounds( latlng.layer.getBounds() );
+      var zoom = map.getBoundsZoom(latlng.layer.getBounds());
+      map.setView(latlng, zoom); // access the zoom
+    }
+  });
+  
+  searchControl.on('search:locationfound', function(e) {
+  
+    //console.log('search:locationfound', );
+  
+    //map.removeLayer(this._markerSearch)
+  
+    e.layer.setStyle({ fillColor: '#3f0', color: '#0f0' });
+    if (e.layer._popup)
+      e.layer.openPopup();
+  
+  }).on('search:collapsed', function(e) {
+  
+    featuresLayer.eachLayer(function(layer) { //restore feature color
+      featuresLayer.resetStyle(layer);
+    });
+  });
+  
+  map.addControl(searchControl); //inizialize search control
+  /* Leaflet.Control.Search */
+  
 
 
  //для получения векторного слоя 
