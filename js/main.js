@@ -123,7 +123,9 @@ function loadGeoJson(response) {
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 300};
-                layer.bindPopup("<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
+                layer.bindPopup(
+				(feature.properties.Photo!="-" ? '<img src="pictures/'+ feature.properties.Photo +'"style="width:100%;height:100%;">':"")
+				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
@@ -132,7 +134,6 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
 				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+'<img src="'+ feature.properties.Picture +'" style="width:100px;height:100px;">'
                     ,popupOptions);
           layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
           var searchTwo = layer.feature.properties;
