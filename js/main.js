@@ -131,11 +131,12 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
 				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
 				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
-				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")+'<img src="'+ feature.properties.Picture +'" style="width:100px;height:100px;">'
                     ,popupOptions);
           layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
-          var p = layer.feature.properties;
-          p.index=p.faddress + "|"+ p.Name;
+          var searchTwo = layer.feature.properties;
+          searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+          
 				},
 	});
  map.addLayer(geojsonStateProtection);
@@ -175,7 +176,7 @@ function loadGeoJson(response) {
   /* Leaflet.Control.Search */
   var searchControl = new L.Control.Search({
     layer: geojsonStateProtection,
-    propertyName: 'index',
+    propertyName: 'addressName',
     marker: false,
     moveToLocation: function(latlng, title, map) {
       //map.fitBounds( latlng.layer.getBounds() );
