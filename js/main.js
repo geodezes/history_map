@@ -135,9 +135,13 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
-          layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
-          var searchTwo = layer.feature.properties;
-          searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				layer.options.tags=
+				[feature.properties.Material,feature.properties.go,
+				(feature.properties.Architectu /* !="-" ? feature.properties.Architectu : 'Не опеделен' */),
+				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
+				(feature.properties.Photo!="-" ? 'Фото' : '')];
+				var searchTwo = layer.feature.properties;
+				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
           
 				},
 	});
@@ -162,9 +166,18 @@ function loadGeoJson(response) {
       icon: '<img src="images/style_filter.svg">',
       filterOnEveryClick: true
     }).addTo(map);
+	
+	var dopFilterButton = L.control.tagFilterButton({
+      data: ['Фото','3d модель'],
+      icon: '<img src="images/dop_filter.svg">',
+      filterOnEveryClick: true
+    }).addTo(map);
   
     materialFilterButton.addToReleated(stateProtectionFilterButton);
-    stateProtectionFilterButton.addToReleated(archStyleFilterButton);
+	materialFilterButton.addToReleated(archStyleFilterButton);
+    materialFilterButton.addToReleated(dopFilterButton);
+	//stateProtectionFilterButton.addToReleated(archStyleFilterButton);
+	//archStyleFilterButton.addToReleated(dopFilterButton);
 
     jQuery('.easy-button-button').click(function() {
         target = jQuery('.easy-button-button').not(this);
