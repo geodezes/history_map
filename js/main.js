@@ -140,7 +140,7 @@ function loadGeoJson(response) {
 				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
-				(feature.properties.Photo!="-" ? 'Фото' : '')];
+				(feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"")];
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
           
@@ -169,7 +169,7 @@ function loadGeoJson(response) {
     }).addTo(map);
 	
 	var dopFilterButton = L.control.tagFilterButton({
-      data: ['Фото','3d модель'],
+      data: ['Фото','3d модель','Описание'],
       icon: '<img src="images/dop_filter.svg">',
       filterOnEveryClick: true
     }).addTo(map);
