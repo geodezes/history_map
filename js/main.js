@@ -12,7 +12,7 @@
 function loadGeoJsonQ(response2) { 
 console.log(response2); 
 quartals.addData(response2);
-map.addLayer(quartals); 
+//map.addLayer(quartals); 
 }; 
 // create wfs layer quartals
 var quartals = new L.GeoJSON(null,{
@@ -34,7 +34,7 @@ var quartals = new L.GeoJSON(null,{
 				,popupOptions);
 				}
 });
-map.addLayer(quartals);
+//map.addLayer(quartals);
 // loadGeoJson(quartals) from geoserver
 var geoJsonUrlQ ='http://79.141.65.187:8080/geoserver/ows'; 
 var defaultParametersQ = { 
@@ -64,13 +64,13 @@ var ajax = $.ajax({
               format: 'image/png',
               layers: 'fireLine',
               transparent: 'true'
-             }).addTo(map);
+             })//.addTo(map);
 	var firePoli = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
               format: 'image/png',
               layers: 'firePoli',
               transparent: 'true'
-             }).addTo(map);
-	var fireGroup = L.layerGroup([fireLine, firePoli]).addTo(map);
+             })//.addTo(map);
+	var fireGroup = L.layerGroup([fireLine, firePoli])//.addTo(map);
 
 
 	
@@ -136,8 +136,9 @@ function loadGeoJson(response) {
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				layer.options.tags=
-				[feature.properties.Material,feature.properties.go,
-				(feature.properties.Architectu /* !="-" ? feature.properties.Architectu : 'Не опеделен' */),
+				[feature.properties.Material,
+				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				(feature.properties.Photo!="-" ? 'Фото' : '')];
 				var searchTwo = layer.feature.properties;
@@ -145,7 +146,7 @@ function loadGeoJson(response) {
           
 				},
 	});
- map.addLayer(geojsonStateProtection);
+ //map.addLayer(geojsonStateProtection);
 
 				
     var materialFilterButton = L.control.tagFilterButton({
@@ -155,14 +156,14 @@ function loadGeoJson(response) {
     }).addTo(map);
     
     var stateProtectionFilterButton = L.control.tagFilterButton({
-      data: ['ГО н','ГО р','ГО ф','ГО м'],
+      data: ['Вновь выявленые','Регионального значения','Федерального значения','Муниципального значения'],
 			icon: '<img src="images/sp_filter.svg">',	
       filterOnEveryClick: true
     }).addTo(map);
   
      
     var archStyleFilterButton = L.control.tagFilterButton({
-      data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','-'],
+      data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
       icon: '<img src="images/style_filter.svg">',
       filterOnEveryClick: true
     }).addTo(map);
@@ -174,7 +175,7 @@ function loadGeoJson(response) {
     }).addTo(map);
   
     materialFilterButton.addToReleated(stateProtectionFilterButton);
-	materialFilterButton.addToReleated(archStyleFilterButton);
+	  materialFilterButton.addToReleated(archStyleFilterButton);
     materialFilterButton.addToReleated(dopFilterButton);
 	//stateProtectionFilterButton.addToReleated(archStyleFilterButton);
 	//archStyleFilterButton.addToReleated(dopFilterButton);
@@ -302,7 +303,7 @@ function loadGeoJson(response) {
      
  });
 
- map.addLayer(geojsonMaterial);
+ //map.addLayer(geojsonMaterial);
  
   
   
