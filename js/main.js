@@ -10,7 +10,7 @@
 	
 // loadGeoJson(quartals) from geoserver
 function loadGeoJsonQ(response2) { 
-console.log(response2); 
+//console.log(response2); 
 quartals.addData(response2);
 }; 
 // create wfs layer quartals
@@ -79,7 +79,7 @@ var ajax = $.ajax({
 
 //добавление векторного слоя
 function loadGeoJson(response) { 
- console.log(response); 
+ //console.log(response); 
  geojsonStateProtection.addData(response);
  geojsonMaterial.addData(response);
  map.addLayer(geojsonStateProtection,geojsonMaterial);
@@ -91,32 +91,166 @@ function loadGeoJson(response) {
 				//стиль слоя
 				style: function (feature) {
 		           var go = feature.properties.go;
-      if (go == "ГО н") {
+		           var m=feature.properties.Material;
+      if (go == "ГО н" && m=="дерево") {
         return {
-          color: "yellow",
+          color: "Peru",
           fillOpacity: 0.5,
-		  stroke: 0.1
+		      fillColor: "Khaki",
+		      weight: 1
         }; 
       }
-      else if (go == "ГО р") {
+      else if (go == "ГО н" && m=="камень") {
         return {
-          color: "orange",
+          color: "Gray",
           fillOpacity: 0.5,
-		  stroke: 0.1		  
-        };
-      } else if (go == "ГО ф") {
+		      fillColor: "Khaki",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО н" && m=="песчаник") {
         return {
-          color: "red",
+          color: "Orange",
           fillOpacity: 0.5,
-		  stroke: 0.1
-        };
-      } else {
+		      fillColor: "Khaki",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень/дерево") {
         return {
-          color: "green",
-		  fillOpacity: 0.5,
-		  stroke: 0.1
-        }
-			};
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО н" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Khaki",
+          weight: 1
+        };
+      }
+      else if (go == "ГО р" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО р" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1
+        }; 
+      }
+      else if (go == "ГО р" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Coral",
+          weight: 1
+        };
+      }
+      else if (go == "ГО ф" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1
+        };
+      }
+      else if (go == "ГО ф" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1
+        };
+      }
+      else if (go == "ГО ф" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1
+        };
+      }
+        else if (go == "ГО м" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1
+        };
+      }
+      else if (go == "ГО м" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1
+        };
+      }
+      else if (go == "ГО м" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник/дерево")
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1
+        };
 			
 	},	
 				//стиль всплывающих окон
@@ -323,12 +457,11 @@ var baseLayers = {
    /*  "OpenStreetMap": osm */
 		"Категория государственной охраны": geojsonStateProtection,
 		"Материал": geojsonMaterial
-};
+  };
 var overlays = {
-    /* "Объекты культурного наследия": geojsonStateProtection, */
 	"Территория пострадавшая от пожара 1879 года": fireGroup,
 	"Кварталы": quartals
-	/* "Материал": geojsonMaterial */};
+};
 L.control.layers(baseLayers, overlays).addTo(map);
 
 
