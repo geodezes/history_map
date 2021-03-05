@@ -12,14 +12,13 @@
 function loadGeoJsonQ(response2) { 
 //console.log(response2); 
 quartals.addData(response2);
-//map.addLayer(quartals); 
 }; 
 // create wfs layer quartals
 var quartals = new L.GeoJSON(null,{
 				//layer style
 				style: function (feature) {
         return {
-				color: '#9ACD32',//'white',
+				color: '#9ACD32',
 				stroke: 0.1,
 				weight: 1,
 				dashArray: 4,
@@ -64,13 +63,13 @@ var ajax = $.ajax({
               format: 'image/png',
               layers: 'fireLine',
               transparent: 'true'
-             })//.addTo(map);
+             });
 	var firePoli = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
               format: 'image/png',
               layers: 'firePoli',
               transparent: 'true'
-             })//.addTo(map);
-	var fireGroup = L.layerGroup([fireLine, firePoli])//.addTo(map);
+             });
+	var fireGroup = L.layerGroup([fireLine, firePoli]);
 
 
 	
@@ -309,10 +308,9 @@ function loadGeoJson(response) {
     }).addTo(map);
   
     materialFilterButton.addToReleated(stateProtectionFilterButton);
-	  materialFilterButton.addToReleated(archStyleFilterButton);
+	materialFilterButton.addToReleated(archStyleFilterButton);
     materialFilterButton.addToReleated(dopFilterButton);
-	//stateProtectionFilterButton.addToReleated(archStyleFilterButton);
-	//archStyleFilterButton.addToReleated(dopFilterButton);
+
 
     jQuery('.easy-button-button').click(function() {
         target = jQuery('.easy-button-button').not(this);
