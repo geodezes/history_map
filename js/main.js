@@ -55,7 +55,77 @@ var ajax = $.ajax({
   success: [loadGeoJsonQ]
   }); 
  
-	
+
+ 
+ // loadGeoJson(Events) from geoserver
+function loadGeoJsonE(responseE) { 
+//console.log(responseE); 
+Events.addData(responseE);
+}; 
+// create wfs layer Events
+var Events = new L.GeoJSON(null,{
+				//layer style
+				/*style: function (feature) {
+					return {
+					color: 'DarkSeaGreen',
+					weight: 1.3,
+					dashArray: 4,
+					fillColor: 'DarkSeaGreen',
+					fillOpacity: 0.2,
+					}			 
+				}, */
+				
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [13, 27],
+                        popupAnchor:  [1, -24]
+						}
+				});
+				//Грузим иконки
+				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
+				//выбор иконки в зависимости от типа события
+				var eventType=feature.properties.eventname;
+				if(eventType=="emergency"){
+                return L.marker(latlng, {icon: emegencyIcon});}
+				else if (eventType=="fire"){
+                return L.marker(latlng, {icon: fireIcon});}
+            },
+				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 300};
+                layer.bindPopup("<b>"+"Дата события:"+"</b>"+feature.properties.eventdate
+				,popupOptions);
+				}
+});
+map.addLayer(Events);
+
+// loadGeoJson(Events) from geoserver
+var geoJsonUrlE ='http://79.141.65.187:8080/geoserver/ows'; 
+var defaultParametersE = { 
+  service: 'WFS', 
+  version: '2.0.0', 
+  request: 'GetFeature', 
+  typeName: 'Events', 
+  outputFormat: 'application/json',
+  format_options : 'callback:getJson',
+  SrsName : 'EPSG:4326'
+  }; 
+var parametersE = L.Util.extend(defaultParametersE); 
+console.log(geoJsonUrlE + L.Util.getParamString(parametersE)); 
+
+var ajax = $.ajax({ 
+  url: geoJsonUrlE + L.Util.getParamString(parametersE), 
+  datatype: 'json', 
+  jsonCallback: 'getJson', 
+  success: [loadGeoJsonE]
+  }); 
+ 
+
 	
 	
 	/* Пожар */
@@ -460,7 +530,8 @@ var baseLayers = {
   };
 var overlays = {
 	"Территория пострадавшая от пожара 1879 года": fireGroup,
-	"Кварталы": quartals
+	"Кварталы": quartals,
+	"События" : Events
 };
 L.control.layers(baseLayers, overlays).addTo(map);
 
