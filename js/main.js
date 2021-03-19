@@ -27,7 +27,7 @@ var quartals = new L.GeoJSON(null,{
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 300};
+                popupOptions = {maxWidth: 250};
                 layer.bindPopup("<b>"+"Квартал №"+feature.properties.quarter+"</b>"
 				,popupOptions);
 				}
@@ -97,7 +97,7 @@ var Events = new L.GeoJSON(null,{
 				
 				//create popup
 				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 300};
+                popupOptions = {maxWidth: 250};
                 layer.bindPopup("<b>"+"Дата события:"+"</b>"+feature.properties.eventdate
 				,popupOptions);
 				}
@@ -325,7 +325,7 @@ function loadGeoJson(response) {
 	},	
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 300};
+                popupOptions = {maxWidth: 250};
                 layer.bindPopup(
 				(feature.properties.Photo!="-" ? '<img src="pictures/'+ feature.properties.Photo +'"style="width:100%;height:100%;">':"")
 				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
@@ -445,7 +445,7 @@ function loadGeoJson(response) {
  var geojsonMaterial = new L.GeoJSON(null,{
 				
 				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 300};
+                popupOptions = {maxWidth: 250};
                 layer.bindPopup("<dt>"+"Название:"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"Категория охраны:"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
 				+"<dt>"+"Материал:"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
