@@ -327,7 +327,7 @@ function loadGeoJson(response) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<img src="pictures/'+ feature.properties.Photo +'"style="width:100%;height:100%;">':"")
+				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
 				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
