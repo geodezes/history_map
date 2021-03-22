@@ -98,8 +98,10 @@ var Events = new L.GeoJSON(null,{
 				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
-                layer.bindPopup("<b>"+"Дата события:"+"</b>"+feature.properties.eventdate
-				,popupOptions);
+                layer.bindPopup("<dt>"+"<b>"+"Дата события:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdate+"</dd>"
+				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
+				,popupOptions
+				);
 				}
 });
 map.addLayer(Events);
@@ -338,12 +340,14 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
+				//Теги фильтров
 				layer.options.tags=
 				[feature.properties.Material,
 				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
-				(feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"")];
+				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
+				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
           
@@ -372,7 +376,7 @@ function loadGeoJson(response) {
     }).addTo(map);
 	
 	var dopFilterButton = L.control.tagFilterButton({
-      data: ['Фото','3d модель','Описание'],
+      data: [/* 'Фото' ,*/'3d модель'/*, 'Описание' */],
       icon: '<img src="images/dop_filter.svg">',
       filterOnEveryClick: true
     }).addTo(map);
