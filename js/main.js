@@ -541,30 +541,85 @@ L.control.layers(baseLayers, overlays).addTo(map);
 
 
 
-//info legenda
-/* var infolegend = L.control({ position: "bottomleft"});
-  
-infolegend.onAdd = function(map) {	
-  var div = L.DomUtil.create("div", "infolegend");
+/* <!-- Castom legend можно добовлять картинки--> */
+const legend = L.control.Legend({
+            position: "bottomleft",
+			title: "Условные обозначения",
+            collapsed: true,
+            symbolWidth: 24,
+            opacity: 1,
+            column: 2,
+            legends: [ {
+                label: "Вновь выявленые",
+                type: "polygon",
+				sides: 4,
+                fillColor: "Khaki",
+				fillOpacity: 0.5
+            }, {
+                label: "Регионального значения",
+                type: "polygon",
+				sides: 4,
+                fillColor: "Coral",
+				fillOpacity: 0.5
+            }, {
+                label: "Федерального значения",
+                type: "polygon",
+				sides: 4,
+                fillColor: "Crimson",
+				fillOpacity: 0.5
+            }, {
+                label: "Муниципального значения",
+                type: "polygon",
+				sides: 4,
+                fillColor: "YellowGreen",
+				fillOpacity: 0.5
+            }, {
+                label: "Квартал",
+                type: "polygon",
+				sides: 4,
+                color: 'DarkSeaGreen',
+				weight: 1.3,
+				layers: quartals,
+				fillColor: 'DarkSeaGreen',
+				fillOpacity: 0.2,
+            }, {
+                label: "Камень",
+                type: "polygon",
+				sides: 4,
+                color: "Gray",
+				weight: 1.5
+            },{
+                label: "Дерево",
+                type: "polygon",
+				sides: 4,
+                color: "Peru",
+				weight: 1.5
+            },{
+                label: "Песчаник",
+                type: "polygon",
+				sides: 4,
+                color: "Orange",
+				weight: 1.5
+            },{
+                label: "Камень/Дерево",
+                type: "polygon",
+				sides: 4,
+                color: "Brown",
+				weight: 1.5
+            },{
+                label: "Песчаник/Дерево",
+                type: "polygon",
+				sides: 4,
+                color: "Olive",
+				weight: 1.5
+            },
+			
+			]
+        })
+        .addTo(map);
+/* <!-- Castom legend --> */
 
-  div.innerHTML += "<h4>Категория охраны</h4>";
-  div.innerHTML += '<i style="background: yellow"></i><span>Выявленые</span><br>';
-  div.innerHTML += '<i style="background: orange"></i><span>Региональные</span><br>';
-  div.innerHTML += '<i style="background: red"></i><span>Федеральные</span><br>';
-  div.innerHTML += '<i style="background: green"></i><span>Муниципальные</span><br>';
-  div.innerHTML += "<h4>Материал постройки</h4>";
-  div.innerHTML += '<i style="background: Chocolate"></i><span>Из дерева</span><br>';
-  div.innerHTML += '<i style="background: Gray"></i><span>Из каменя</span><br>';
-  div.innerHTML += '<i style="background: LightSeaGreen"></i><span>Из песчаника</span><br>';
-  div.innerHTML += '<i style="background: BlueViolet"></i><span>Из песчаника и дерева</span><br>';
-  div.innerHTML += '<i style="background: DodgerBlue"></i><span>Из камня и дерева</span><br>';
-  return div;
-};
 
-infolegend.addTo(map);
- */
-
- 
  
 // 3D model popup window
 
