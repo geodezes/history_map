@@ -153,8 +153,8 @@ var ajax = $.ajax({
 function loadGeoJson(response) { 
  //console.log(response); 
  geojsonStateProtection.addData(response);
- geojsonMaterial.addData(response);
- map.addLayer(geojsonStateProtection,geojsonMaterial);
+ /* geojsonMaterial.addData(response); */
+ map.addLayer(geojsonStateProtection/* ,geojsonMaterial */);
 }; 
 
 
@@ -446,7 +446,7 @@ function loadGeoJson(response) {
 //second layer отображает матереал постройки
 
 
- var geojsonMaterial = new L.GeoJSON(null,{
+/*  var geojsonMaterial = new L.GeoJSON(null,{
 				
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
@@ -508,7 +508,7 @@ function loadGeoJson(response) {
      }
      
  });
-
+ */
  //map.addLayer(geojsonMaterial);
  
   
@@ -527,9 +527,8 @@ function loadGeoJson(response) {
  
  
  //legenda
-var baseLayers = {
-   /*  "OpenStreetMap": osm */
-		"Категория государственной охраны": geojsonStateProtection,
+/* var baseLayers = {
+		"Категория государственной охраны": geojsonStateProtection/,
 		"Материал": geojsonMaterial
   };
 var overlays = {
@@ -537,13 +536,13 @@ var overlays = {
 	"Кварталы": quartals,
 	"События" : Events
 };
-L.control.layers(baseLayers, overlays).addTo(map);
+L.control.layers(baseLayers, overlays).addTo(map); */
 
 
 
 /* <!-- Castom legend можно добовлять картинки--> */
 const legend = L.control.Legend({
-            position: "bottomleft",
+            position: "topright",
 			title: "Условные обозначения",
             collapsed: true,
             symbolWidth: 24,
@@ -573,16 +572,7 @@ const legend = L.control.Legend({
 				sides: 4,
                 fillColor: "YellowGreen",
 				fillOpacity: 0.5
-            }, {
-                label: "Квартал",
-                type: "polygon",
-				sides: 4,
-                color: 'DarkSeaGreen',
-				weight: 1.3,
-				layers: quartals,
-				fillColor: 'DarkSeaGreen',
-				fillOpacity: 0.2,
-            }, {
+            },  {
                 label: "Камень",
                 type: "polygon",
 				sides: 4,
@@ -612,7 +602,38 @@ const legend = L.control.Legend({
 				sides: 4,
                 color: "Olive",
 				weight: 1.5
-            },
+            },{
+                label: "Территория пострадавшая от пожара 1879 года",
+                type: "polygon",
+				sides: 4,
+                color: "DarkRed",
+				weight: 3,
+				fillColor: "DarkRed",
+				fillOpacity: 0.2,
+				layers: fireGroup,
+				inactive: true
+            }, {
+                label: "Границы кварталов",
+                type: "polygon",
+				sides: 4,
+                color: 'DarkSeaGreen',
+				weight: 1.3,
+				layers: quartals,
+				fillColor: 'DarkSeaGreen',
+				fillOpacity: 0.2,
+            }, {
+                label: "События",
+                type: "image",
+				url: 'images/icon/eventFire.svg',
+				// layers: Events,
+				//inactive: true
+            }, {
+                label: "События",
+                type: "image",
+				url: 'images/icon/eventEmergency.svg',
+				//layers: Events,
+				//inactive: true
+            }
 			
 			]
         })
