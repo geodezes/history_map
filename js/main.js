@@ -8,6 +8,13 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osm);
 	
+	map.attributionControl.addAttribution('Copyright <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
+	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
+	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
+	map.attributionControl.addAttribution('Copyright <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
+
+////////////////////////////////////////////////////////////////////////////////////
+	
 // loadGeoJson(quartals) from geoserver
 function loadGeoJsonQ(response2) { 
 //console.log(response2); 
@@ -55,26 +62,16 @@ var ajax = $.ajax({
   success: [loadGeoJsonQ]
   }); 
  
-
+/////////////////////////////////////////////////////////////////////////////////
  
  // loadGeoJson(Events) from geoserver
 function loadGeoJsonE(responseE) { 
 //console.log(responseE); 
-Events.addData(responseE);
+eventFire.addData(responseE);
+eventEmergency.addData(responseE);
 }; 
 // create wfs layer Events
-var Events = new L.GeoJSON(null,{
-				//layer style
-				/*style: function (feature) {
-					return {
-					color: 'DarkSeaGreen',
-					weight: 1.3,
-					dashArray: 4,
-					fillColor: 'DarkSeaGreen',
-					fillOpacity: 0.2,
-					}			 
-				}, */
-				
+var eventFire = new L.GeoJSON(null,{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -102,9 +99,44 @@ var Events = new L.GeoJSON(null,{
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
 				,popupOptions
 				);
-				}
+				},
+				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
 });
-map.addLayer(Events);
+/* map.addLayer(eventFire); */
+
+// create wfs layer Events
+var eventEmergency = new L.GeoJSON(null,{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [13, 27],
+                        popupAnchor:  [1, -24]
+						}
+				});
+				//Грузим иконки
+				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
+				//выбор иконки в зависимости от типа события
+				var eventType=feature.properties.eventname;
+				if(eventType=="emergency"){
+                return L.marker(latlng, {icon: emegencyIcon});}
+				else if (eventType=="fire"){
+                return L.marker(latlng, {icon: fireIcon});}
+            },
+				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup("<dt>"+"<b>"+"Дата события:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdate+"</dd>"
+				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
+				,popupOptions
+				);
+				},
+				filter: function (feature, layer){if (feature.properties.eventname === "emergency")return true;}
+});
+/* map.addLayer(eventEmergency); */
 
 // loadGeoJson(Events) from geoserver
 var geoJsonUrlE ='http://79.141.65.187:8080/geoserver/ows'; 
@@ -127,8 +159,7 @@ var ajax = $.ajax({
   success: [loadGeoJsonE]
   }); 
  
-
-	
+///////////////////////////////////////////////////////////////////	
 	
 	/* Пожар */
 	var fireLine = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
@@ -143,23 +174,29 @@ var ajax = $.ajax({
              });
 	var fireGroup = L.layerGroup([fireLine, firePoli]);
 
-
-	
+////////////////////////////////////////////////////////////////	
 
 //Geolocation
 /* L.control.locate().addTo(map);  */
 
+//////////////////////////////////////////////////////////////
+
 //добавление векторного слоя
 function loadGeoJson(response) { 
  //console.log(response); 
- geojsonStateProtection.addData(response);
- /* geojsonMaterial.addData(response); */
- map.addLayer(geojsonStateProtection/* ,geojsonMaterial */);
+ geojsonStateProtectionN.addData(response);
+ geojsonStateProtectionR.addData(response);
+ geojsonStateProtectionF.addData(response);
+ geojsonStateProtectionM.addData(response); 
+ 
+ map.addLayer(geojsonStateProtectionN);
+ map.addLayer(geojsonStateProtectionR);
+ map.addLayer(geojsonStateProtectionF);
+ map.addLayer(geojsonStateProtectionM);
 }; 
 
-
-//слой отображающий категорию гос охраны
- var geojsonStateProtection = new L.GeoJSON(null,{
+//слой отображающий категорию гос охраны Регеональные
+ var geojsonStateProtectionR = new L.GeoJSON(null,{
 				//стиль слоя
 				style: function (feature) {
 		           var go = feature.properties.go;
@@ -352,10 +389,635 @@ function loadGeoJson(response) {
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
           
 				},
+				
+				filter: function (feature, layer){if (feature.properties.go === "ГО р")return true;}
 	});
  //map.addLayer(geojsonStateProtection);
 
+
+//слой отображающий категорию гос охраны Выявленые
+ var geojsonStateProtectionN = new L.GeoJSON(null,{
+				//стиль слоя
+				style: function (feature) {
+		           var go = feature.properties.go;
+		           var m=feature.properties.Material;
+      if (go == "ГО н" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 2
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Khaki",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО р" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Coral",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+        else if (go == "ГО м" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник/дерево")
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+			
+	},	
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
+				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
+				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
+				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
+				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
+				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
+				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+                    ,popupOptions);
+				//Теги фильтров
+				layer.options.tags=
+				[feature.properties.Material,
+				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
+				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
+				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
+				//Поиск по 2 колонкам
+				var searchTwo = layer.feature.properties;
+				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+          
+				},
 				
+				filter: function (feature, layer){if (feature.properties.go === "ГО н")return true;}
+	});
+ //map.addLayer(geojsonStateProtection);
+ 
+ //слой отображающий категорию гос охраны Федеральные
+ var geojsonStateProtectionF = new L.GeoJSON(null,{
+				//стиль слоя
+				style: function (feature) {
+		           var go = feature.properties.go;
+		           var m=feature.properties.Material;
+      if (go == "ГО н" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 2
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Khaki",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО р" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Coral",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+        else if (go == "ГО м" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник/дерево")
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+			
+	},	
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
+				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
+				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
+				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
+				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
+				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
+				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+                    ,popupOptions);
+				//Теги фильтров
+				layer.options.tags=
+				[feature.properties.Material,
+				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
+				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
+				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
+				//Поиск по 2 колонкам
+				var searchTwo = layer.feature.properties;
+				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+          
+				},
+				
+				filter: function (feature, layer){if (feature.properties.go === "ГО ф")return true;}
+	});
+	
+	//слой отображающий категорию гос охраны Муницыпальные
+ var geojsonStateProtectionM = new L.GeoJSON(null,{
+				//стиль слоя
+				style: function (feature) {
+		           var go = feature.properties.go;
+		           var m=feature.properties.Material;
+      if (go == "ГО н" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 2
+        }; 
+      }
+      else if (go == "ГО н" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО н" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Khaki",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО р" && m=="дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m=="камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+		      fillColor: "Coral",
+		      weight: 1.5
+        }; 
+      }
+      else if (go == "ГО р" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Coral",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО ф" && m == "песчаник/дерево") {
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+        else if (go == "ГО м" && m == "дерево") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "камень") {
+        return {
+          color: "Gray",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник") {
+        return {
+          color: "Orange",
+          fillOpacity: 0.5,
+          fillColor: "Crimson",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "камень/дерево") {
+        return {
+          color: "Brown",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+      }
+      else if (go == "ГО м" && m == "песчаник/дерево")
+        return {
+          color: "Olive",
+          fillOpacity: 0.5,
+          fillColor: "YellowGreen",
+          weight: 1.5
+        };
+			
+	},	
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
+				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
+				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
+				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
+				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
+				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
+				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+                    ,popupOptions);
+				//Теги фильтров
+				layer.options.tags=
+				[feature.properties.Material,
+				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
+				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
+				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
+				//Поиск по 2 колонкам
+				var searchTwo = layer.feature.properties;
+				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+          
+				},
+				
+				filter: function (feature, layer){if (feature.properties.go === "ГО м")return true;}
+	});
+	//Группа слоев гос охрана
+	var goGroup = L.layerGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
+
+	 //для получения векторного слоя 
+	 var geoJsonUrl ='http://79.141.65.187:8080/geoserver/ows'; 
+	 var defaultParameters = { 
+	  service: 'WFS', 
+	  version: '2.0.0', 
+	  request: 'GetFeature', 
+	  typeName: 'okn', 
+	  outputFormat: 'application/json',
+	  format_options : 'callback:getJson',
+	  SrsName : 'EPSG:4326'
+	  }; 
+
+	 //add json layers 
+	 var parameters = L.Util.extend(defaultParameters); 
+	 console.log(geoJsonUrl + L.Util.getParamString(parameters)); 
+
+	 var ajax = $.ajax({ 
+	  url: geoJsonUrl + L.Util.getParamString(parameters), 
+	  datatype: 'json', 
+	  jsonCallback: 'getJson', 
+	  success: [loadGeoJson]
+	  }); 
+	
+	//////////////////////////////////////////////////////////////
+ 
+	/*tag filter*/	
     var materialFilterButton = L.control.tagFilterButton({
       data: ['дерево','камень','песчаник','песчаник/дерево','камень/дерево'],
       icon: '<img src="images/m_filter.svg">',
@@ -392,12 +1054,13 @@ function loadGeoJson(response) {
             'display' : 'none',
         });
     });
-  /*tag filter*/
-  
+	/*tag filter*/
+ 
+/////////////////////////////////////////////////////////////////////////////////////////// 
   
   /* Leaflet.Control.Search */
-  var searchControl = new L.Control.Search({
-    layer: geojsonStateProtection,
+	var searchControl = new L.Control.Search({
+    layer: goGroup,
     propertyName: 'addressName',
     marker: false,
     moveToLocation: function(latlng, title, map) {
@@ -424,124 +1087,13 @@ function loadGeoJson(response) {
     });
   });
   
-  map.addControl(searchControl); //inizialize search control
+  map.addControl(searchControl); //inizialize search control 
   /* Leaflet.Control.Search */
   
-
-
- //для получения векторного слоя 
- var geoJsonUrl ='http://79.141.65.187:8080/geoserver/ows'; 
- var defaultParameters = { 
-  service: 'WFS', 
-  version: '2.0.0', 
-  request: 'GetFeature', 
-  typeName: 'okn', 
-  outputFormat: 'application/json',
-  format_options : 'callback:getJson',
-  SrsName : 'EPSG:4326'
-  }; 
-
-
-
-//second layer отображает матереал постройки
-
-
-/*  var geojsonMaterial = new L.GeoJSON(null,{
-				
-				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 250};
-                layer.bindPopup("<dt>"+"Название:"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
-				+"<dt>"+"Категория охраны:"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
-				+"<dt>"+"Материал:"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
-				+"<dt>"+"Дата постройки:"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
-				+"<dt>"+"Архитектурный стиль:"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
-				+"<dt>"+"Адрес по решениям и постановлениям:"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
-				+"<dt>"+"Адрес:"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
-				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-                    ,popupOptions);
-				layer.options.tags=[feature.properties.Material,feature.properties.go,feature.properties.Architectu];
-				},
-				
-				style: function (feature) {
-		           var mat = feature.properties.Material;
-
-      if (mat == "дерево") {
-
-        return {
-          color: "Chocolate",
-          fillOpacity: 0.5,
-		  stroke: 0.1
-        }; 
-      }
-      else if (mat == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		  stroke: 0.1
-        };
-      } else if (mat == "песчаник") {
-        return {
-          color: "LightSeaGreen",
-          fillOpacity: 0.5,
-		  stroke: 0.1
-        };
-		
-	  } else if (mat == "песчаник/дерево") {
-        return {
-          color: "BlueViolet",
-          fillOpacity: 0.5,
-		  stroke: 0.1
-		};  
-	  } else if (mat == "камень/дерево") {
-        return {
-          color: "DodgerBlue",
-		      fillOpacity: 0.5,
-			  stroke: 0.1
-        };
-      } else {
-        return {
-          color: "green"
-		  
-        }
-			};
-			
-     }
-     
- });
- */
- //map.addLayer(geojsonMaterial);
- 
-  
-  
- //add json layers 
- var parameters = L.Util.extend(defaultParameters); 
- console.log(geoJsonUrl + L.Util.getParamString(parameters)); 
-
- var ajax = $.ajax({ 
-  url: geoJsonUrl + L.Util.getParamString(parameters), 
-  datatype: 'json', 
-  jsonCallback: 'getJson', 
-  success: [loadGeoJson]
-  }); 
- 
- 
- 
- //legenda
-/* var baseLayers = {
-		"Категория государственной охраны": geojsonStateProtection/,
-		"Материал": geojsonMaterial
-  };
-var overlays = {
-	"Территория пострадавшая от пожара 1879 года": fireGroup,
-	"Кварталы": quartals,
-	"События" : Events
-};
-L.control.layers(baseLayers, overlays).addTo(map); */
-
-
+/////////////////////////////////////////////////////////////////////////////////// 
 
 /* <!-- Castom legend можно добовлять картинки--> */
-const legend = L.control.Legend({
+	const legend = L.control.Legend({
             position: "topright",
 			title: "Условные обозначения",
             collapsed: true,
@@ -550,68 +1102,62 @@ const legend = L.control.Legend({
             column: 2,
             legends: [ {
                 label: "Вновь выявленые",
+				layers: geojsonStateProtectionN,
                 type: "polygon",
 				sides: 4,
                 fillColor: "Khaki",
 				fillOpacity: 0.5
             }, {
                 label: "Регионального значения",
+				layers: geojsonStateProtectionR,
                 type: "polygon",
 				sides: 4,
                 fillColor: "Coral",
 				fillOpacity: 0.5
             }, {
                 label: "Федерального значения",
+				layers: geojsonStateProtectionF,
                 type: "polygon",
 				sides: 4,
                 fillColor: "Crimson",
 				fillOpacity: 0.5
             }, {
                 label: "Муниципального значения",
+				layers: geojsonStateProtectionM,
                 type: "polygon",
 				sides: 4,
                 fillColor: "YellowGreen",
 				fillOpacity: 0.5
-            },  {
+            }, {
                 label: "Камень",
                 type: "polygon",
 				sides: 4,
                 color: "Gray",
 				weight: 1.5
-            },{
+            }, {
                 label: "Дерево",
                 type: "polygon",
 				sides: 4,
                 color: "Peru",
 				weight: 1.5
-            },{
+            }, {
                 label: "Песчаник",
                 type: "polygon",
 				sides: 4,
                 color: "Orange",
 				weight: 1.5
-            },{
+            }, {
                 label: "Камень/Дерево",
                 type: "polygon",
 				sides: 4,
                 color: "Brown",
 				weight: 1.5
-            },{
+            }, {
                 label: "Песчаник/Дерево",
                 type: "polygon",
 				sides: 4,
                 color: "Olive",
 				weight: 1.5
-            },{
-                label: "Территория пострадавшая от пожара 1879 года",
-                type: "polygon",
-				sides: 4,
-                color: "DarkRed",
-				weight: 3,
-				fillColor: "DarkRed",
-				fillOpacity: 0.2,
-				layers: fireGroup,
-				inactive: true
             }, {
                 label: "Границы кварталов",
                 type: "polygon",
@@ -622,17 +1168,27 @@ const legend = L.control.Legend({
 				fillColor: 'DarkSeaGreen',
 				fillOpacity: 0.2,
             }, {
-                label: "События",
+                label: "Территория пострадавшая от пожара 1879 года",
+                type: "polygon",
+				sides: 4,
+                color: "DarkRed",
+				weight: 3,
+				fillColor: "DarkRed",
+				fillOpacity: 0.2,
+				layers: fireGroup,
+				inactive: true
+            }, {
+                label: "Пожары",
                 type: "image",
 				url: 'images/icon/eventFire.svg',
-				// layers: Events,
-				//inactive: true
+				layers: eventFire,
+				inactive: true
             }, {
-                label: "События",
+                label: "ЧС",
                 type: "image",
 				url: 'images/icon/eventEmergency.svg',
-				//layers: Events,
-				//inactive: true
+				layers: eventEmergency,
+				inactive: true
             }
 			
 			]
@@ -640,7 +1196,7 @@ const legend = L.control.Legend({
         .addTo(map);
 /* <!-- Castom legend --> */
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////
  
 // 3D model popup window
 
