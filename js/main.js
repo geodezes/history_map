@@ -1099,7 +1099,7 @@ function loadGeoJson(response) {
             collapsed: true,
             symbolWidth: 24,
             opacity: 1,
-            column: 2,
+            column: 1,
             legends: [ {
                 label: "Вновь выявленые",
 				layers: geojsonStateProtectionN,
@@ -1168,7 +1168,7 @@ function loadGeoJson(response) {
 				fillColor: 'DarkSeaGreen',
 				fillOpacity: 0.2,
             }, {
-                label: "Территория пострадавшая от пожара 1879 года",
+                label: "Пожар 1879 года",
                 type: "polygon",
 				sides: 4,
                 color: "DarkRed",
