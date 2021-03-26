@@ -1,7 +1,6 @@
 .leaflet-legend {
   background-color: white;
   border-radius: 5px;
-  border: 1px solid gray;
 }
 
 .leaflet-legend-title {
@@ -12,7 +11,7 @@
 .leaflet-legend-column {
   float: left;
   margin-left: 10px;
-  height: 55vh;
+  height: 50vh;
   max-height: 350px;
   overflow: auto;
 }

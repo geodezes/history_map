@@ -8,10 +8,12 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osm);
 	
-	map.attributionControl.addAttribution('Copyright <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
-	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
-	map.attributionControl.addAttribution('Copyright <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
+	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
+	map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
+	map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
+	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
+	
 
 ////////////////////////////////////////////////////////////////////////////////////
 	
