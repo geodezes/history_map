@@ -3,10 +3,26 @@
 	center: new L.LatLng(52.2839771, 104.2877651),
 	zoom: 14
 	});
-	// create openstreetmap base layer  
-	var osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	// create openstreetmap base layer  убрать .grayscale для обычной OSM
+	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+	map.addLayer(osmG);
+	
+	var osmB = new L.tileLayer.blackAndWhite('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+	map.addLayer(osmB);
+	
+	var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osm);
+	
+	var baseMaps = {
+    "Grayscale": osmG,
+	"Black&White": osmB,
+    "openstreetmap": osm
+	};
+	
+	L.control.layers(baseMaps).addTo(map);
 	
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
