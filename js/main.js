@@ -201,7 +201,7 @@ var ajax = $.ajax({
 
 //добавление векторного слоя
 function loadGeoJson(response) { 
- //console.log(response); 
+ console.log(response); 
  geojsonStateProtectionN.addData(response);
  geojsonStateProtectionR.addData(response);
  geojsonStateProtectionF.addData(response);
@@ -405,6 +405,8 @@ function loadGeoJson(response) {
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				
+				layer.options.time
           
 				},
 				
@@ -605,6 +607,8 @@ function loadGeoJson(response) {
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				
+				layer.options.time
           
 				},
 				
@@ -804,6 +808,8 @@ function loadGeoJson(response) {
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				
+				layer.options.time
           
 				},
 				
@@ -1002,6 +1008,8 @@ function loadGeoJson(response) {
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				
+				layer.options.time
           
 				},
 				
@@ -1009,6 +1017,17 @@ function loadGeoJson(response) {
 	});
 	//Группа слоев гос охрана
 	var goGroup = L.layerGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
+	
+	
+		var sliderControl = L.control.sliderControl({
+			layer:goGroup,
+			range: true,
+			timeAttribute : 'time'
+		});
+		map.addControl(sliderControl);
+		sliderControl.startSlider();
+	
+	
 
 	 //для получения векторного слоя 
 	 var geoJsonUrl ='http://79.141.65.187:8080/geoserver/ows'; 
