@@ -8,11 +8,8 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osmG);
 	
-	var osmB = new L.tileLayer.blackAndWhite('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
-	map.addLayer(osmB);
 	
-	var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	/* var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osm);
 	
@@ -22,7 +19,7 @@
     "openstreetmap": osm
 	};
 	
-	L.control.layers(baseMaps).addTo(map);
+	L.control.layers(baseMaps).addTo(map); */
 	
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
@@ -32,6 +29,11 @@
 	
 
 ////////////////////////////////////////////////////////////////////////////////////
+
+var stripes = new L.StripePattern();
+        stripes.addTo(map);
+
+
 	
 // loadGeoJson(quartals) from geoserver
 function loadGeoJsonQ(response2) { 
@@ -41,7 +43,8 @@ quartals.addData(response2);
 // create wfs layer quartals
 var quartals = new L.GeoJSON(null,{
 				//layer style
-				style: function (feature) {
+				fillPattern: stripes,
+				/* style: function (feature) {
 					return {
 					color: 'DarkSeaGreen',
 					weight: 1.3,
@@ -49,7 +52,7 @@ var quartals = new L.GeoJSON(null,{
 					fillColor: 'DarkSeaGreen',
 					fillOpacity: 0.2,
 					}			 
-				},
+				} ,*/
 				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
@@ -216,170 +219,7 @@ function loadGeoJson(response) {
 //слой отображающий категорию гос охраны Регеональные
  var geojsonStateProtectionR = new L.GeoJSON(null,{
 				//стиль слоя
-				style: function (feature) {
-		           var go = feature.properties.go;
-		           var m=feature.properties.Material;
-      if (go == "ГО н" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 2
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Khaki",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО р" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Coral",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-        else if (go == "ГО м" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник/дерево")
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-			
-	},	
+				style: goStyle,	
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
@@ -418,170 +258,7 @@ function loadGeoJson(response) {
 //слой отображающий категорию гос охраны Выявленые
  var geojsonStateProtectionN = new L.GeoJSON(null,{
 				//стиль слоя
-				style: function (feature) {
-		           var go = feature.properties.go;
-		           var m=feature.properties.Material;
-      if (go == "ГО н" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 2
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Khaki",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО р" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Coral",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-        else if (go == "ГО м" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник/дерево")
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-			
-	},	
+				style: goStyle,	
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
@@ -619,170 +296,7 @@ function loadGeoJson(response) {
  //слой отображающий категорию гос охраны Федеральные
  var geojsonStateProtectionF = new L.GeoJSON(null,{
 				//стиль слоя
-				style: function (feature) {
-		           var go = feature.properties.go;
-		           var m=feature.properties.Material;
-      if (go == "ГО н" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 2
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Khaki",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО р" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Coral",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-        else if (go == "ГО м" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник/дерево")
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-			
-	},	
+				style: goStyle,	
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
@@ -819,170 +333,7 @@ function loadGeoJson(response) {
 	//слой отображающий категорию гос охраны Муницыпальные
  var geojsonStateProtectionM = new L.GeoJSON(null,{
 				//стиль слоя
-				style: function (feature) {
-		           var go = feature.properties.go;
-		           var m=feature.properties.Material;
-      if (go == "ГО н" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 2
-        }; 
-      }
-      else if (go == "ГО н" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Khaki",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО н" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Khaki",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО р" && m=="дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m=="камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-		      fillColor: "Coral",
-		      weight: 1.5
-        }; 
-      }
-      else if (go == "ГО р" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Coral",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО ф" && m == "песчаник/дерево") {
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-        else if (go == "ГО м" && m == "дерево") {
-        return {
-          color: "Peru",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень") {
-        return {
-          color: "Gray",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник") {
-        return {
-          color: "Orange",
-          fillOpacity: 0.5,
-          fillColor: "Crimson",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "камень/дерево") {
-        return {
-          color: "Brown",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-      }
-      else if (go == "ГО м" && m == "песчаник/дерево")
-        return {
-          color: "Olive",
-          fillOpacity: 0.5,
-          fillColor: "YellowGreen",
-          weight: 1.5
-        };
-			
-	},	
+				style: goStyle,	
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
