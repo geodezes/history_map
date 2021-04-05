@@ -1,14 +1,46 @@
 var goStyle=function (feature) {
 		           var go = feature.properties.go;
 		           var m=feature.properties.Material;
-      if (go == "ГО н" && m=="дерево") {
+				   var ast=feature.properties.Architectu;
+      if (go == "ГО н" && m=="дерево" && ast=="Эклектика") {
         return {
           color: "Peru",
           fillOpacity: 0.5,
 		      fillColor: "Khaki",
-		      weight: 1.5
+		      weight: 1.5,
+			  fill: 'url(stripes/eklektika.gif)'
         }; 
       }
+	  else if (go == "ГО н" && m=="дерево" && ast=="Модерн") {
+        return {
+          color: "Peru",
+          fillOpacity: 0.5,
+		      fillColor: "Khaki",
+		      weight: 1.5,
+			  fill: 'url(stripes/modern.gif)'
+        }; 
+      }
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
       else if (go == "ГО н" && m=="камень") {
         return {
           color: "Gray",

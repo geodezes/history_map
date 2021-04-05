@@ -30,13 +30,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-var stripesQ = new L.StripePattern({
+/* var stripesQ = new L.StripePattern({
   weight : 1,
-  spaceWeight:2,
+  spaceWeight:7,
+  spaceColor : "green",
+  spaceOpacity : 1,
   color: "red",
-  angle: 45
+  angle: 45,
+
   });
-        stripesQ.addTo(map);
+        stripesQ.addTo(map); */
 
 
 	
@@ -49,10 +52,15 @@ quartals.addData(response2);
 var quartals = new L.GeoJSON(null,{
 				//layer style
 				//stroke : false,
-				style:{
-				  color: "red",
-				  weight : 0.2 ,
-				  fillPattern: stripesQ,
+				//fillPattern: stripesQ,
+				style: {
+					weight: 0.2,
+					color: "red",
+					//fillColor: "yellow",
+					fill: false,
+					fillOpacity: 0.2
+					
+					
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
@@ -218,12 +226,11 @@ function loadGeoJson(response) {
 }; 
 
 
-
 //слой отображающий категорию гос охраны Регеональные
  var geojsonStateProtectionR = new L.GeoJSON(null,{
-				//стиль слоя
-				//fillPattern:  stripeSM,
-				style: goStyle,	
+				//стиль слоя		 
+				//fill:'url(imagee.gif)',
+				style: goStyle,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
