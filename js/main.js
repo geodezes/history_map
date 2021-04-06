@@ -30,18 +30,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-/* var stripesQ = new L.StripePattern({
-  weight : 1,
-  spaceWeight:7,
-  spaceColor : "green",
-  spaceOpacity : 1,
-  color: "red",
-  angle: 45,
-
-  });
-        stripesQ.addTo(map); */
-
-
+var stripes = new L.StripePattern({weight: 1, color: "Brown"}); stripes.addTo(map);
 	
 // loadGeoJson(quartals) from geoserver
 function loadGeoJsonQ(response2) { 
@@ -51,16 +40,10 @@ quartals.addData(response2);
 // create wfs layer quartals
 var quartals = new L.GeoJSON(null,{
 				//layer style
-				//stroke : false,
-				//fillPattern: stripesQ,
 				style: {
-					weight: 0.2,
-					color: "red",
-					//fillColor: "yellow",
-					fill: false,
-					fillOpacity: 0.2
-					
-					
+					stroke: false,
+					fillPattern: stripes,
+					fillOpacity: 0.5				
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
@@ -229,7 +212,6 @@ function loadGeoJson(response) {
 //слой отображающий категорию гос охраны Регеональные
  var geojsonStateProtectionR = new L.GeoJSON(null,{
 				//стиль слоя		 
-				//fill:'url(imagee.gif)',
 				style: goStyle,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
@@ -238,7 +220,7 @@ function loadGeoJson(response) {
 				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
 				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО р"?"Регионального значения":"")+"</dd>"
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
@@ -249,7 +231,7 @@ function loadGeoJson(response) {
 				//Теги фильтров
 				layer.options.tags=
 				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
@@ -277,7 +259,7 @@ function loadGeoJson(response) {
 				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
 				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО н"?"Вновь выявленные":"")+"</dd>"
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
@@ -288,7 +270,7 @@ function loadGeoJson(response) {
 				//Теги фильтров
 				layer.options.tags=
 				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
@@ -315,7 +297,7 @@ function loadGeoJson(response) {
 				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
 				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО ф" ? "Федерального значения":"")+"</dd>"
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
@@ -326,7 +308,7 @@ function loadGeoJson(response) {
 				//Теги фильтров
 				layer.options.tags=
 				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
@@ -352,7 +334,7 @@ function loadGeoJson(response) {
 				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
 				+"<dt>"+"<b>"+"Название:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Name+"</dd>"
 				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+feature.properties.go+"</dd>"
+				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО м" ? "Муниципального значения":"")+"</dd>"
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Architectu+"</dd>"
@@ -363,7 +345,7 @@ function loadGeoJson(response) {
 				//Теги фильтров
 				layer.options.tags=
 				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленые":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
+				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
@@ -424,7 +406,7 @@ function loadGeoJson(response) {
     }).addTo(map);
     
     var stateProtectionFilterButton = L.control.tagFilterButton({
-      data: ['Вновь выявленые','Регионального значения','Федерального значения','Муниципального значения'],
+      data: ['Вновь выявленные','Регионального значения','Федерального значения','Муниципального значения'],
 			icon: '<img src="images/sp_filter.svg">',	
       filterOnEveryClick: true
     }).addTo(map);
@@ -500,7 +482,7 @@ function loadGeoJson(response) {
             opacity: 1,
             column: 1,
             legends: [ {
-                label: "Вновь выявленые",
+                label: "Вновь выявленные",
 				layers: geojsonStateProtectionN,
                 type: "polygon",
 				sides: 4,
