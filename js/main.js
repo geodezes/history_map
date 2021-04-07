@@ -30,7 +30,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-var stripes = new L.StripePattern({weight: 1, color: "Brown"}); stripes.addTo(map);
+var stripes = new L.StripePattern({weight: 1, color: "#d6ca97", angle: 100}); stripes.addTo(map);
 	
 // loadGeoJson(quartals) from geoserver
 function loadGeoJsonQ(response2) { 
@@ -43,9 +43,9 @@ var quartals = new L.GeoJSON(null,{
 				style: {
 					//stroke: false,
 					weight: 0.3,
-					color: "Brown",
+					color: "#d6ca97",
 					fillPattern: stripes,
-					fillOpacity: 0.5				
+					fillOpacity: 1				
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
