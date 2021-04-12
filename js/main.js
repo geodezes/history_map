@@ -198,11 +198,12 @@ var ajax = $.ajax({
 
 //добавление векторного слоя
 function loadGeoJson(response) { 
- //console.log(response); 
+ console.log(response); 
  geojsonStateProtectionN.addData(response);
  geojsonStateProtectionR.addData(response);
  geojsonStateProtectionF.addData(response);
  geojsonStateProtectionM.addData(response); 
+
  
  map.addLayer(geojsonStateProtectionN);
  map.addLayer(geojsonStateProtectionR);
@@ -226,8 +227,8 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
-				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
+				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				//Теги фильтров
@@ -241,7 +242,7 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
-				layer.options.time
+				//geojsonStateProtectionR.options.time = feature.properties.time;
           
 				},
 				
@@ -265,8 +266,8 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
-				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
+				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				//Теги фильтров
@@ -280,7 +281,7 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
-				layer.options.time
+				//geojsonStateProtectionN.options.time = feature.properties.time;
           
 				},
 				
@@ -303,8 +304,8 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
-				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
+				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				//Теги фильтров
@@ -318,8 +319,8 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
-				//var data = layer.options.time;
-				//layer.options.time = feature.properties.time;
+				
+				//geojsonStateProtectionF.options.time = feature.properties.time;
           
 				},
 				
@@ -341,8 +342,8 @@ function loadGeoJson(response) {
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>"
-				+"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>"
+				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
+				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions);
 				//Теги фильтров
@@ -356,26 +357,29 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
-				var data = layer.feature.properties.time
+				//geojsonStateProtectionM.options.time = feature.properties.time;
           
 				},
 				
 				filter: function (feature, layer){if (feature.properties.go === "ГО м")return true;}
 	});
 	//Группа слоев гос охрана
-	var goGroup = L.layerGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
+
+	/* geojsonStateProtectionF.options.time = geojsonStateProtectionF.feature.properties.time;
+	geojsonStateProtectionM.options.time = geojsonStateProtectionM.feature.properties.time;
+	geojsonStateProtectionN.options.time = geojsonStateProtectionN.feature.properties.time;
+	geojsonStateProtectionR.options.time = geojsonStateProtectionR.feature.properties.time; */
+	var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
 	
 	
-	
-		var sliderControl = L.control.sliderControl({
+	/* 	var sliderControl = L.control.sliderControl({
 			layer:goGroup,
 			range: true,
 			timeAttribute : 'time'
 		});
 		map.addControl(sliderControl);
-		sliderControl.startSlider();
-	
-	
+		sliderControl.startSlider(); */
+
 
 	 //для получения векторного слоя 
 	 var geoJsonUrl ='http://79.141.65.187:8080/geoserver/ows'; 
