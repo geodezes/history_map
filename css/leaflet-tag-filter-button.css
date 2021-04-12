@@ -41,8 +41,8 @@
     -webkit-border-bottom-left-radius: 5px;
     -moz-border-radius-bottomright: 5px;
     -moz-border-radius-bottomleft: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
 }
 
 .leaflet-bar .tag-filter-tags-container ul li:last-child  {
@@ -68,8 +68,8 @@
     -webkit-border-top-right-radius: 5px;
     -moz-border-radius-topleft: 5px;
     -moz-border-radius-topright: 5px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 
 .leaflet-bar .tag-filter-tags-container ul.header li a {
@@ -81,7 +81,7 @@
 }
 
 .leaflet-bar .tag-filter-tags-container ul li {
-    background: #fcfdff;
+    background: #e7e7e7;
     list-style-type: none;
     position: relative;
     overflow: hidden;

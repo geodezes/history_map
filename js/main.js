@@ -198,7 +198,7 @@ var ajax = $.ajax({
 
 //добавление векторного слоя
 function loadGeoJson(response) { 
- console.log(response); 
+ //console.log(response); 
  geojsonStateProtectionN.addData(response);
  geojsonStateProtectionR.addData(response);
  geojsonStateProtectionF.addData(response);
@@ -414,7 +414,7 @@ function loadGeoJson(response) {
 			icon: '<img src="images/sp_filter.svg">',	
       filterOnEveryClick: true
     }).addTo(map);
-  
+	
      
     var archStyleFilterButton = L.control.tagFilterButton({
       data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
@@ -422,6 +422,13 @@ function loadGeoJson(response) {
       filterOnEveryClick: true
     }).addTo(map);
 	
+	
+	/*var FilterButton = L.control.tagFilterButton({
+      data: ['Вновь выявленные','Регионального значения','Федерального значения','Муниципального значения','дерево','камень','песчаник','песчаник/дерево','камень/дерево','Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
+			icon: '<img src="images/filter.svg">',	
+      filterOnEveryClick: true
+    }).addTo(map);
+	*/
 	var dopFilterButton = L.control.tagFilterButton({
       data: [/* 'Фото' ,*/'3d модель'/*, 'Описание' */],
       icon: '<img src="images/dop_filter.svg">',
@@ -490,29 +497,29 @@ function loadGeoJson(response) {
 				layers: geojsonStateProtectionN,
                 type: "polygon",
 				sides: 4,
-                fillColor: "Khaki",
-				fillOpacity: 0.5
+                fillColor: "#f8d900",
+				fillOpacity: 0.8
             }, {
                 label: "Регионального значения",
 				layers: geojsonStateProtectionR,
                 type: "polygon",
 				sides: 4,
-                fillColor: "Coral",
-				fillOpacity: 0.5
+                fillColor: "#d76d51",
+				fillOpacity: 0.8
             }, {
                 label: "Федерального значения",
 				layers: geojsonStateProtectionF,
                 type: "polygon",
 				sides: 4,
-                fillColor: "Crimson",
-				fillOpacity: 0.5
+                fillColor: "#ad2851",
+				fillOpacity: 0.8
             }, {
                 label: "Муниципального значения",
 				layers: geojsonStateProtectionM,
                 type: "polygon",
 				sides: 4,
                 fillColor: "YellowGreen",
-				fillOpacity: 0.5
+				fillOpacity: 0.8
             }, {
                 label: "Камень",
                 type: "polygon",
@@ -544,13 +551,30 @@ function loadGeoJson(response) {
                 color: "Olive",
 				weight: 1.5
             }, {
+                label: "Эклектика",
+                type: "image",
+				url: 'images/icon/eklektika.svg',
+            }, {
+                label: "Сибирское барокко",
+                type: "image",
+				url: 'images/icon/barokko.svg',
+            }, {
+                label: "Модерн",
+                type: "image",
+				url: 'images/icon/modern.svg',
+            }, {
+                label: "Конструктивизм",
+                type: "image",
+				url: 'images/icon/konstruktivizm.svg',
+            }, {
+                label: "Классицизм",
+                type: "image",
+				url: 'images/icon/klassicizm.svg',
+            }, {
                 label: "Границы кварталов",
-                type: "polygon",
-				sides: 4,
+                type: "image",
+				url: 'images/icon/quartals_legend.svg',
 				layers: quartals,
-                stroke: false,
-				fillPattern: stripes,
-				fillOpacity: 0.5
             }, {
                 label: "Пожар 1879 года",
                 type: "polygon",

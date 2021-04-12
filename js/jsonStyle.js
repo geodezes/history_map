@@ -222,7 +222,9 @@ var goStyle = function(feature) {
 										weight: 2,
 										};					
 			
-			//регионального значения
+//регионального значения
+
+			//дерево
 			
 			case 'ГО р|дерево|Эклектика': return {
 										color: "Peru",
@@ -443,8 +445,8 @@ var goStyle = function(feature) {
 										weight: 2,
 										};			
 			
-			//федерального значения
-			
+//федерального значения
+			//дерево
 			case 'ГО ф|дерево|Эклектика': return {
 										color: "Peru",
 										fillOpacity: 1,
@@ -664,8 +666,8 @@ var goStyle = function(feature) {
 										weight: 2,
 										};			
 			
-			//муниципального значения
-			
+//муниципального значения
+			//дерево
 						case 'ГО м|дерево|Эклектика': return {
 										color: "Peru",
 										fillOpacity: 1,
