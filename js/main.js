@@ -1,7 +1,22 @@
 	//create leaflet map
 	var map = new L.Map('map', {
 	center: new L.LatLng(52.2839771, 104.2877651),
-	zoom: 14
+	zoom: 14,
+	/* timeDimension */
+	timeDimensionControl: true,
+    timeDimensionControlOptions: {
+        timeSliderDragUpdate: true,
+       // loopButton: true,
+        //autoPlay: true
+        //playerOptions: {
+        //    transitionTime: 1000,
+        //    loop: true
+       // }
+    },
+    timeDimension: true,
+	/* timeDimension */
+	
+	
 	});
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
 	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -370,6 +385,15 @@ function loadGeoJson(response) {
 	geojsonStateProtectionN.options.time = geojsonStateProtectionN.feature.properties.time;
 	geojsonStateProtectionR.options.time = geojsonStateProtectionR.feature.properties.time; */
 	var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
+	
+	
+	
+	/* timeDimension */
+	var geoJSONTDLayer = L.timeDimension.layer.geoJson(geojsonStateProtectionR,{updateTimeDimensionMode: 'replace'});
+	geoJSONTDLayer.addTo(map);
+	/* timeDimension */
+	
+	
 	
 	
 	/* 	var sliderControl = L.control.sliderControl({
