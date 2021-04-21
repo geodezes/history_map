@@ -2,21 +2,6 @@
 	var map = new L.Map('map', {
 	center: new L.LatLng(52.2839771, 104.2877651),
 	zoom: 14,
-	/* timeDimension */
-	timeDimensionControl: true,
-    timeDimensionControlOptions: {
-        timeSliderDragUpdate: true,
-       // loopButton: true,
-        //autoPlay: true
-        //playerOptions: {
-        //    transitionTime: 1000,
-        //    loop: true
-       // }
-    },
-    timeDimension: true,
-	/* timeDimension */
-	
-	
 	});
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
 	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -387,23 +372,19 @@ function loadGeoJson(response) {
 	var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
 	
 	
+
 	
-	/* timeDimension */
-	var geoJSONTDLayer = L.timeDimension.layer.geoJson(geojsonStateProtectionR,{updateTimeDimensionMode: 'replace'});
-	geoJSONTDLayer.addTo(map);
-	/* timeDimension */
+	/* <!-- слайдер время SliderControl--> */
 	
-	
-	
-	
-	/* 	var sliderControl = L.control.sliderControl({
+	 	var sliderControl = L.control.sliderControl({
 			layer:goGroup,
 			range: true,
-			timeAttribute : 'time'
+			timeAttribute : 'times'
 		});
 		map.addControl(sliderControl);
-		sliderControl.startSlider(); */
-
+		sliderControl.startSlider(); 
+		
+	/* <!-- слайдер время SliderControl --> */
 
 	 //для получения векторного слоя 
 	 var geoJsonUrl ='http://79.141.65.187:8080/geoserver/ows'; 
@@ -427,6 +408,37 @@ function loadGeoJson(response) {
 	  jsonCallback: 'getJson', 
 	  success: [loadGeoJson]
 	  }); 
+	  
+	  
+	  /* timeline */
+	  
+	  
+	  
+	  /* timeline */
+	  
+	  
+	  
+	  
+	  /* <!-- LeafletRangeSlider --> */
+	  /*var rangeOptions = {
+          layer: geojsonStateProtectionR,
+          controlWidth: '400px',
+          minProperty: 'yearstart',
+          maxProperty: 'yearend',
+          sliderMin: '1700',
+          sliderMax: '1950',
+          filterMin: '1700',
+          filterMax: '1950',
+          propertyType: 'integer',
+          rangeDescriptionFormat: 'integer',
+          descriptionPrefix: 'Date:'
+        }
+
+        var rangeSlider = L.control.rangeSliderControl(rangeOptions);
+		map.addControl(rangeSlider);
+        rangeSlider.configureRangeSlider();  
+	  /* <!-- LeafletRangeSlider --> */
+	  
 	
 	//////////////////////////////////////////////////////////////
  

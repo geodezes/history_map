@@ -39,7 +39,7 @@
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 		
 		<!-- I don't know what is this -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!-- разобраться на счет иконки -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><!-- разобраться на счет иконки -->
 		
 		<!-- Geolocation don't work yet. Need https --> 
 		<!--
@@ -48,36 +48,31 @@
 		-->
 
 		
-		<!-- слайдер время /* timeDimension */ -->
+		<!-- LeafletRangeSlider -->
+		<script  type = " text / javascript " src = " https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js "> </script >
+		<!-- <link  rel = " stylesheet " href = " https://github.com/flypdx/LeafletRangeSlider/blob/master/examples/example.css "/> -->
+		<script src="js/LeafletRangeSlider.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css" />		
+		<!-- LeafletRangeSlider -->
 		
 		
-		<script type="text/javascript" src="/src/leaflet.timedimension.js"></script>
-        <script type="text/javascript" src="/src/leaflet.timedimension.util.js"></script>
-        <script type="text/javascript" src="/src/leaflet.timedimension.layer.js"></script>
-        <script type="text/javascript" src="/src/leaflet.timedimension.layer.wms.js"></script>
-        <script type="text/javascript" src="/src/leaflet.timedimension.layer.geojson.js"></script>
-        <script type="text/javascript" src="/src/leaflet.timedimension.player.js"></script>
-        <script type="text/javascript" src="/src/leaflet.timedimension.control.js"></script>
-		
-		<link rel="stylesheet" href="/src/leaflet.timedimension.control.css" />
-		
-		
-		<!-- слайдер время /* timeDimension */ -->
-		
-		
-		
-		
-		<!-- слайдер время -->
-		
-		<!-- слайдер время -->
+		<!-- слайдер время SliderControl -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" type="text/css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<script src="js/SliderControl.js"></script>
-		<!-- слайдер время -->
-		
+		<script src="js/SliderControl.js"></script>	
 		<!-- Include this library for mobile touch support  -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
-				
+		<!-- слайдер время SliderControl-->
+
+	<!-- 	timeline -->
+		<!-- <script type="text/typescript" src="js/timeline/index.ts"></script>
+		<script type="text/typescript" src="js/timeline/Timeline.ts"></script>
+		<script type="text/typescript" src="js/timeline/TimelineSliderControl.ts"></script> -->
+		<link rel="stylesheet" href="js/timeline/leaflet.timeline.css" />
+		<script type="text/typescript" src="js/timeline/leaflet.timeline.js"></script>
+	<!-- 	timeline -->		
+		
+		
 		<link rel="stylesheet" href="css/style.css">
 		<!-- Стили полигонов json слоев-->
 		<script src="js/jsonStyle.js"></script>
@@ -218,8 +213,9 @@
 				<div id="loadingProgress"></div>
 			</div>
 		</div>
-
-		
-		
+<!-- ts compile -->
+		<!-- <script type="text/javascript" src="js/typescript.min.js"></script>
+		<script type="text/javascript" src="js/typescript.compile.min.js"></script> -->
+<!-- ts compile -->	
     </body>
     </html>
