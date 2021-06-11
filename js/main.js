@@ -2,7 +2,13 @@
 	var map = new L.Map('map', {
 	center: new L.LatLng(52.2839771, 104.2877651),
 	zoom: 14,
+	zoomControl:false
 	});
+	
+	L.control.zoom({
+    position: 'bottomright'
+}).addTo(map);
+	
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
 	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
@@ -34,7 +40,7 @@ var quartals = new L.GeoJSON(null,{
 					color: "#d6ca97",
 					fillPattern: stripes,
 					fillOpacity: 1,	
-					zIndex: 0
+					zIndex: -1
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
@@ -211,7 +217,7 @@ function highlightFeature(e) {
 
 		layer.setStyle({
 			weight: 3,
-			color: '#666',
+			color: 'yellow',
 			dashArray: '',
 			fillOpacity: 1
 		});
@@ -221,6 +227,7 @@ function highlightFeature(e) {
 		}
 
 }
+
 
 function resetHighlight(e) {
     geojsonStateProtectionR.resetStyle(e.target);
@@ -238,6 +245,7 @@ function resetHighlight(e) {
     geojsonStateProtectionM.resetStyle(e.target);
 }
 
+
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
 }
@@ -252,7 +260,8 @@ function zoomToFeature(e) {
 				style: goStyle,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 250};
+                popupOptions = {maxWidth: 250
+                };
                 layer.bindPopup(
 				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
@@ -274,7 +283,7 @@ function zoomToFeature(e) {
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
 				layer.on({
 					mouseover: highlightFeature,
@@ -317,7 +326,7 @@ function zoomToFeature(e) {
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
 				layer.on({
 					mouseover: highlightFeature,
@@ -360,7 +369,7 @@ function zoomToFeature(e) {
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
 				layer.on({
 					mouseover: highlightFeature,
@@ -402,7 +411,7 @@ function zoomToFeature(e) {
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
 				layer.on({
 					mouseover: highlightFeature,
@@ -520,7 +529,7 @@ function zoomToFeature(e) {
     layer: goGroup,
     propertyName: 'addressName',
     marker: false,
-	position: 'topright',
+	//position: 'topleft',
     moveToLocation: function(latlng, title, map) {
       //map.fitBounds( latlng.layer.getBounds() );
       var zoom = map.getBoundsZoom(latlng.layer.getBounds());
@@ -534,7 +543,7 @@ function zoomToFeature(e) {
   
     //map.removeLayer(this._markerSearch)
   
-    e.layer.setStyle({ fillColor: '#3f0', color: '#0f0' });
+    e.layer.setStyle({ color: 'yellow' });
     if (e.layer._popup)
       e.layer.openPopup();
   
