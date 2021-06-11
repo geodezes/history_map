@@ -45,13 +45,18 @@ var quartals = new L.GeoJSON(null,{
 					weight: 0.3,
 					color: "#d6ca97",
 					fillPattern: stripes,
-					fillOpacity: 1				
+					fillOpacity: 1,	
+					zIndex: 0
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup("<b>"+"Квартал №"+feature.properties.quarter+"</b>"
-				,popupOptions);
+				,popupOptions);		
+				layer.on({
+					click: zoomToFeature
+				});
+				
 				}
 });
 map.addLayer(quartals);
@@ -220,7 +225,7 @@ function highlightFeature(e) {
 			weight: 3,
 			color: '#666',
 			dashArray: '',
-			fillOpacity: 0.7
+			fillOpacity: 1
 		});
 
 		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -285,8 +290,7 @@ function zoomToFeature(e) {
 				
 				layer.on({
 					mouseover: highlightFeature,
-					mouseout: resetHighlight,
-					click: zoomToFeature
+					mouseout: resetHighlight
 				});
 				
 				//geojsonStateProtectionR.options.time = feature.properties.time;
@@ -329,8 +333,7 @@ function zoomToFeature(e) {
 				
 				layer.on({
 					mouseover: highlightFeature,
-					mouseout: resetHighlight,
-					click: zoomToFeature
+					mouseout: resetHighlight
 				});
 				
 				//geojsonStateProtectionN.options.time = feature.properties.time;
@@ -373,8 +376,7 @@ function zoomToFeature(e) {
 				
 				layer.on({
 					mouseover: highlightFeature,
-					mouseout: resetHighlight,
-					click: zoomToFeature
+					mouseout: resetHighlight
 				});
 				
 				//geojsonStateProtectionF.options.time = feature.properties.time;
@@ -416,8 +418,7 @@ function zoomToFeature(e) {
 				
 				layer.on({
 					mouseover: highlightFeature,
-					mouseout: resetHighlight,
-					click: zoomToFeature
+					mouseout: resetHighlight
 				});
 				
 				//geojsonStateProtectionM.options.time = feature.properties.time;
