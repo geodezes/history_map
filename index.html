@@ -26,9 +26,11 @@
       <meta name="description" content="Карта ОКН позволит вам узнать где в Иркутске находится памятники архитектуры. Их называние, архитектурный стиль,охранный статус, материал постройки. Посмотреть 3D модели некоторых памятников"/>
       
       
-      <div id="titelMap" class="titelMap">
-			<img src="images/head.jpg" alt="что-то пошло не так" width = "100%">
+      <div id="titelMap" class="titelMap" >
+			<img src="images/head.jpg" alt="что-то пошло не так" class= "headimg">
 			<h2><span>Сохраним наследие<span></h2>
+			 <!-- include a link to toggle the navigation -->  <!-- &#9776;----сендвич вместо фильтра -->
+			<a href="#menu" class="menu-link">&#9776;</a>
 		</div>
       
 		<!-- leaflet library -->  
@@ -137,10 +139,9 @@
 		
 		
 		
-		 <!-- include a link to toggle the navigation -->  <!-- &#9776;----сендвич вместо фильтра -->
-		<a href="#menu" class="menu-link">&#9776;</a>
+		
 	 		
-		<div style="width:100%; height:80%" id="map">
+		<div class="map" id="map">
 		</div>
 
 

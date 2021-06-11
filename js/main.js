@@ -8,19 +8,7 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osmG);
 	
-	
-	/* var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
-	map.addLayer(osm);
-	
-	var baseMaps = {
-    "Grayscale": osmG,
-	"Black&White": osmB,
-    "openstreetmap": osm
-	};
-	
-	L.control.layers(baseMaps).addTo(map); */
-	
+		
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
 	map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
@@ -532,6 +520,7 @@ function zoomToFeature(e) {
     layer: goGroup,
     propertyName: 'addressName',
     marker: false,
+	position: 'topright',
     moveToLocation: function(latlng, title, map) {
       //map.fitBounds( latlng.layer.getBounds() );
       var zoom = map.getBoundsZoom(latlng.layer.getBounds());
