@@ -198,7 +198,7 @@ var ajax = $.ajax({
 
 //добавление векторного слоя
 function loadGeoJson(response) { 
- console.log(response); 
+ //console.log(response); 
  geojsonStateProtectionN.addData(response);
  geojsonStateProtectionR.addData(response);
  geojsonStateProtectionF.addData(response);
@@ -210,6 +210,47 @@ function loadGeoJson(response) {
  map.addLayer(geojsonStateProtectionF);
  map.addLayer(geojsonStateProtectionM);
 }; 
+
+
+ ///////////////////
+function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 3,
+			color: '#666',
+			dashArray: '',
+			fillOpacity: 0.7
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+}
+
+function resetHighlight(e) {
+    geojsonStateProtectionR.resetStyle(e.target);
+}
+
+function resetHighlight(e) {
+    geojsonStateProtectionN.resetStyle(e.target);
+}
+
+function resetHighlight(e) {
+    geojsonStateProtectionF.resetStyle(e.target);
+}
+
+function resetHighlight(e) {
+    geojsonStateProtectionM.resetStyle(e.target);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+////////////////////
+
+
 
 
 //слой отображающий категорию гос охраны Регеональные
@@ -242,8 +283,13 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
+				layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight,
+					click: zoomToFeature
+				});
+				
 				//geojsonStateProtectionR.options.time = feature.properties.time;
-          
 				},
 				
 				filter: function (feature, layer){if (feature.properties.go === "ГО р")return true;}
@@ -280,6 +326,12 @@ function loadGeoJson(response) {
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
+				
+				layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight,
+					click: zoomToFeature
+				});
 				
 				//geojsonStateProtectionN.options.time = feature.properties.time;
           
@@ -319,6 +371,11 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
+				layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight,
+					click: zoomToFeature
+				});
 				
 				//geojsonStateProtectionF.options.time = feature.properties.time;
           
@@ -357,12 +414,21 @@ function loadGeoJson(response) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " | " + searchTwo.faddress;
 				
+				layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight,
+					click: zoomToFeature
+				});
+				
 				//geojsonStateProtectionM.options.time = feature.properties.time;
           
 				},
 				
 				filter: function (feature, layer){if (feature.properties.go === "ГО м")return true;}
 	});
+	
+	
+	
 	//Группа слоев гос охрана
 
 	/* geojsonStateProtectionF.options.time = geojsonStateProtectionF.feature.properties.time;
@@ -376,13 +442,13 @@ function loadGeoJson(response) {
 	
 	/* <!-- слайдер время SliderControl--> */
 	
-	 	var sliderControl = L.control.sliderControl({
+	 /* 	var sliderControl = L.control.sliderControl({
 			layer:goGroup,
 			range: true,
 			timeAttribute : 'times'
 		});
 		map.addControl(sliderControl);
-		sliderControl.startSlider(); 
+		sliderControl.startSlider();  */
 		
 	/* <!-- слайдер время SliderControl --> */
 
@@ -408,36 +474,6 @@ function loadGeoJson(response) {
 	  jsonCallback: 'getJson', 
 	  success: [loadGeoJson]
 	  }); 
-	  
-	  
-	  /* timeline */
-	  
-	  
-	  
-	  /* timeline */
-	  
-	  
-	  
-	  
-	  /* <!-- LeafletRangeSlider --> */
-	  /*var rangeOptions = {
-          layer: geojsonStateProtectionR,
-          controlWidth: '400px',
-          minProperty: 'yearstart',
-          maxProperty: 'yearend',
-          sliderMin: '1700',
-          sliderMax: '1950',
-          filterMin: '1700',
-          filterMax: '1950',
-          propertyType: 'integer',
-          rangeDescriptionFormat: 'integer',
-          descriptionPrefix: 'Date:'
-        }
-
-        var rangeSlider = L.control.rangeSliderControl(rangeOptions);
-		map.addControl(rangeSlider);
-        rangeSlider.configureRangeSlider();  
-	  /* <!-- LeafletRangeSlider --> */
 	  
 	
 	//////////////////////////////////////////////////////////////
