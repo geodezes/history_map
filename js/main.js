@@ -80,7 +80,7 @@ var ajax = $.ajax({
  
   // loadGeoJson(Fasadnik) from geoserver
 function loadGeoJsonF(responseF) { 
-console.log(responseF); 
+//console.log(responseF); 
 Fasadnik.addData(responseF);
 }; 
 // create wfs layer Fasadnik
@@ -136,7 +136,7 @@ var ajax = $.ajax({
  
  // loadGeoJson(Events) from geoserver
 function loadGeoJsonE(responseE) { 
-console.log(responseE); 
+//console.log(responseE); 
 eventFire.addData(responseE);
 eventEmergency.addData(responseE);
 }; 
