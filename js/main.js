@@ -75,12 +75,68 @@ var ajax = $.ajax({
   jsonCallback: 'getJson', 
   success: [loadGeoJsonQ]
   }); 
+ ////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+  // loadGeoJson(Fasadnik) from geoserver
+function loadGeoJsonF(responseF) { 
+console.log(responseF); 
+Fasadnik.addData(responseF);
+}; 
+// create wfs layer Fasadnik
+var Fasadnik = new L.GeoJSON(null,{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [15, 13],
+                        popupAnchor:  [1, -24]
+						}
+				});
+				//Грузим иконки
+				var fsadnikIcon = new LeafIcon({iconUrl: 'images/icon/fasadnik_old.svg'});	
+			
+				return new L.marker(latlng, {icon: fsadnikIcon});
+               },
+				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(feature.properties.nameF
+				,popupOptions
+				);
+				}
+});
+
+
+ 
+ // loadGeoJson(Fasadnik) from geoserver
+var geoJsonUrlF ='http://79.141.65.187:8080/geoserver/ows'; 
+var defaultParametersF = { 
+  service: 'WFS', 
+  version: '2.0.0', 
+  request: 'GetFeature', 
+  typeName: 'Fasadnik', 
+  outputFormat: 'application/json',
+  format_options : 'callback:getJson',
+  SrsName : 'EPSG:4326'
+  }; 
+var parametersF = L.Util.extend(defaultParametersF); 
+console.log(geoJsonUrlF + L.Util.getParamString(parametersF)); 
+
+var ajax = $.ajax({ 
+  url: geoJsonUrlF + L.Util.getParamString(parametersF), 
+  datatype: 'json', 
+  jsonCallback: 'getJson', 
+  success: [loadGeoJsonF]
+  }); 
  
 /////////////////////////////////////////////////////////////////////////////////
  
  // loadGeoJson(Events) from geoserver
 function loadGeoJsonE(responseE) { 
-//console.log(responseE); 
+console.log(responseE); 
 eventFire.addData(responseE);
 eventEmergency.addData(responseE);
 }; 
@@ -671,6 +727,12 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/eventEmergency.svg',
 				layers: eventEmergency,
+				inactive: true
+            }, {
+                label: "Фасадник",
+                type: "image",
+				url: 'images/icon/fasadnik_old.svg',
+				layers: Fasadnik,
 				inactive: true
             }
 			
