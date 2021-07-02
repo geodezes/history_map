@@ -91,7 +91,7 @@ var Fasadnik = new L.GeoJSON(null,{
 						options: {
 						iconSize: [27, 27],
                         iconAnchor: [15, 13],
-                        popupAnchor:  [1, -24]
+                        popupAnchor:  [0, -12]
 						}
 				});
 				//Грузим иконки
@@ -268,7 +268,7 @@ function loadGeoJson(response) {
 
 
  ///////////////////
-function highlightFeature(e) {
+/*function highlightFeature(e) {
 		var layer = e.target;
 
 		layer.setStyle({
@@ -299,7 +299,7 @@ function resetHighlight(e) {
 
 function resetHighlight(e) {
     geojsonStateProtectionM.resetStyle(e.target);
-}
+}*/
 
 
 function zoomToFeature(e) {
@@ -341,10 +341,10 @@ function zoomToFeature(e) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
-				layer.on({
+				/*layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
-				});
+				});*/
 				
 				//geojsonStateProtectionR.options.time = feature.properties.time;
 				},
@@ -384,10 +384,10 @@ function zoomToFeature(e) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
-				layer.on({
+				/*layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
-				});
+				});*/
 				
 				//geojsonStateProtectionN.options.time = feature.properties.time;
           
@@ -427,10 +427,10 @@ function zoomToFeature(e) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
-				layer.on({
+				/*layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
-				});
+				});*/
 				
 				//geojsonStateProtectionF.options.time = feature.properties.time;
           
@@ -469,10 +469,10 @@ function zoomToFeature(e) {
 				var searchTwo = layer.feature.properties;
 				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
 				
-				layer.on({
+				/*layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
-				});
+				});*/
 				
 				//geojsonStateProtectionM.options.time = feature.properties.time;
           
