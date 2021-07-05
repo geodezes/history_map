@@ -26,13 +26,8 @@
 
 var stripes = new L.StripePattern({weight: 1, color: "#d6ca97", angle: 100}); stripes.addTo(map);
 	
-// loadGeoJson(quartals) from geoserver
-function loadGeoJsonQ(response2) { 
-//console.log(response2); 
-quartals.addData(response2);
-}; 
 // create wfs layer quartals
-var quartals = new L.GeoJSON(null,{
+var quartals = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=quarters&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//layer style
 				style: {
 					//stroke: false,
@@ -54,37 +49,12 @@ var quartals = new L.GeoJSON(null,{
 				}
 });
 map.addLayer(quartals);
-
-// loadGeoJson(quartals) from geoserver
-var geoJsonUrlQ ='http://79.141.65.187:8080/geoserver/ows'; 
-var defaultParametersQ = { 
-  service: 'WFS', 
-  version: '2.0.0', 
-  request: 'GetFeature', 
-  typeName: 'quarters', 
-  outputFormat: 'application/json',
-  format_options : 'callback:getJson',
-  SrsName : 'EPSG:4326'
-  }; 
-var parametersQ = L.Util.extend(defaultParametersQ); 
-console.log(geoJsonUrlQ + L.Util.getParamString(parametersQ)); 
-
-var ajax = $.ajax({ 
-  url: geoJsonUrlQ + L.Util.getParamString(parametersQ), 
-  datatype: 'json', 
-  jsonCallback: 'getJson', 
-  success: [loadGeoJsonQ]
-  }); 
+ 
  ////////////////////////////////////////////////////////////////////////////////
  
  
-  // loadGeoJson(Fasadnik) from geoserver
-function loadGeoJsonF(responseF) { 
-//console.log(responseF); 
-Fasadnik.addData(responseF);
-}; 
 // create wfs layer Fasadnik
-var Fasadnik = new L.GeoJSON(null,{
+var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Fasadnik&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -99,7 +69,7 @@ var Fasadnik = new L.GeoJSON(null,{
 			
 				return new L.marker(latlng, {icon: fsadnikIcon});
                },
-				
+			   				
 				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
@@ -107,41 +77,32 @@ var Fasadnik = new L.GeoJSON(null,{
 				,popupOptions
 				);
 				}
+				
 });
 
 
- 
- // loadGeoJson(Fasadnik) from geoserver
-var geoJsonUrlF ='http://79.141.65.187:8080/geoserver/ows'; 
-var defaultParametersF = { 
-  service: 'WFS', 
-  version: '2.0.0', 
-  request: 'GetFeature', 
-  typeName: 'Fasadnik', 
-  outputFormat: 'application/json',
-  format_options : 'callback:getJson',
-  SrsName : 'EPSG:4326'
-  }; 
-var parametersF = L.Util.extend(defaultParametersF); 
-console.log(geoJsonUrlF + L.Util.getParamString(parametersF)); 
-
-var ajax = $.ajax({ 
-  url: geoJsonUrlF + L.Util.getParamString(parametersF), 
-  datatype: 'json', 
-  jsonCallback: 'getJson', 
-  success: [loadGeoJsonF]
-  }); 
- 
 /////////////////////////////////////////////////////////////////////////////////
+
+//markercluster 
+
+
+
+
+var markersFasadnik = L.markerClusterGroup({disableClusteringAtZoom: 16});
+Fasadnik.on('data:loaded', function () {
+    markersFasadnik.addLayer(Fasadnik);
+    //console.log(markersBar);
+    //map.addLayer(markers);
+});
+
+
+/* markers.addLayer(Fasadnik);
+map.addLayer(markers); */
  
- // loadGeoJson(Events) from geoserver
-function loadGeoJsonE(responseE) { 
-//console.log(responseE); 
-eventFire.addData(responseE);
-eventEmergency.addData(responseE);
-}; 
+////////////////////////////////////////////////// 
+
 // create wfs layer Events
-var eventFire = new L.GeoJSON(null,{
+var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -172,10 +133,10 @@ var eventFire = new L.GeoJSON(null,{
 				},
 				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
 });
-/* map.addLayer(eventFire); */
+
 
 // create wfs layer Events
-var eventEmergency = new L.GeoJSON(null,{
+var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -208,27 +169,7 @@ var eventEmergency = new L.GeoJSON(null,{
 });
 /* map.addLayer(eventEmergency); */
 
-// loadGeoJson(Events) from geoserver
-var geoJsonUrlE ='http://79.141.65.187:8080/geoserver/ows'; 
-var defaultParametersE = { 
-  service: 'WFS', 
-  version: '2.0.0', 
-  request: 'GetFeature', 
-  typeName: 'Events', 
-  outputFormat: 'application/json',
-  format_options : 'callback:getJson',
-  SrsName : 'EPSG:4326'
-  }; 
-var parametersE = L.Util.extend(defaultParametersE); 
-console.log(geoJsonUrlE + L.Util.getParamString(parametersE)); 
 
-var ajax = $.ajax({ 
-  url: geoJsonUrlE + L.Util.getParamString(parametersE), 
-  datatype: 'json', 
-  jsonCallback: 'getJson', 
-  success: [loadGeoJsonE]
-  }); 
- 
 ///////////////////////////////////////////////////////////////////	
 	
 	/* Пожар */
@@ -250,21 +191,6 @@ var ajax = $.ajax({
 /* L.control.locate().addTo(map);  */
 
 //////////////////////////////////////////////////////////////
-
-//добавление векторного слоя
-function loadGeoJson(response) { 
- //console.log(response); 
- geojsonStateProtectionN.addData(response);
- geojsonStateProtectionR.addData(response);
- geojsonStateProtectionF.addData(response);
- geojsonStateProtectionM.addData(response); 
-
- 
- map.addLayer(geojsonStateProtectionN);
- map.addLayer(geojsonStateProtectionR);
- map.addLayer(geojsonStateProtectionF);
- map.addLayer(geojsonStateProtectionM);
-}; 
 
 
  ///////////////////
@@ -311,7 +237,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Регеональные
- var geojsonStateProtectionR = new L.GeoJSON(null,{
+ var geojsonStateProtectionR = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя		 
 				style: goStyle,
 				//стиль всплывающих окон
@@ -355,7 +281,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Выявленые
- var geojsonStateProtectionN = new L.GeoJSON(null,{
+ var geojsonStateProtectionN = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -398,7 +324,7 @@ function zoomToFeature(e) {
  //map.addLayer(geojsonStateProtection);
  
  //слой отображающий категорию гос охраны Федеральные
- var geojsonStateProtectionF = new L.GeoJSON(null,{
+ var geojsonStateProtectionF = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -440,7 +366,7 @@ function zoomToFeature(e) {
 	});
 	
 	//слой отображающий категорию гос охраны Муницыпальные
- var geojsonStateProtectionM = new L.GeoJSON(null,{
+ var geojsonStateProtectionM = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -491,44 +417,6 @@ function zoomToFeature(e) {
 	geojsonStateProtectionR.options.time = geojsonStateProtectionR.feature.properties.time; */
 	var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
 	
-	
-
-	
-	/* <!-- слайдер время SliderControl--> */
-	
-	 /* 	var sliderControl = L.control.sliderControl({
-			layer:goGroup,
-			range: true,
-			timeAttribute : 'times'
-		});
-		map.addControl(sliderControl);
-		sliderControl.startSlider();  */
-		
-	/* <!-- слайдер время SliderControl --> */
-
-	 //для получения векторного слоя 
-	 var geoJsonUrl ='http://79.141.65.187:8080/geoserver/ows'; 
-	 var defaultParameters = { 
-	  service: 'WFS', 
-	  version: '2.0.0', 
-	  request: 'GetFeature', 
-	  typeName: 'okn', 
-	  outputFormat: 'application/json',
-	  format_options : 'callback:getJson',
-	  SrsName : 'EPSG:4326'
-	  }; 
-
-	 //add json layers 
-	 var parameters = L.Util.extend(defaultParameters); 
-	 console.log(geoJsonUrl + L.Util.getParamString(parameters)); 
-
-	 var ajax = $.ajax({ 
-	  url: geoJsonUrl + L.Util.getParamString(parameters), 
-	  datatype: 'json', 
-	  jsonCallback: 'getJson', 
-	  success: [loadGeoJson]
-	  }); 
-	  
 	
 	//////////////////////////////////////////////////////////////
  
@@ -705,7 +593,7 @@ function zoomToFeature(e) {
                 label: "Границы кварталов",
                 type: "image",
 				url: 'images/icon/quartals_legend.svg',
-				layers: quartals,
+				//layers: quartals,
             }, {
                 label: "Пожар 1879 года",
                 type: "polygon",
@@ -732,7 +620,7 @@ function zoomToFeature(e) {
                 label: "Фасадник",
                 type: "image",
 				url: 'images/icon/fasadnik_old.svg',
-				layers: Fasadnik,
+				layers: markersFasadnik,
 				inactive: true
             }
 			
