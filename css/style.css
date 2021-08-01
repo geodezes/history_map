@@ -36,11 +36,11 @@ a.menu-link {
   position	: absolute;
 	bottom		: 5%;
 	left		: 0; 
-	background: black;
+	background: #696969;
 } 
 
-a.menu-link:hover { background: #DCDCDC; }
-a.menu-link:active { background: black; }
+a.menu-link:hover { background: #eee; }
+a.menu-link:active { background: #696969; }
 
 
 /* Style the button that is used to open and close the collapsible content */
@@ -123,8 +123,8 @@ h2 span {
 	color			: white;
 	font-family		: "Helvetica Neue", Arial, Helvetica, sans-serif;
 	letter-spacing		: -1px;
-	background		: rgb(0, 0, 0); /* на случай, если следующая строка не сработает */ 
-	background		: rgba(0, 0, 0, 0.7);
+	background		: #696969; /* на случай, если следующая строка не сработает */ 
+	background		: #696969;
 	padding			: 10px;
 }
 

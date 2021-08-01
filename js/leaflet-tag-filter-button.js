@@ -6,7 +6,7 @@
             icon: "fa-filter", //buton icon default is fa-filter
             onSelectionComplete: null, // the callback function for selected tags
             data: null, // the data to be used for tags popup, it can be array or function
-            clearText: 'Отчистить', // the text of the clear button
+            clearText: 'Очистить', // the text of the clear button
             filterOnEveryClick: false, // if set as true the plugin do filtering operation on every click event on the checkboxes
             openPopupOnHover: false, // if set as true the popup that contains tags will be open at mouse hover time
 

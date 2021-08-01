@@ -423,20 +423,20 @@ function zoomToFeature(e) {
 	/*tag filter*/	
     var materialFilterButton = L.control.tagFilterButton({
       data: ['дерево','камень','песчаник','песчаник/дерево','камень/дерево'],
-      icon: '<img src="images/m_filter.svg">',
+      icon: "<p>"+"Материал"+"</p>",
       filterOnEveryClick: true
     }).addTo(map);
     
     var stateProtectionFilterButton = L.control.tagFilterButton({
       data: ['Вновь выявленные','Регионального значения','Федерального значения','Муниципального значения'],
-			icon: '<img src="images/sp_filter.svg">',	
+			icon: "<p>"+"Статус"+"</p>",	
       filterOnEveryClick: true
     }).addTo(map);
 	
      
     var archStyleFilterButton = L.control.tagFilterButton({
       data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
-      icon: '<img src="images/style_filter.svg">',
+      icon: "<p>"+"Стиль"+"</p>",
       filterOnEveryClick: true
     }).addTo(map);
 	
@@ -449,7 +449,7 @@ function zoomToFeature(e) {
 	*/
 	var dopFilterButton = L.control.tagFilterButton({
       data: [/* 'Фото' ,*/'3d модель'/*, 'Описание' */],
-      icon: '<img src="images/dop_filter.svg">',
+      icon: "<p>"+"3D"+"</p>",
       filterOnEveryClick: true
     }).addTo(map);
   
