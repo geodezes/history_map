@@ -590,10 +590,17 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/klassicizm.svg',
             }, {
+                label: "Фасадник",
+                type: "image",
+				url: 'images/icon/fasadnik_old.svg',
+				layers: markersFasadnik,
+				inactive: true
+            }, {
                 label: "Границы кварталов",
                 type: "image",
 				url: 'images/icon/quartals_legend.svg',
 				//layers: quartals,
+				//inactive: true
             }, {
                 label: "Пожар 1879 года",
                 type: "polygon",
@@ -615,12 +622,6 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/eventEmergency.svg',
 				layers: eventEmergency,
-				inactive: true
-            }, {
-                label: "Фасадник",
-                type: "image",
-				url: 'images/icon/fasadnik_old.svg',
-				layers: markersFasadnik,
 				inactive: true
             }
 			
