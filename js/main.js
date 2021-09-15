@@ -288,7 +288,7 @@ function zoomToFeature(e) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО н"?"Вновь выявленные":"")+"</dd>"
@@ -331,7 +331,7 @@ function zoomToFeature(e) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО ф" ? "Федерального значения":"")+"</dd>"
@@ -373,7 +373,7 @@ function zoomToFeature(e) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<img src="photos/'+ feature.properties.Photo +'"style="width:240;">':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО м" ? "Муниципального значения":"")+"</dd>"
