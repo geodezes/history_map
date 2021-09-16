@@ -8,6 +8,8 @@
 	L.control.zoom({
     position: 'bottomright'
 }).addTo(map);
+
+	map.addControl(new L.Control.Fullscreen());
 	
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
 	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
