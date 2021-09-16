@@ -247,7 +247,7 @@ function zoomToFeature(e) {
                 popupOptions = {maxWidth: 250
                 };
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
+				(feature.properties.Photo!="-" ? '<a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a>':"")
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО р"?"Регионального значения":"")+"</dd>"

@@ -158,15 +158,30 @@
 		
 	 		
 		<div class="map" id="map">
+		
+		<!-- 3D model popup window -->
+		<div id="modalOverlayId" class="modalOverlay is-inactive" style="z-index:10000; position: fixed;" onclick="if (this === event.target) {closeModal()}">
+			<div class="modal">
+				<div id="renderSurface"> 
+				</div><br/>
+				<button class="btnClose" onclick="closeModal()">Х</button>
+				<div id="loadingProgress"></div>
+			</div>
 		</div>
-
-
+		
+		
 		<!-- 3D model popup window -->
 		<script type="module" src="js/models.js"></script>
 		<script type="module">
 			import {loadModel} from "./js/models.js";
 			window.loadModel = loadModel;
 		</script>
+		
+		
+		</div>
+
+
+		
 
 		<script src="js/main.js"></script>
 		
@@ -210,15 +225,7 @@
 		</script>
 		
 
-		<!-- 3D model popup window -->
-		<div id="modalOverlayId" class="modalOverlay is-inactive" style="z-index:10000; position: fixed;" onclick="if (this === event.target) {closeModal()}">
-			<div class="modal">
-				<div id="renderSurface"> 
-				</div><br/>
-				<button class="btnClose" onclick="closeModal()">Х</button>
-				<div id="loadingProgress"></div>
-			</div>
-		</div>
+		
 <!-- ts compile -->
 		<!-- <script type="text/javascript" src="js/typescript.min.js"></script>
 		<script type="text/javascript" src="js/typescript.compile.min.js"></script> -->

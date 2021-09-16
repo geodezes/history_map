@@ -1,21 +1,28 @@
+
+
+
 .modalOverlay {
 	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	opacity: 0.8;
+	width: 100%;
+	height: 100%;
+	/* opacity: 0.8; */
 	-webkit-transition: 0.6s;
 }
 
 .modalOverlay.is-inactive {
 	visibility: hidden;
 	background: rgba(0, 0, 0, 0);
+
 }
 
 .modalOverlay.is-active {
 	visibility: visible;
 	background: rgba(0, 0, 0, 0.4);
+
 }
 
 .modal {
@@ -28,8 +35,9 @@
 	background: black;/* #fff; */
 	width: 90%;
 	height: 90%;
-	padding: 20px;
-	-webkit-transition: 0.4s 0.1s;
+	/* padding: 20px; */
+	margin-left: auto;
+    margin-right: auto;
 }
 
 .modalOverlay.is-inactive .modal {
@@ -44,24 +52,32 @@
 	-webkit-transform: scale(1);
 }
 
-.btnClose {
-	/* position: fixed;
-	right: 20px;
-	top: 20px; */
-	background-color: black;
-	color: white;
-	font-size: 24px;
-	opacity: 0.8;
-	border: 0px;
-	
 	
 
+
 canvas { 
-	width: 100%; 
+
 	height: 100%; 
+	width: 100%; 
 }
 
 #renderSurface {
-	width: 95%;
-	height: 90%;
+	width: 100%;
+	height: 100%;
+	border-radius: 3px;
+	border: 4px solid white;
+	
+}
+
+
+.btnClose {
+	position: fixed;
+	right: 20px;
+	top: 20px;
+	background-color: black;
+	color: white;
+	font-size: 24px;
+	opacity: 0.4;
+	border: 3px solid black;
+	border-radius: 6px;
 }
