@@ -10,6 +10,9 @@
   position: relative;
 }
 
+
+
+/* боковая панель*/
 .panel {
     position: fixed;
     left: -15.625em; /*left or right and the width of your navigation panel*/
@@ -94,7 +97,7 @@ a.menu-link:active { background: #696969; }
   font-size: 15px;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
-
+/* боковая панель*/
 
 .headimg  {
 	width:98vw;
