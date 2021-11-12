@@ -345,7 +345,8 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+ (feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")				
+				/*+ (feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")	*/	
+					+ (feature.properties.zd_gov!="-" ? "<dd><a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'><img src='images/zg-logo.png' height ='20'>Здания говорят</a></dd>" : "")	
 				+(feature.properties.zd_gov!="-" ? "<iframe width = '250' height = '200' src = 'https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'</iframe>" : "")
                     ,popupOptions); 
 				//Теги фильтров
