@@ -75,7 +75,9 @@ var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?servi
 				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
-                layer.bindPopup(feature.properties.nameF
+                layer.bindPopup(
+				"<dt>"+(feature.properties.zd_gov!="-" ? "<a href='https://fasadnik.org'>Фасадник</a>" : "")+"</dt>"
+				+"<dt>"+feature.properties.nameF+"</dt>"
 				,popupOptions
 				);
 				}
@@ -102,6 +104,40 @@ Fasadnik.on('data:loaded', function () {
 map.addLayer(markers); */
  
 ////////////////////////////////////////////////// 
+
+
+
+// create wfs layer Zdaniy_govoryt
+var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Zdaniy_govoryt&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafZdGovIcon = L.Icon.extend({
+						options: {
+						iconSize: [21, 11],
+                        iconAnchor: [15, 5],
+                        popupAnchor:  [0, -5]
+						}
+				});
+				//Грузим иконки
+				var zdGovIcon = new LeafZdGovIcon({iconUrl: 'images/icon/zg-logo.png'});	
+			
+				return new L.marker(latlng, {icon: zdGovIcon});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 300};
+                layer.bindPopup(
+				(feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")
+				+(feature.properties.zd_gov!="-" ? "<audio controls><source src='https://irkologia.ru/assets/zg/audio/"+feature.properties.zd_gov+".mp3' type='audio/mpeg'></audio>" : "")
+				,popupOptions
+				);
+				}
+				
+});
+
+
+////////////////////////////////////////////////////
 
 // create wfs layer Events
 var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
@@ -257,7 +293,6 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+ (feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")
                     ,popupOptions);
 				//Теги фильтров
 				layer.options.tags=
@@ -301,7 +336,6 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+ (feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")
                     ,popupOptions);
 				//Теги фильтров
 				layer.options.tags=
@@ -344,10 +378,7 @@ function zoomToFeature(e) {
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
-				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				/*+ (feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")	*/	
-					+ (feature.properties.zd_gov!="-" ? "<dd><a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'><img src='images/zg-logo.png' height ='20'>Здания говорят</a></dd>" : "")	
-				+(feature.properties.zd_gov!="-" ? "<iframe width = '250' height = '200' src = 'https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'</iframe>" : "")
+				+(feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
                     ,popupOptions); 
 				//Теги фильтров
 				layer.options.tags=
@@ -390,7 +421,6 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+ (feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")
                     ,popupOptions);
 				//Теги фильтров
 				layer.options.tags=
@@ -604,6 +634,12 @@ function zoomToFeature(e) {
 				layers: markersFasadnik,
 				inactive: true
             }, {
+                label: "Здания говорят",
+                type: "image",
+				url: 'images/icon/zg-logo.png',
+				layers: Zdaniy_govoryt,
+				inactive: true
+            },{
                 label: "Границы кварталов",
                 type: "image",
 				url: 'images/icon/quartals_legend.svg',
