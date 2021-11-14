@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW 2020 (64-Bit) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="58.6379mm" height="58.6379mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 15163.32 15163.32"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:white;stroke-width:64.65;stroke-linejoin:round;stroke-miterlimit:22.9256;stroke-opacity:0.501961}
+    .str3 {stroke:white;stroke-width:258.59;stroke-miterlimit:22.9256}
+    .str1 {stroke:white;stroke-width:387.89;stroke-miterlimit:22.9256}
+    .str4 {stroke:white;stroke-width:64.65;stroke-miterlimit:22.9256}
+    .str2 {stroke:white;stroke-width:64.65;stroke-linejoin:round;stroke-miterlimit:22.9256}
+    .fil2 {fill:none}
+    .fil0 {fill:#07397E}
+    .fil3 {fill:white;fill-rule:nonzero}
+    .fil1 {fill:#E5E9F4;fill-opacity:0.501961}
+   ]]>
+  </style>
+ </defs>
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <circle class="fil0" cx="7581.66" cy="7581.66" r="7581.66"/>
+  <polygon class="fil1 str0" points="2933.42,13185.21 2074.89,3439.87 6716.34,12699.32 "/>
+  <polygon class="fil1 str0" points="2074.89,3439.87 11101.14,2852.53 5540.73,1459.39 "/>
+  <polygon class="fil1 str0" points="5785.02,9809.81 14321.52,7433.73 7957.51,12603.1 "/>
+  <polyline class="fil2 str1" points="11852.43,11801.33 11662.18,12857.99 2149.91,11145.31 3862.57,1633.04 13374.87,3345.72 12454.33,8458.12 "/>
+  <polygon class="fil2 str2" points="10959.61,4361.5 8588.84,3513.24 3730.4,5080.95 5502.82,9387.42 "/>
+  <polygon class="fil3 str3" points="10948.31,5212.78 10008.35,10433.53 9778.62,10392.18 10659.7,5498.61 6138.03,9736.7 5922.23,9697.84 6862.22,4477.11 7091.92,4518.46 6213.36,9398.13 10718.6,5171.43 "/>
+  <line class="fil2 str4" x1="3158.81" y1="5602.28" x2="4837.33" y2= "3270.03" />
+  <polyline class="fil2 str4" points="6217.49,9503.45 11370.44,4698.37 14321.52,7433.73 "/>
+ </g>
+</svg>

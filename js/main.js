@@ -113,13 +113,13 @@ var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
                 //стиль иконок
 				var LeafZdGovIcon = L.Icon.extend({
 						options: {
-						iconSize: [21, 11],
+						iconSize: [18, 18],
                         iconAnchor: [15, 5],
                         popupAnchor:  [0, -5]
 						}
 				});
 				//Грузим иконки
-				var zdGovIcon = new LeafZdGovIcon({iconUrl: 'images/icon/zg-logo.png'});	
+				var zdGovIcon = new LeafZdGovIcon({iconUrl: 'images/icon/zg-logo.svg'});	
 			
 				return new L.marker(latlng, {icon: zdGovIcon});
                },
@@ -636,7 +636,7 @@ function zoomToFeature(e) {
             }, {
                 label: "Здания говорят",
                 type: "image",
-				url: 'images/icon/zg-logo.png',
+				url: 'images/icon/zg-logo.svg',
 				layers: Zdaniy_govoryt,
 				inactive: true
             },{
