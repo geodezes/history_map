@@ -1,4 +1,4 @@
-var goStyle = function(feature) {
+var goStyle = function(feature) {if (feature.properties.statusChange=="-")  {
         switch (feature.properties.go+"|"+feature.properties.Material+"|"+feature.properties.Architectu) {
             
 //вновь выявленые
@@ -887,10 +887,15 @@ var goStyle = function(feature) {
 										weight: 2,
 										};			
 			
-			
-			
-           
    		}
+}
+		
+		else { return {
+										color: "gray",
+										fillOpacity: 1,
+										fillColor: "DarkGrey",
+										weight: 2,
+		};			 }
 		
 		
 }

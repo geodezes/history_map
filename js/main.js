@@ -293,6 +293,7 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
                     ,popupOptions);
 				//Теги фильтров
 				layer.options.tags=
@@ -336,6 +337,7 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
                     ,popupOptions);
 				//Теги фильтров
 				layer.options.tags=
@@ -343,6 +345,7 @@ function zoomToFeature(e) {
 				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
+				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
@@ -379,6 +382,7 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+(feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
                     ,popupOptions); 
 				//Теги фильтров
 				layer.options.tags=
@@ -421,6 +425,7 @@ function zoomToFeature(e) {
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
+				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
                     ,popupOptions);
 				//Теги фильтров
 				layer.options.tags=
@@ -428,6 +433,7 @@ function zoomToFeature(e) {
 				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
+				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				var searchTwo = layer.feature.properties;
@@ -466,7 +472,7 @@ function zoomToFeature(e) {
     }).addTo(map);
     
     var stateProtectionFilterButton = L.control.tagFilterButton({
-      data: ['Вновь выявленные','Регионального значения','Федерального значения','Муниципального значения'],
+      data: ['Вновь выявленные','Регионального значения','Федерального значения','Муниципального значения','исключен/утрачен'],
 			icon: "<p>"+"Статус"+"</p>",	
       filterOnEveryClick: true
     }).addTo(map);
