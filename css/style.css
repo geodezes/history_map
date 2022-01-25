@@ -115,6 +115,13 @@ a.menu-link:active { background: #696969; }
 	/*width		: 100%; /* for IE 6 */
 }
 
+.ya-share2 {
+		position	: absolute;
+	text-align: right ;
+	bottom		: 0%;
+	right		: 0%;
+	
+}
 
 h2 {
 	position	: absolute;

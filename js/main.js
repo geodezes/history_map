@@ -304,8 +304,9 @@ function zoomToFeature(e) {
 				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
-				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
+				
+				var searchTree = layer.feature.properties;
+				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
 				
 				/*layer.on({
 					mouseover: highlightFeature,
@@ -349,8 +350,9 @@ function zoomToFeature(e) {
 				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
-				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
+				
+				var searchTree = layer.feature.properties;
+				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
 				
 				/*layer.on({
 					mouseover: highlightFeature,
@@ -394,8 +396,9 @@ function zoomToFeature(e) {
 				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
-				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
+				
+				var searchTree = layer.feature.properties;
+				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
 				
 				/*layer.on({
 					mouseover: highlightFeature,
@@ -438,8 +441,9 @@ function zoomToFeature(e) {
 				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
-				var searchTwo = layer.feature.properties;
-				searchTwo.addressName = searchTwo.Name + " " + searchTwo.faddress;
+				
+				var searchTree = layer.feature.properties;
+				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
 				
 				/*layer.on({
 					mouseover: highlightFeature,
@@ -517,7 +521,7 @@ function zoomToFeature(e) {
   /* Leaflet.Control.Search */
 	var searchControl = new L.Control.Search({
     layer: goGroup,
-    propertyName: 'addressName',
+    propertyName: 'streetHouseName',
     marker: false,
 	//position: 'topleft',
     moveToLocation: function(latlng, title, map) {
