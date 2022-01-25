@@ -116,7 +116,7 @@ a.menu-link:active { background: #696969; }
 }
 
 .ya-share2 {
-		position	: absolute;
+	position	: relative;
 	text-align: right ;
 	bottom		: 0%;
 	right		: 0%;
