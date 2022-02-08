@@ -152,13 +152,16 @@ var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?serv
 				});
 				//Грузим иконки
 				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
+					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
 				//выбор иконки в зависимости от типа события
 				var eventType=feature.properties.eventname;
 				if(eventType=="emergency"){
                 return L.marker(latlng, {icon: emegencyIcon});}
 				else if (eventType=="fire"){
                 return L.marker(latlng, {icon: fireIcon});}
+				else if (eventType=="histCultExp2022"){
+                return L.marker(latlng, {icon: expIcon});}
             },
 				
 				//create popup
@@ -171,7 +174,7 @@ var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?serv
 				},
 				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
 });
-
+/* map.addLayer(eventFire); */
 
 // create wfs layer Events
 var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
@@ -186,13 +189,16 @@ var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 				});
 				//Грузим иконки
 				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
+					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
 				//выбор иконки в зависимости от типа события
 				var eventType=feature.properties.eventname;
 				if(eventType=="emergency"){
                 return L.marker(latlng, {icon: emegencyIcon});}
 				else if (eventType=="fire"){
                 return L.marker(latlng, {icon: fireIcon});}
+				else if (eventType=="histCultExp2022"){
+                return L.marker(latlng, {icon: expIcon});}
             },
 				
 				//create popup
@@ -204,6 +210,44 @@ var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 				);
 				},
 				filter: function (feature, layer){if (feature.properties.eventname === "emergency")return true;}
+});
+/* map.addLayer(eventEmergency); */
+
+
+// create wfs layer Events
+var eventExp = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [13, 27],
+                        popupAnchor:  [1, -24]
+						}
+				});
+				//Грузим иконки
+				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
+					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
+				//выбор иконки в зависимости от типа события
+				var eventType=feature.properties.eventname;
+				if(eventType=="emergency"){
+                return L.marker(latlng, {icon: emegencyIcon});}
+				else if (eventType=="fire"){
+                return L.marker(latlng, {icon: fireIcon});}
+				else if (eventType=="histCultExp2022"){
+                return L.marker(latlng, {icon: expIcon});}
+            },
+				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup("<dt>"+"<b>"+"Дата события:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdate+"</dd>"
+				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
+				,popupOptions
+				);
+				},
+				filter: function (feature, layer){if (feature.properties.eventname === "histCultExp2022")return true;}
 });
 /* map.addLayer(eventEmergency); */
 
@@ -678,6 +722,12 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/eventEmergency.svg',
 				layers: eventEmergency,
+				inactive: true
+            },  {
+                label: "Экспертиза",
+                type: "image",
+				url: 'images/icon/eventExp.svg',
+				layers: eventExp,
 				inactive: true
             }
 			
