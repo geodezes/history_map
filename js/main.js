@@ -16,13 +16,14 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osmG);
 	
-		
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
 	map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
 	map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
 	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
+	map.attributionControl.addAttribution('&copy <a herf="http://fsf.org/">Free Software Foundation</a>');	
 	
+/* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -69,7 +70,7 @@ var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?servi
 				//Грузим иконки
 				var fsadnikIcon = new LeafIcon({iconUrl: 'images/icon/fasadnik_old.svg'});	
 			
-				return new L.marker(latlng, {icon: fsadnikIcon});
+				return new L.marker(latlng, {icon: fsadnikIcon,title:"Фасадник"});
                },
 			   				
 				//create popup
@@ -121,7 +122,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 				//Грузим иконки
 				var zdGovIcon = new LeafZdGovIcon({iconUrl: 'images/icon/zg-logo.svg'});	
 			
-				return new L.marker(latlng, {icon: zdGovIcon});
+				return new L.marker(latlng, {icon: zdGovIcon,title:"Здания говорят"});
                },
 			   				
 				//create popup
@@ -225,7 +226,7 @@ var histCultExp2022 = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ow
 				//Грузим иконки
 				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
 			
-				return new L.marker(latlng, {icon: iconExpIcon});
+				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
                },
 			   				
 				//create popup
@@ -239,9 +240,14 @@ var histCultExp2022 = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ow
 				
 });
 
-
+map.addLayer(histCultExp2022);
 /////////////////////////////////////////////////////////////////////////////////
-
+zsh = new ZoomShowHide();
+zsh.addTo(map);
+histCultExp2022.min_zoom = 15;
+zsh.addLayer(histCultExp2022);
+/* Zdaniy_govoryt.min_zoom = 14;
+zsh.addLayer(Zdaniy_govoryt); */
 
 
 ///////////////////////////////////////////////////////////////////	
@@ -680,7 +686,7 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/iconExp.svg',
 				layers: histCultExp2022,
-				inactive: true
+				inactive: false
             }, {
                 label: "Фасадник",
                 type: "image",
