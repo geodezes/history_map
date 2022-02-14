@@ -208,6 +208,42 @@ var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 /* map.addLayer(eventEmergency); */
 
 
+////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+// create wfs layer Historical and cultural expertise
+var histCultExp2022 = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconExpIcon});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"<dt>"+feature.properties.eventdis+"</dt>"
+				,popupOptions
+				);
+				}
+				
+});
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+
 ///////////////////////////////////////////////////////////////////	
 	
 	/* Пожар */
@@ -639,6 +675,12 @@ function zoomToFeature(e) {
                 label: "Классицизм",
                 type: "image",
 				url: 'images/icon/klassicizm.svg',
+            }, {
+                label: "Экспертиза в 2022 году",
+                type: "image",
+				url: 'images/icon/iconExp.svg',
+				layers: histCultExp2022,
+				inactive: true
             }, {
                 label: "Фасадник",
                 type: "image",
