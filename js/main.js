@@ -30,7 +30,7 @@
 var stripes = new L.StripePattern({weight: 1, color: "#d6ca97", angle: 100}); stripes.addTo(map);
 	
 // create wfs layer quartals
-var quartals = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=quarters&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var quartals = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=quarters&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//layer style
 				style: {
 					//stroke: false,
@@ -57,7 +57,7 @@ map.addLayer(quartals);
  
  
 // create wfs layer Fasadnik
-var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Fasadnik&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var Fasadnik = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Fasadnik&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -93,7 +93,11 @@ var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?servi
 
 
 
-var markersFasadnik = L.markerClusterGroup({disableClusteringAtZoom: 16});
+var markersFasadnik = L.markerClusterGroup({
+	disableClusteringAtZoom: 16,
+	spiderfyOnMaxZoom : false ,
+	polygonOptions: {color: '#808080' }
+});
 Fasadnik.on('data:loaded', function () {
     markersFasadnik.addLayer(Fasadnik);
     //console.log(markersBar);
@@ -109,7 +113,7 @@ map.addLayer(markers); */
 
 
 // create wfs layer Zdaniy_govoryt
-var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Zdaniy_govoryt&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Zdaniy_govoryt&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafZdGovIcon = L.Icon.extend({
@@ -141,7 +145,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 ////////////////////////////////////////////////////
 
 // create wfs layer Events
-var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -175,7 +179,7 @@ var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?serv
 
 
 // create wfs layer Events
-var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -213,7 +217,7 @@ var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
  
  
 // create wfs layer Historical and cultural expertise
-var histCultExp2022 = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -253,12 +257,12 @@ zsh.addLayer(Zdaniy_govoryt); */
 ///////////////////////////////////////////////////////////////////	
 	
 	/* Пожар */
-	var fireLine = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
+	var fireLine = L.tileLayer.wms('https://historymap.online:8443/geoserver/ows?', {
               format: 'image/png',
               layers: 'fireLine',
               transparent: 'true'
              });
-	var firePoli = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
+	var firePoli = L.tileLayer.wms('https://historymap.online:8443/geoserver/ows?', {
               format: 'image/png',
               layers: 'firePoli',
               transparent: 'true'
@@ -268,8 +272,15 @@ zsh.addLayer(Zdaniy_govoryt); */
 ////////////////////////////////////////////////////////////////	
 
 //Geolocation
-/* L.control.locate().addTo(map);  */
-
+/*
+L.control.locate({
+	position: 'bottomright',
+	strings: {
+        title: "Где я?"
+    }
+}).addTo(map);
+*/
+L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 //////////////////////////////////////////////////////////////
 
 
@@ -317,7 +328,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Регеональные
- var geojsonStateProtectionR = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionR = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя		 
 				style: goStyle,
 				//стиль всплывающих окон
@@ -364,7 +375,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Выявленые
- var geojsonStateProtectionN = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionN = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -410,7 +421,7 @@ function zoomToFeature(e) {
  //map.addLayer(geojsonStateProtection);
  
  //слой отображающий категорию гос охраны Федеральные
- var geojsonStateProtectionF = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionF = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -455,7 +466,7 @@ function zoomToFeature(e) {
 	});
 	
 	//слой отображающий категорию гос охраны Муницыпальные
- var geojsonStateProtectionM = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionM = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
