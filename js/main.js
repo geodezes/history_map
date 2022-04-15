@@ -26,7 +26,14 @@
 /* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
 ////////////////////////////////////////////////////////////////////////////////////
+/*var sidebar = L.Control.Sidebar('sidebar', {
+    position: 'left'
+});
 
+map.addControl(sidebar);
+*/
+
+// layer quartals stripes
 var stripes = new L.StripePattern({weight: 1, color: "#d6ca97", angle: 100}); stripes.addTo(map);
 	
 // create wfs layer quartals
@@ -269,19 +276,7 @@ zsh.addLayer(Zdaniy_govoryt); */
              });
 	var fireGroup = L.layerGroup([fireLine, firePoli]);
 
-////////////////////////////////////////////////////////////////	
 
-//Geolocation
-/*
-L.control.locate({
-	position: 'bottomright',
-	strings: {
-        title: "Где я?"
-    }
-}).addTo(map);
-*/
-L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
-//////////////////////////////////////////////////////////////
 
 
  ///////////////////
@@ -744,9 +739,54 @@ function zoomToFeature(e) {
         })
         .addTo(map);
 /* <!-- Castom legend --> */
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
- 
+		
+////////////////////////////////////////////////////////////////	
+
+		var guides = $.guides({
+	distance: 50,
+	guides: [/*{
+			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
+		},*/ {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div.leaflet-legend.leaflet-bar.leaflet-control'),
+			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
+			html: 'Выбрать ОКН по статусу государственной охраны'
+		}, {
+			//element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
+			html: '<button type="button" id="demo" class="demo btn btn-success">Start demo</button>'
+		}, /*{
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
+			html: 'Отфильтровать по архитектурному стилю'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(5)'),
+			html: 'Отобразит здания на которые есть 3D модели'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(6)'),
+			html: 'Поиск'
+		},  {
+			element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
+			html: 'Геолокация'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control'),
+			html: 'Полноэкранный режим'
+		},   {
+			element: $('.menu-link'),
+			html: 'Здесь узнаете о проекте и его команде'
+		}*/]
+	});
+guides.start();
+
+
+
+//Geolocation
+L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
+//////////////////////////////////////////////////////////////
+
+
+
+
 // 3D model popup window
 
 function openModal(modelName)
@@ -771,5 +811,4 @@ function closeModal()
 	modal.classList.add('is-inactive');
 }
  
-	
-	
+
