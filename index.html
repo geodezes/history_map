@@ -31,9 +31,9 @@
 			
 			<!-- кнопка поделиться -->
 			<script src="https://yastatic.net/share2/share.js"></script>
-			<div class="ya-share2" data-curtain data-shape="round" data-color-scheme="whiteblack" data-limit="6" data-image= "favicon.svg" data-services="vkontakte,facebook,telegram,viber,whatsapp"></div>
+			<div class="ya-share2" data-curtain data-shape="round" data-color-scheme="whiteblack" data-limit="6" data-image= "favicon.svg" data-services="vkontakte,telegram,viber,whatsapp"></div>
 			<!-- кнопка поделиться --> <!-- data-direction="vertical" -->
-			
+
 			<h2><span>Сохраним наследие<span></h2>
 			 <!-- include a link to toggle the navigation -->  <!-- &#9776;----сендвич вместо фильтра -->
 			<a href="#menu" class="menu-link">&#9776;</a>
@@ -49,20 +49,24 @@
 		<!-- I don't know what is this -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><!-- разобраться на счет иконки -->
 		
-		<!-- Geolocation don't work yet. Need https --> 
-		<!--
-		<link rel="stylesheet" href="plugins/leaflet-locatecontrol/L.Control.Locate.min.css" />
-		<script src="plugins/leaflet-locatecontrol/L.Control.Locate.min.js"></script>
-		-->
+		<!-- Geolocation--> 
+			
+		<script src="js/geolet.js"></script>
+		
+		<!-- Geolocation--> 
 
 		
 		
 		<!-- слайдер время SliderControl -->
+		<!--
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css" type="text/css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-		<script src="js/SliderControl.js"></script>	
+		<script src="js/SliderControl.js"></script>
+		-->
 		<!-- Include this library for mobile touch support  -->
+		<!--
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+		-->
 		<!-- слайдер время SliderControl-->
 
 		<!-- markercluster -->
@@ -115,6 +119,23 @@
 		<script src="js/leaflet.legend.js"></script>
 		<!-- Castom legend -->
 		
+		
+		<!-- Guides on start -->
+		<link rel="stylesheet" href="css/guides.css" />
+		<script src="js/guides.js"></script>
+		<!-- Guides on start -->
+		
+		
+		
+		
+		<!-- Hiden marker-->
+		<script src="js/leaflet-zoom-show-hide.js"></script>
+		<!-- Hiden marker-->
+		
+		<!-- sidebar
+		<script src="js/L.Control.Sidebar.js"></script>
+		<link rel="stylesheet" href="css/L.Control.Sidebar.css" />
+		<!-- sidebar-->
 
 
 		<!-- 3D model popup window -->
@@ -170,7 +191,6 @@
 		</div>
 		
 		
-		
 		<!-- 3D model popup window -->
 		<script type="module" src="js/models.js"></script>
 		<script type="module">
@@ -204,8 +224,9 @@
 		<button class="collapsible">Контакты</button>
 		<div class="content">
 			<p align="left">По всем интересующим вас вопросам можно обращаться:</p> 
-			<p> voopik-irk@mail.ru </p>
-			<a href='https://www.instagram.com/irovoopik'>Instagram</a>	
+			<p> <b> E-mail:</b > voopik-irk@mail.ru </p>
+            <a href='https://vk.com/voopiik_irk'>ВКонтакте</a>
+
 		</div>
 	
 		<!-- accordion -->
@@ -235,7 +256,6 @@
 				});
 			});
 		</script>
-				
 				
 				
     </body>

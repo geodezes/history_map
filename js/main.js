@@ -16,20 +16,28 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osmG);
 	
-		
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
 	map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
 	map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
 	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
+	map.attributionControl.addAttribution('&copy <a herf="http://fsf.org/">Free Software Foundation</a>');	
 	
+/* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
 ////////////////////////////////////////////////////////////////////////////////////
+/*var sidebar = L.Control.Sidebar('sidebar', {
+    position: 'left'
+});
 
+map.addControl(sidebar);
+*/
+
+// layer quartals stripes
 var stripes = new L.StripePattern({weight: 1, color: "#d6ca97", angle: 100}); stripes.addTo(map);
 	
 // create wfs layer quartals
-var quartals = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=quarters&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var quartals = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=quarters&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//layer style
 				style: {
 					//stroke: false,
@@ -56,7 +64,7 @@ map.addLayer(quartals);
  
  
 // create wfs layer Fasadnik
-var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Fasadnik&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var Fasadnik = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Fasadnik&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -69,7 +77,7 @@ var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?servi
 				//Грузим иконки
 				var fsadnikIcon = new LeafIcon({iconUrl: 'images/icon/fasadnik_old.svg'});	
 			
-				return new L.marker(latlng, {icon: fsadnikIcon});
+				return new L.marker(latlng, {icon: fsadnikIcon,title:"Фасадник"});
                },
 			   				
 				//create popup
@@ -92,7 +100,11 @@ var Fasadnik = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?servi
 
 
 
-var markersFasadnik = L.markerClusterGroup({disableClusteringAtZoom: 16});
+var markersFasadnik = L.markerClusterGroup({
+	disableClusteringAtZoom: 16,
+	spiderfyOnMaxZoom : false ,
+	polygonOptions: {color: '#808080' }
+});
 Fasadnik.on('data:loaded', function () {
     markersFasadnik.addLayer(Fasadnik);
     //console.log(markersBar);
@@ -108,7 +120,7 @@ map.addLayer(markers); */
 
 
 // create wfs layer Zdaniy_govoryt
-var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Zdaniy_govoryt&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Zdaniy_govoryt&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafZdGovIcon = L.Icon.extend({
@@ -121,7 +133,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 				//Грузим иконки
 				var zdGovIcon = new LeafZdGovIcon({iconUrl: 'images/icon/zg-logo.svg'});	
 			
-				return new L.marker(latlng, {icon: zdGovIcon});
+				return new L.marker(latlng, {icon: zdGovIcon,title:"Здания говорят"});
                },
 			   				
 				//create popup
@@ -140,7 +152,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 ////////////////////////////////////////////////////
 
 // create wfs layer Events
-var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -177,7 +189,7 @@ var eventFire = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?serv
 /* map.addLayer(eventFire); */
 
 // create wfs layer Events
-var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -214,65 +226,63 @@ var eventEmergency = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows
 /* map.addLayer(eventEmergency); */
 
 
-// create wfs layer Events
-var eventExp = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+// create wfs layer Historical and cultural expertise
+var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
 						options: {
-						iconSize: [27, 27],
-                        iconAnchor: [13, 27],
-                        popupAnchor:  [1, -24]
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
 						}
 				});
 				//Грузим иконки
-				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
-					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
-				//выбор иконки в зависимости от типа события
-				var eventType=feature.properties.eventname;
-				if(eventType=="emergency"){
-                return L.marker(latlng, {icon: emegencyIcon});}
-				else if (eventType=="fire"){
-                return L.marker(latlng, {icon: fireIcon});}
-				else if (eventType=="histCultExp2022"){
-                return L.marker(latlng, {icon: expIcon});}
-            },
-				
+				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
+               },
+			   				
 				//create popup
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
-                layer.bindPopup("<dt>"+"<b>"+"Дата события:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdate+"</dd>"
-				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
+                layer.bindPopup(
+				"<dt>"+feature.properties.eventdis+"</dt>"
 				,popupOptions
 				);
-				},
-				filter: function (feature, layer){if (feature.properties.eventname === "histCultExp2022")return true;}
+				}
+				
 });
-/* map.addLayer(eventEmergency); */
+
+map.addLayer(histCultExp2022);
+/////////////////////////////////////////////////////////////////////////////////
+zsh = new ZoomShowHide();
+zsh.addTo(map);
+histCultExp2022.min_zoom = 15;
+zsh.addLayer(histCultExp2022);
+/* Zdaniy_govoryt.min_zoom = 14;
+zsh.addLayer(Zdaniy_govoryt); */
 
 
 ///////////////////////////////////////////////////////////////////	
 	
 	/* Пожар */
-	var fireLine = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
+	var fireLine = L.tileLayer.wms('https://historymap.online:8443/geoserver/ows?', {
               format: 'image/png',
               layers: 'fireLine',
               transparent: 'true'
              });
-	var firePoli = L.tileLayer.wms('http://79.141.65.187:8080/geoserver/ows?', {
+	var firePoli = L.tileLayer.wms('https://historymap.online:8443/geoserver/ows?', {
               format: 'image/png',
               layers: 'firePoli',
               transparent: 'true'
              });
 	var fireGroup = L.layerGroup([fireLine, firePoli]);
 
-////////////////////////////////////////////////////////////////	
 
-//Geolocation
-/* L.control.locate().addTo(map);  */
-
-//////////////////////////////////////////////////////////////
 
 
  ///////////////////
@@ -319,7 +329,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Регеональные
- var geojsonStateProtectionR = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionR = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя		 
 				style: goStyle,
 				//стиль всплывающих окон
@@ -366,7 +376,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Выявленые
- var geojsonStateProtectionN = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionN = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -412,7 +422,7 @@ function zoomToFeature(e) {
  //map.addLayer(geojsonStateProtection);
  
  //слой отображающий категорию гос охраны Федеральные
- var geojsonStateProtectionF = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionF = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -457,7 +467,7 @@ function zoomToFeature(e) {
 	});
 	
 	//слой отображающий категорию гос охраны Муницыпальные
- var geojsonStateProtectionM = new L.geoJson.ajax("http://79.141.65.187:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtectionM = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя
 				style: goStyle,	
 				//стиль всплывающих окон
@@ -684,6 +694,12 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/klassicizm.svg',
             }, {
+                label: "Экспертиза в 2022 году",
+                type: "image",
+				url: 'images/icon/iconExp.svg',
+				layers: histCultExp2022,
+				inactive: false
+            }, {
                 label: "Фасадник",
                 type: "image",
 				url: 'images/icon/fasadnik_old.svg',
@@ -735,9 +751,54 @@ function zoomToFeature(e) {
         })
         .addTo(map);
 /* <!-- Castom legend --> */
-
 ////////////////////////////////////////////////////////////////////////////////////////////////
- 
+		
+////////////////////////////////////////////////////////////////	
+
+		var guides = $.guides({
+	distance: 50,
+	guides: [/*{
+			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
+		},*/ {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div.leaflet-legend.leaflet-bar.leaflet-control'),
+			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
+			html: 'Выбрать ОКН по статусу государственной охраны'
+		}, {
+			//element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
+			html: '<button type="button" id="demo" class="demo btn btn-success">Start demo</button>'
+		}, /*{
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
+			html: 'Отфильтровать по архитектурному стилю'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(5)'),
+			html: 'Отобразит здания на которые есть 3D модели'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(6)'),
+			html: 'Поиск'
+		},  {
+			element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
+			html: 'Геолокация'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control'),
+			html: 'Полноэкранный режим'
+		},   {
+			element: $('.menu-link'),
+			html: 'Здесь узнаете о проекте и его команде'
+		}*/]
+	});
+guides.start();
+
+
+
+//Geolocation
+L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
+//////////////////////////////////////////////////////////////
+
+
+
+
 // 3D model popup window
 
 function openModal(modelName)
@@ -762,5 +823,4 @@ function closeModal()
 	modal.classList.add('is-inactive');
 }
  
-	
-	
+
