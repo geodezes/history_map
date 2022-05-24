@@ -164,13 +164,16 @@ var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows
 				});
 				//Грузим иконки
 				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
+					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
 				//выбор иконки в зависимости от типа события
 				var eventType=feature.properties.eventname;
 				if(eventType=="emergency"){
                 return L.marker(latlng, {icon: emegencyIcon});}
 				else if (eventType=="fire"){
                 return L.marker(latlng, {icon: fireIcon});}
+				else if (eventType=="histCultExp2022"){
+                return L.marker(latlng, {icon: expIcon});}
             },
 				
 				//create popup
@@ -183,7 +186,7 @@ var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows
 				},
 				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
 });
-
+/* map.addLayer(eventFire); */
 
 // create wfs layer Events
 var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
@@ -198,13 +201,16 @@ var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				});
 				//Грузим иконки
 				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
+					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
 				//выбор иконки в зависимости от типа события
 				var eventType=feature.properties.eventname;
 				if(eventType=="emergency"){
                 return L.marker(latlng, {icon: emegencyIcon});}
 				else if (eventType=="fire"){
                 return L.marker(latlng, {icon: fireIcon});}
+				else if (eventType=="histCultExp2022"){
+                return L.marker(latlng, {icon: expIcon});}
             },
 				
 				//create popup
@@ -732,6 +738,12 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/eventEmergency.svg',
 				layers: eventEmergency,
+				inactive: true
+            },  {
+                label: "Экспертиза",
+                type: "image",
+				url: 'images/icon/eventExp.svg',
+				layers: eventExp,
 				inactive: true
             }
 			
