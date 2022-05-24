@@ -790,7 +790,7 @@ function zoomToFeature(e) {
 	});
 guides.start();
 
-
+/////////////////
 
 //Geolocation
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
