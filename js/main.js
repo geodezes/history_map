@@ -141,6 +141,36 @@ var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				
 });
 
+////////////////////////////////////////слой с видео
+
+var irkutckCool = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=irkutskCoolSity&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafirkutckCoolSityIcon = L.Icon.extend({
+						options: {
+						iconSize: [18, 18],
+                        iconAnchor: [15, 5],
+                        popupAnchor:  [0, -5]
+						}
+				});
+				//Грузим иконки
+				var irkutckCoolSityIcon = new LeafirkutckCoolSityIcon({iconUrl: 'images/icon/zg-logo.svg'});	
+			
+				return new L.marker(latlng, {icon: irkutckCoolSityIcon,title:"Здания говорят"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 300};
+                layer.bindPopup(
+				(feature.properties.name)
+				+(feature.properties.webadress!="-" ? "<video width='280' controls='controls' ><source src='hudmuz.mp4'>" : '')
+				,popupOptions
+				);
+				}
+				
+});
+map.addLayer(irkutckCool);
 
 ////////////////////////////////////////////////////
 
