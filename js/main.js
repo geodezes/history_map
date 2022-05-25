@@ -96,10 +96,6 @@ var Fasadnik = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?
 /////////////////////////////////////////////////////////////////////////////////
 
 //markercluster 
-
-
-
-
 var markersFasadnik = L.markerClusterGroup({
 	disableClusteringAtZoom: 16,
 	spiderfyOnMaxZoom : false ,
@@ -148,7 +144,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				
 });
 
-////////////////////////////////////////слой с видео
+////////////////////////////////////////слой с видео не доделан
 
 var irkutckCool = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=irkutskCoolSity&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
@@ -288,14 +284,19 @@ var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 });
 
 map.addLayer(histCultExp2022);
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+
+////геолакация
+L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
+
+///Скрываем точечный слой экспертизы при отдалении
+///
 zsh = new ZoomShowHide();
 zsh.addTo(map);
 histCultExp2022.min_zoom = 15;
 zsh.addLayer(histCultExp2022);
 /* Zdaniy_govoryt.min_zoom = 14;
 zsh.addLayer(Zdaniy_govoryt); */
-
 
 ///////////////////////////////////////////////////////////////////	
 	
@@ -773,7 +774,7 @@ function zoomToFeature(e) {
                 label: "Экспертиза",
                 type: "image",
 				url: 'images/icon/eventExp.svg',
-				layers: eventExp,
+				layers: histCultExp2022,
 				inactive: true
             }
 			
@@ -784,12 +785,12 @@ function zoomToFeature(e) {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 		
 ////////////////////////////////////////////////////////////////	
-
+/*
 		var guides = $.guides({
 	distance: 50,
-	guides: [/*{
+	guides: [{
 			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
-		},*/ {
+		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div.leaflet-legend.leaflet-bar.leaflet-control'),
 			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
 		}, {
@@ -816,14 +817,14 @@ function zoomToFeature(e) {
 		},   {
 			element: $('.menu-link'),
 			html: 'Здесь узнаете о проекте и его команде'
-		}*/]
+		}]
 	});
 guides.start();
-
+*/
 /////////////////
 
 //Geolocation
-L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
+//L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 //////////////////////////////////////////////////////////////
 
 
