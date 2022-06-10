@@ -212,7 +212,7 @@ var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows
 				},
 				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
 });
-/* map.addLayer(eventFire); */
+map.addLayer(eventFire);
 
 // create wfs layer Events
 var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
@@ -763,18 +763,12 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/eventFire.svg',
 				layers: eventFire,
-				inactive: true
+				inactive: false
             }, {
                 label: "ЧС",
                 type: "image",
 				url: 'images/icon/eventEmergency.svg',
 				layers: eventEmergency,
-				inactive: true
-            },  {
-                label: "Экспертиза",
-                type: "image",
-				url: 'images/icon/eventExp.svg',
-				layers: histCultExp2022,
 				inactive: true
             }
 			
