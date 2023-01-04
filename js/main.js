@@ -145,7 +145,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 });
 
 ////////////////////////////////////////слой с видео не доделан
-
+/*
 var irkutckCool = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=irkutskCoolSity&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
@@ -156,7 +156,7 @@ var irkutckCool = new L.geoJson.ajax("https://historymap.online:8443/geoserver/o
                         popupAnchor:  [0, -5]
 						}
 				});
-				//Грузим иконки
+				//Грузим иконки не верные
 				var irkutckCoolSityIcon = new LeafirkutckCoolSityIcon({iconUrl: 'images/icon/zg-logo.svg'});	
 			
 				return new L.marker(latlng, {icon: irkutckCoolSityIcon,title:"Здания говорят"});
@@ -174,7 +174,7 @@ var irkutckCool = new L.geoJson.ajax("https://historymap.online:8443/geoserver/o
 				
 });
 map.addLayer(irkutckCool);
-
+*/
 ////////////////////////////////////////////////////
 
 // create wfs layer Events
@@ -212,7 +212,7 @@ var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows
 				},
 				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
 });
-map.addLayer(eventFire);
+/*map.addLayer(eventFire);*/
 
 // create wfs layer Events
 var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
@@ -283,7 +283,38 @@ var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 				
 });
 
-map.addLayer(histCultExp2022);
+/*map.addLayer(histCultExp2022);*/
+/////////////////////////////////////////////////////////////////
+
+// create wfs layer negativ Historical and cultural expertise
+var negativHCE2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=negativHCE2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var iconNegativExpIcon = new LeafIcon({iconUrl: 'images/icon/iconNegativExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconNegativExpIcon,title:"Отрицательная Экспертиза"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"<dt>"+feature.properties.discrhce+"</dt>"
+				,popupOptions
+				);
+				}
+				
+});
+
+map.addLayer(negativHCE2022);
 /////////////////////////////////////////////////////////////////
 
 ////геолакация
@@ -291,10 +322,12 @@ L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
 ///Скрываем точечный слой экспертизы при отдалении
 ///
+/*
 zsh = new ZoomShowHide();
 zsh.addTo(map);
 histCultExp2022.min_zoom = 15;
 zsh.addLayer(histCultExp2022);
+*/
 /* Zdaniy_govoryt.min_zoom = 14;
 zsh.addLayer(Zdaniy_govoryt); */
 
@@ -724,12 +757,18 @@ function zoomToFeature(e) {
                 label: "Классицизм",
                 type: "image",
 				url: 'images/icon/klassicizm.svg',
+			}, {
+                label: "Экспертиза в 2022 году",
+                type: "image",
+				url: 'images/icon/iconNegativExp.svg',
+				layers: negativHCE2022,
+				inactive: false
             }, {
                 label: "Экспертиза в 2022 году",
                 type: "image",
 				url: 'images/icon/iconExp.svg',
 				layers: histCultExp2022,
-				inactive: false
+				inactive: true
             }, {
                 label: "Фасадник",
                 type: "image",
@@ -763,7 +802,7 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/eventFire.svg',
 				layers: eventFire,
-				inactive: false
+				inactive: true
             }, {
                 label: "ЧС",
                 type: "image",
