@@ -758,7 +758,7 @@ function zoomToFeature(e) {
                 type: "image",
 				url: 'images/icon/klassicizm.svg',
 			}, {
-                label: "Экспертиза в 2022 году",
+                label: "Отрицательная экспертиза в 2022 году",
                 type: "image",
 				url: 'images/icon/iconNegativExp.svg',
 				layers: negativHCE2022,
