@@ -401,7 +401,11 @@ function zoomToFeature(e) {
                 popupOptions = {maxWidth: 250
                 };
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '</div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
+				
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО р"?"Регионального значения":"")+"</dd>"
@@ -419,7 +423,16 @@ function zoomToFeature(e) {
 				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
 				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
-				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
+				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : ''),
+				//теги этажей для фильтра
+				(feature.properties.floors=="1"?"1 этаж":""),
+				(feature.properties.floors=="1.5"?"1.5 этажа":""),
+				(feature.properties.floors=="2"?"2 этажа":""),
+				(feature.properties.floors=="2.5"?"2.5 этажа":""),
+				(feature.properties.floors=="3"?"3 этажа":""),
+				(feature.properties.floors=="4"?"4 этажа":""),
+				(feature.properties.floors=="5"?"5 этажей":""),
+				(feature.properties.floors<"1"?"Не определена":""),
 				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
 				//Поиск по 2 колонкам
 				
@@ -447,7 +460,11 @@ function zoomToFeature(e) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
+				
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО н"?"Вновь выявленные":"")+"</dd>"
@@ -493,7 +510,11 @@ function zoomToFeature(e) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
+				
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО ф" ? "Федерального значения":"")+"</dd>"
@@ -538,7 +559,11 @@ function zoomToFeature(e) {
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 250};
                 layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="photos/'+ feature.properties.Photo+'" data-lightbox="example-1"><img class="example-image" src="photos/'+ feature.properties.Photo +'"style=width:240 alt="image-1" /></a></div>':"")
+				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
+				
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
 				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО м" ? "Муниципального значения":"")+"</dd>"
@@ -620,10 +645,17 @@ function zoomToFeature(e) {
       icon: "<p>"+"3D"+"</p>",
       filterOnEveryClick: true
     }).addTo(map);
+	
+	var floorsFilterButton = L.control.tagFilterButton({
+      data: ['1 этаж','1.5 этажа','2 этажа','2.5 этажа','3 этажа','4 этажа','5 этажей','Не определена'],
+      icon: "<p>"+"Этажность"+"</p>",
+      filterOnEveryClick: true
+    }).addTo(map);
   
     materialFilterButton.addToReleated(stateProtectionFilterButton);
 	materialFilterButton.addToReleated(archStyleFilterButton);
     materialFilterButton.addToReleated(dopFilterButton);
+	materialFilterButton.addToReleated(floorsFilterButton);
 
 
     jQuery('.easy-button-button').click(function() {
