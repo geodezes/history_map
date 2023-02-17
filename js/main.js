@@ -968,21 +968,23 @@ guides.start();
 		
 		
 
-		        var lay = L.control.layers.tree( baseTree,  overlaysTree,
+		        var lay = L.control.layers.tree( 
+		          baseTree, 
+		          overlaysTree,
             {
                 namedToggle: true,
                 selectorBack: false,
                 closedSymbol: '&#8862',
                 openedSymbol: '&#8863',
-                collapseAll: 'Скрыть всё',
-                expandAll: 'Показать всё',
+               // collapseAll: 'Скрыть всё',
+              //  expandAll: 'Показать всё',
                 collapsed: false,
             });
 
-        lay.addTo(map)/* .collapseTree().expandSelected().collapseTree(true);
+        lay.addTo(map)/*.collapseTree().expandSelected().collapseTree(true);
         L.DomEvent.on(L.DomUtil.get('onlysel'), 'click', function() {
             lay.collapseTree(true).expandSelected(true);
-        });  */
+        })*/;  
 
 
 
