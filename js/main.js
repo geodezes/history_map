@@ -11,6 +11,9 @@
 
 	map.addControl(new L.Control.Fullscreen());
 	
+	var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+	map.addLayer(osm);
+	
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
 	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
@@ -22,6 +25,7 @@
 	map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
 	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
 	map.attributionControl.addAttribution('&copy <a herf="http://fsf.org/">Free Software Foundation</a>');	
+	
 	
 /* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
@@ -704,7 +708,7 @@ function zoomToFeature(e) {
 /////////////////////////////////////////////////////////////////////////////////// 
 
 /* <!-- Castom legend можно добовлять картинки--> */
-	const legend = L.control.Legend({
+/*	const legend = L.control.Legend({
             position: "topright",
 			title: "Условные обозначения",
             collapsed: true,
@@ -845,7 +849,7 @@ function zoomToFeature(e) {
 			
 			]
         })
-        .addTo(map);
+        .addTo(map);    */
 /* <!-- Castom legend --> */
 ////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -888,10 +892,97 @@ guides.start();
 */
 /////////////////
 
-//Geolocation
-//L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
-//////////////////////////////////////////////////////////////
-////// //// /// // /
+		var baseTree =
+		{
+            name: 'Подложка',
+			label: 'Подложка',
+			collapsed: true,
+			children:[	
+				{label: 'OpenStreeMap',layer: osm,},
+				{label: 'Grey OpenStreeMap',layer: osmG,},
+			]	
+		};	 
+
+		
+
+
+
+
+        var overlaysTree = {
+					
+			label: 'Легенда карты',
+			collapsed: true,
+			children: [		
+				{
+					label: 'Условные обозначения',
+					collapsed: true,
+					children: [
+						{label: 'Категория гос. охраны', collapsed: true, children: [
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#f8d900 ;fill-opacity:0.8" /></svg> Вновь выявленные'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального здания'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального здания'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального здания'},
+						]},
+						{label: 'Материал постройки', collapsed: true, children: [
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Gray" /></svg> Камень'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Peru" /></svg> Дерево'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Orange" /></svg> Песчаник'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Brown" /></svg> Камень/Дерево'},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Olive" /></svg> Песчаник/Дерево'},
+						]},
+						{label: 'Архитектурный стиль', collapsed: true, children: [
+							{label: '<img src="images/icon/eklektika.svg" style="width:20px;height:20px;"> "Эклектика'},
+							{label: '<img src="images/icon/barokko.svg" style="width:20px;height:20px;"> "Сибирское барокко'},
+							{label: '<img src="images/icon/modern.svg" style="width:20px;height:20px;"> "Модерн'},
+							{label: '<img src="images/icon/konstruktivizm.svg" style="width:20px;height:20px;"> "Конструктивизм'},
+							{label: '<img src="images/icon/klassicizm.svg" style="width:20px;height:20px;"> "Классицизм'},
+						]},
+					]					
+				},
+					
+					
+					
+				{	
+					label: 'Доп. слои',
+					collapsed: true,
+					children: [
+						{label: 'ГИК экспертизы 2022', collapsed: true, children: [
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Зпланированые на 2022', layer: histCultExp2022},
+							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
+						]},
+						{label: 'Партнеры', collapsed: true, children: [
+							{label: '<img src="images/icon/zg-logo.svg" style="width:15px;height:15px;"> Здания говорят', layer: Zdaniy_govoryt},
+							{label: '<img src="images/icon/fasadnik_old.svg" style="width:15px;height:15px;"> Фасадник', layer: markersFasadnik},
+						]},
+						{label: 'События', collapsed: true, children: [
+							{label: '<img src="images/icon/eventFire.svg" style="width:15px;height:15px;"> Пожары', layer: eventFire},
+							{label: '<img src="images/icon/eventEmergency.svg" style="width:15px;height:15px;"> ЧС', layer: eventEmergency},
+							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkRed ;fill-opacity:0.2; stroke-width:3;stroke: DarkRed" /></svg> Пожар 1879 года', layer: fireGroup},
+						]},
+					]
+				},
+			]
+        }
+		
+		
+		
+		
+
+		        var lay = L.control.layers.tree( baseTree,  overlaysTree,
+            {
+                namedToggle: true,
+                selectorBack: false,
+                closedSymbol: '&#8862',
+                openedSymbol: '&#8863',
+                collapseAll: 'Скрыть всё',
+                expandAll: 'Показать всё',
+                collapsed: false,
+            });
+
+        lay.addTo(map)/* .collapseTree().expandSelected().collapseTree(true);
+        L.DomEvent.on(L.DomUtil.get('onlysel'), 'click', function() {
+            lay.collapseTree(true).expandSelected(true);
+        });  */
 
 
 
