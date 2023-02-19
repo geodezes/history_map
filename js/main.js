@@ -395,7 +395,7 @@ function zoomToFeature(e) {
 
 
 //слой отображающий категорию гос охраны Регеональные
- var geojsonStateProtectionR = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtection = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя		 
 				style: goStyle,
 				//стиль всплывающих окон
@@ -446,163 +446,12 @@ function zoomToFeature(e) {
 					mouseout: resetHighlight
 				});*/
 				
-				//geojsonStateProtectionR.options.time = feature.properties.time;
+				//geojsonStateProtection.options.time = feature.properties.time;
 				},
 				
-				filter: function (feature, layer){if (feature.properties.go === "ГО р")return true;}
+				//filter: function (feature, layer){if (feature.properties.go === "ГО р")return true;}
 	});
  //map.addLayer(geojsonStateProtection);
-
-
-//слой отображающий категорию гос охраны Выявленые
- var geojsonStateProtectionN = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
-				//стиль слоя
-				style: goStyle,	
-				//стиль всплывающих окон
-				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 250};
-                layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
-				
-				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
-				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО н"?"Вновь выявленные":"")+"</dd>"
-				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
-				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
-				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
-				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
-				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
-                    ,popupOptions);
-				//Теги фильтров
-				layer.options.tags=
-				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
-				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
-				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
-				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
-				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
-				//Поиск по 2 колонкам
-				
-				var searchTree = layer.feature.properties;
-				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
-				
-				/*layer.on({
-					mouseover: highlightFeature,
-					mouseout: resetHighlight
-				});*/
-				
-				//geojsonStateProtectionN.options.time = feature.properties.time;
-          
-				},
-				
-				filter: function (feature, layer){if (feature.properties.go === "ГО н")return true;}
-	});
- //map.addLayer(geojsonStateProtection);
- 
- //слой отображающий категорию гос охраны Федеральные
- var geojsonStateProtectionF = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
-				//стиль слоя
-				style: goStyle,	
-				//стиль всплывающих окон
-				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 250};
-                layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
-				
-				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
-				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО ф" ? "Федерального значения":"")+"</dd>"
-				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
-				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
-				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
-				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
-				+(feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
-                    ,popupOptions); 
-				//Теги фильтров
-				layer.options.tags=
-				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
-				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
-				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
-				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
-				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
-				//Поиск по 2 колонкам
-				
-				var searchTree = layer.feature.properties;
-				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
-				
-				/*layer.on({
-					mouseover: highlightFeature,
-					mouseout: resetHighlight
-				});*/
-				
-				//geojsonStateProtectionF.options.time = feature.properties.time;
-          
-				},
-				
-				filter: function (feature, layer){if (feature.properties.go === "ГО ф")return true;}
-	});
-	
-	//слой отображающий категорию гос охраны Муницыпальные
- var geojsonStateProtectionM = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
-				//стиль слоя
-				style: goStyle,	
-				//стиль всплывающих окон
-				onEachFeature: function (feature, layer) {
-                popupOptions = {maxWidth: 250};
-                layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
-				
-				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
-				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
-				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go == "ГО м" ? "Муниципального значения":"")+"</dd>"
-				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
-				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
-				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
-				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
-				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
-				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
-				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
-                    ,popupOptions);
-				//Теги фильтров
-				layer.options.tags=
-				[feature.properties.Material,
-				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
-				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
-				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
-				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : '')
-				/* (feature.properties.Photo!="-" ? 'Фото' : ''),(feature.properties.Descriptio != "-" ? 'Описание':"") */];
-				//Поиск по 2 колонкам
-				
-				var searchTree = layer.feature.properties;
-				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
-				
-				/*layer.on({
-					mouseover: highlightFeature,
-					mouseout: resetHighlight
-				});*/
-				
-				//geojsonStateProtectionM.options.time = feature.properties.time;
-          
-				},
-				
-				filter: function (feature, layer){if (feature.properties.go === "ГО м")return true;}
-	});
-	
-	
 	
 	//Группа слоев гос охрана
 
@@ -610,7 +459,7 @@ function zoomToFeature(e) {
 	geojsonStateProtectionM.options.time = geojsonStateProtectionM.feature.properties.time;
 	geojsonStateProtectionN.options.time = geojsonStateProtectionN.feature.properties.time;
 	geojsonStateProtectionR.options.time = geojsonStateProtectionR.feature.properties.time; */
-	var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
+	//var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
 	
 	
 	//////////////////////////////////////////////////////////////
@@ -674,7 +523,7 @@ function zoomToFeature(e) {
   
   /* Leaflet.Control.Search */
 	var searchControl = new L.Control.Search({
-    layer: goGroup,
+    layer: geojsonStateProtection,
     propertyName: 'streetHouseName',
     marker: false,
 	//position: 'topleft',
