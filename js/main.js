@@ -11,8 +11,6 @@
 
 	map.addControl(new L.Control.Fullscreen());
 	
-	var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-	map.addLayer(osm);
 	
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
 	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -618,6 +616,12 @@ function zoomToFeature(e) {
 	//////////////////////////////////////////////////////////////
  
 	/*tag filter*/	
+		var floorsFilterButton = L.control.tagFilterButton({
+      data: ['1 этаж','1.5 этажа','2 этажа','2.5 этажа','3 этажа','4 этажа','5 этажей','Не определена'],
+      icon: "<p>"+"Этажность"+"</p>",
+      filterOnEveryClick: true
+    }).addTo(map);
+	
     var materialFilterButton = L.control.tagFilterButton({
       data: ['дерево','камень','песчаник','песчаник/дерево','камень/дерево'],
       icon: "<p>"+"Материал"+"</p>",
@@ -650,11 +654,7 @@ function zoomToFeature(e) {
       filterOnEveryClick: true
     }).addTo(map);
 	
-	var floorsFilterButton = L.control.tagFilterButton({
-      data: ['1 этаж','1.5 этажа','2 этажа','2.5 этажа','3 этажа','4 этажа','5 этажей','Не определена'],
-      icon: "<p>"+"Этажность"+"</p>",
-      filterOnEveryClick: true
-    }).addTo(map);
+
   
     materialFilterButton.addToReleated(stateProtectionFilterButton);
 	materialFilterButton.addToReleated(archStyleFilterButton);
@@ -705,153 +705,6 @@ function zoomToFeature(e) {
   map.addControl(searchControl); //inizialize search control 
   /* Leaflet.Control.Search */
   
-/////////////////////////////////////////////////////////////////////////////////// 
-
-/* <!-- Castom legend можно добовлять картинки--> */
-/*	const legend = L.control.Legend({
-            position: "topright",
-			title: "Условные обозначения",
-            collapsed: true,
-            symbolWidth: 24,
-            opacity: 1,
-            column: 1,
-            legends: [ {
-                label: "Вновь выявленные",
-				layers: geojsonStateProtectionN,
-                type: "polygon",
-				sides: 4,
-                fillColor: "#f8d900",
-				fillOpacity: 0.8
-            }, {
-                label: "Регионального значения",
-				layers: geojsonStateProtectionR,
-                type: "polygon",
-				sides: 4,
-                fillColor: "#d76d51",
-				fillOpacity: 0.8
-            }, {
-                label: "Федерального значения",
-				layers: geojsonStateProtectionF,
-                type: "polygon",
-				sides: 4,
-                fillColor: "#ad2851",
-				fillOpacity: 0.8
-            }, {
-                label: "Муниципального значения",
-				layers: geojsonStateProtectionM,
-                type: "polygon",
-				sides: 4,
-                fillColor: "YellowGreen",
-				fillOpacity: 0.8
-            }, {
-                label: "Камень",
-                type: "polygon",
-				sides: 4,
-                color: "Gray",
-				weight: 1.5
-            }, {
-                label: "Дерево",
-                type: "polygon",
-				sides: 4,
-                color: "Peru",
-				weight: 1.5
-            }, {
-                label: "Песчаник",
-                type: "polygon",
-				sides: 4,
-                color: "Orange",
-				weight: 1.5
-            }, {
-                label: "Камень/Дерево",
-                type: "polygon",
-				sides: 4,
-                color: "Brown",
-				weight: 1.5
-            }, {
-                label: "Песчаник/Дерево",
-                type: "polygon",
-				sides: 4,
-                color: "Olive",
-				weight: 1.5
-            }, {
-                label: "Эклектика",
-                type: "image",
-				url: 'images/icon/eklektika.svg',
-            }, {
-                label: "Сибирское барокко",
-                type: "image",
-				url: 'images/icon/barokko.svg',
-            }, {
-                label: "Модерн",
-                type: "image",
-				url: 'images/icon/modern.svg',
-            }, {
-                label: "Конструктивизм",
-                type: "image",
-				url: 'images/icon/konstruktivizm.svg',
-            }, {
-                label: "Классицизм",
-                type: "image",
-				url: 'images/icon/klassicizm.svg',
-			}, {
-                label: "Отрицательная экспертиза в 2022 году",
-                type: "image",
-				url: 'images/icon/iconNegativExp.svg',
-				layers: negativHCE2022,
-				inactive: false
-            }, {
-                label: "Экспертиза в 2022 году",
-                type: "image",
-				url: 'images/icon/iconExp.svg',
-				layers: histCultExp2022,
-				inactive: true
-            }, {
-                label: "Фасадник",
-                type: "image",
-				url: 'images/icon/fasadnik_old.svg',
-				layers: markersFasadnik,
-				inactive: true
-            }, {
-                label: "Здания говорят",
-                type: "image",
-				url: 'images/icon/zg-logo.svg',
-				layers: Zdaniy_govoryt,
-				inactive: true
-            },{
-                label: "Границы кварталов",
-                type: "image",
-				url: 'images/icon/quartals_legend.svg',
-				//layers: quartals,
-				//inactive: true
-            }, {
-                label: "Пожар 1879 года",
-                type: "polygon",
-				sides: 4,
-                color: "DarkRed",
-				weight: 3,
-				fillColor: "DarkRed",
-				fillOpacity: 0.2,
-				layers: fireGroup,
-				inactive: true
-            }, {
-                label: "Пожары",
-                type: "image",
-				url: 'images/icon/eventFire.svg',
-				layers: eventFire,
-				inactive: true
-            }, {
-                label: "ЧС",
-                type: "image",
-				url: 'images/icon/eventEmergency.svg',
-				layers: eventEmergency,
-				inactive: true
-            }
-			
-			]
-        })
-        .addTo(map);    */
-/* <!-- Castom legend --> */
-////////////////////////////////////////////////////////////////////////////////////////////////
 		
 ////////////////////////////////////////////////////////////////	
 /*
@@ -893,80 +746,55 @@ guides.start();
 /////////////////
 
 		var baseTree =
-		{
-            name: 'Подложка',
-			label: 'Подложка',
-			collapsed: true,
-			children:[	
-				{label: 'OpenStreeMap',layer: osm,},
-				{label: 'Grey OpenStreeMap',layer: osmG,},
-			]	
-		};	 
-
-		
-
-
-
-
-        var overlaysTree = {
-					
-			label: 'Легенда карты',
-			collapsed: true,
-			children: [		
-				{
-					label: 'Условные обозначения',
-					collapsed: true,
-					children: [
+			{
+				label: 'Условные обозначения',
+				collapsed: true,
+				children: [
 						{label: 'Категория гос. охраны', collapsed: true, children: [
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#f8d900 ;fill-opacity:0.8" /></svg> Вновь выявленные'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального здания'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального здания'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального здания'},
-						]},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#f8d900 ;fill-opacity:0.8" /></svg> Вновь выявленные'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального здания'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального здания'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального здания'},
+						]},	
 						{label: 'Материал постройки', collapsed: true, children: [
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Gray" /></svg> Камень'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Peru" /></svg> Дерево'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Orange" /></svg> Песчаник'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Brown" /></svg> Камень/Дерево'},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Olive" /></svg> Песчаник/Дерево'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Gray" /></svg> Камень'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Peru" /></svg> Дерево'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Orange" /></svg> Песчаник'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Brown" /></svg> Камень/Дерево'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Olive" /></svg> Песчаник/Дерево'},
 						]},
 						{label: 'Архитектурный стиль', collapsed: true, children: [
-							{label: '<img src="images/icon/eklektika.svg" style="width:20px;height:20px;"> "Эклектика'},
-							{label: '<img src="images/icon/barokko.svg" style="width:20px;height:20px;"> "Сибирское барокко'},
-							{label: '<img src="images/icon/modern.svg" style="width:20px;height:20px;"> "Модерн'},
-							{label: '<img src="images/icon/konstruktivizm.svg" style="width:20px;height:20px;"> "Конструктивизм'},
-							{label: '<img src="images/icon/klassicizm.svg" style="width:20px;height:20px;"> "Классицизм'},
+						{label: '<img src="images/icon/eklektika.svg" style="width:20px;height:20px;"> "Эклектика'},
+						{label: '<img src="images/icon/barokko.svg" style="width:20px;height:20px;"> "Сибирское барокко'},
+						{label: '<img src="images/icon/modern.svg" style="width:20px;height:20px;"> "Модерн'},
+						{label: '<img src="images/icon/konstruktivizm.svg" style="width:20px;height:20px;"> "Конструктивизм'},
+						{label: '<img src="images/icon/klassicizm.svg" style="width:20px;height:20px;"> "Классицизм'},
 						]},
-					]					
-				},
-					
-					
-					
-				{	
-					label: 'Доп. слои',
-					collapsed: true,
-					children: [
+				]	
+			};
+
+
+
+        var overlaysTree = 
+			{
+				label: 'Доп. слои',
+				collapsed: true,
+				children: [
 						{label: 'ГИК экспертизы 2022', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Зпланированые на 2022', layer: histCultExp2022},
-							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
+						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Зпланированые на 2022', layer: histCultExp2022},
+						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
 						]},
 						{label: 'Партнеры', collapsed: true, children: [
-							{label: '<img src="images/icon/zg-logo.svg" style="width:15px;height:15px;"> Здания говорят', layer: Zdaniy_govoryt},
-							{label: '<img src="images/icon/fasadnik_old.svg" style="width:15px;height:15px;"> Фасадник', layer: markersFasadnik},
+						{label: '<img src="images/icon/zg-logo.svg" style="width:15px;height:15px;"> Здания говорят', layer: Zdaniy_govoryt},
+						{label: '<img src="images/icon/fasadnik_old.svg" style="width:15px;height:15px;"> Фасадник', layer: markersFasadnik},
 						]},
 						{label: 'События', collapsed: true, children: [
-							{label: '<img src="images/icon/eventFire.svg" style="width:15px;height:15px;"> Пожары', layer: eventFire},
-							{label: '<img src="images/icon/eventEmergency.svg" style="width:15px;height:15px;"> ЧС', layer: eventEmergency},
-							{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkRed ;fill-opacity:0.2; stroke-width:3;stroke: DarkRed" /></svg> Пожар 1879 года', layer: fireGroup},
+						{label: '<img src="images/icon/eventFire.svg" style="width:15px;height:15px;"> Пожары', layer: eventFire},
+						{label: '<img src="images/icon/eventEmergency.svg" style="width:15px;height:15px;"> ЧС', layer: eventEmergency},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkRed ;fill-opacity:0.2; stroke-width:3;stroke: DarkRed" /></svg> Пожар 1879 года', layer: fireGroup},
 						]},
-					]
-				},
-			]
-        }
-		
-		
-		
-		
+				]
+			};
 
 		        var lay = L.control.layers.tree( 
 		          baseTree, 
