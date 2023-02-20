@@ -444,13 +444,6 @@ function zoomToFeature(e) {
 	});
  //map.addLayer(geojsonStateProtection);
 	
-	//Группа слоев гос охрана
-
-	/* geojsonStateProtectionF.options.time = geojsonStateProtectionF.feature.properties.time;
-	geojsonStateProtectionM.options.time = geojsonStateProtectionM.feature.properties.time;
-	geojsonStateProtectionN.options.time = geojsonStateProtectionN.feature.properties.time;
-	geojsonStateProtectionR.options.time = geojsonStateProtectionR.feature.properties.time; */
-	
 	
 	//////////////////////////////////////////////////////////////
  
