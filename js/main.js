@@ -18,14 +18,12 @@
 	map.addLayer(osmG);
 	
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
-	map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
-	map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
-	map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
-	map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
-	map.attributionControl.addAttribution('&copy <a herf="http://fsf.org/">Free Software Foundation</a>');	
-	
-	
-/* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
+	//map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
+	//map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
+	//map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
+	//map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
+	//map.attributionControl.addAttribution('&copy <a herf="http://fsf.org/">Free Software Foundation</a>');		
+	/* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
 ////////////////////////////////////////////////////////////////////////////////////
 /*var sidebar = L.Control.Sidebar('sidebar', {
@@ -351,8 +349,9 @@ zsh.addLayer(Zdaniy_govoryt); */
 
 
 
- ///////////////////
-/*function highlightFeature(e) {
+ /*Подсветка при наведении- ломает фильтр*/
+ /*
+function highlightFeature(e) {
 		var layer = e.target;
 
 		layer.setStyle({
@@ -370,20 +369,10 @@ zsh.addLayer(Zdaniy_govoryt); */
 
 
 function resetHighlight(e) {
-    geojsonStateProtectionR.resetStyle(e.target);
+    geojsonStateProtection.resetStyle(e.target);
 }
 
-function resetHighlight(e) {
-    geojsonStateProtectionN.resetStyle(e.target);
-}
-
-function resetHighlight(e) {
-    geojsonStateProtectionF.resetStyle(e.target);
-}
-
-function resetHighlight(e) {
-    geojsonStateProtectionM.resetStyle(e.target);
-}*/
+*/
 
 
 function zoomToFeature(e) {
@@ -394,7 +383,7 @@ function zoomToFeature(e) {
 
 
 
-//слой отображающий категорию гос охраны Регеональные
+//слой отображающий ОКН
  var geojsonStateProtection = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				//стиль слоя		 
 				style: goStyle,
@@ -407,16 +396,17 @@ function zoomToFeature(e) {
 				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
 				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
 				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
-				
-				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"//+"<dd>"+feature.properties.Name+"</dd>"
-				+/*"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
+				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>&#128270  Посмотреть 3D модель</b></a>" : "")
+				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"
+				/*+"<dd>"+feature.properties.Name+"</dd>"*/
+				/*+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Descriptio+"</dd>"*/
+				+(feature.properties.Descriptio!="-"?"<dd>"+feature.properties.Descriptio+"</dd>":"")
 				+"<dt>"+"<b>"+"Категория охраны:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.go=="ГО р"?"Регионального значения":"")+"</dd>"
 				+"<dt>"+"<b>"+"Материал:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Material+"</dd>"
 				+"<dt>"+"<b>"+"Дата постройки:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Date+"</dd>"
 				+"<dt>"+"<b>"+"Архитектурный стиль:"+"</b>"+"</dt>"+"<dd>"+(feature.properties.Architectu!="-"?feature.properties.Architectu:"Не определен")+"</dd>"
 				+(feature.properties.faddress!="-"?"<dt>"+"<b>"+"Адрес по решениям и постановлениям:"+"</b>"+"</dt>"+"<dd>"+feature.properties.faddress+"</dd>":"")
 				+(feature.properties.Address!="-"?"<dt>"+"<b>"+"Адрес:"+"</b>"+"</dt>"+"<dd>"+feature.properties.Address+"</dd>":"")
-				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>3D модель</b></a>" : "")
 				+(feature.properties.statusChange!="-"? "<dt>"+"<b>"+"Изменения статуса:"+"</b>"+"</dt>"+"<dd>"+feature.properties.statusChange+"</dd>":"")
                     ,popupOptions);
 				//Теги фильтров
@@ -441,15 +431,16 @@ function zoomToFeature(e) {
 				var searchTree = layer.feature.properties;
 				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
 				
-				/*layer.on({
+				/*
+				layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
-				});*/
+				});
+				*/
 				
 				//geojsonStateProtection.options.time = feature.properties.time;
 				},
 				
-				//filter: function (feature, layer){if (feature.properties.go === "ГО р")return true;}
 	});
  //map.addLayer(geojsonStateProtection);
 	
@@ -459,7 +450,6 @@ function zoomToFeature(e) {
 	geojsonStateProtectionM.options.time = geojsonStateProtectionM.feature.properties.time;
 	geojsonStateProtectionN.options.time = geojsonStateProtectionN.feature.properties.time;
 	geojsonStateProtectionR.options.time = geojsonStateProtectionR.feature.properties.time; */
-	//var goGroup = L.featureGroup([geojsonStateProtectionF,geojsonStateProtectionM,geojsonStateProtectionN,geojsonStateProtectionR]);
 	
 	
 	//////////////////////////////////////////////////////////////
@@ -491,12 +481,6 @@ function zoomToFeature(e) {
     }).addTo(map);
 	
 	
-	/*var FilterButton = L.control.tagFilterButton({
-      data: ['Вновь выявленные','Регионального значения','Федерального значения','Муниципального значения','дерево','камень','песчаник','песчаник/дерево','камень/дерево','Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
-			icon: '<img src="images/filter.svg">',	
-      filterOnEveryClick: true
-    }).addTo(map);
-	*/
 	var dopFilterButton = L.control.tagFilterButton({
       data: [/* 'Фото' ,*/'3d модель'/*, 'Описание' */],
       icon: "<p>"+"3D"+"</p>",
