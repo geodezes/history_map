@@ -581,6 +581,7 @@ guides.start();
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального здания'},
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального здания'},
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального здания'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkGray ;fill-opacity:0.8" /></svg> Исключен/Утрачен'}, 
 						]},	
 						{label: 'Материал постройки', collapsed: true, children: [
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Gray" /></svg> Камень'},
@@ -590,11 +591,11 @@ guides.start();
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:none; stroke-width:3;stroke: Olive" /></svg> Песчаник/Дерево'},
 						]},
 						{label: 'Архитектурный стиль', collapsed: true, children: [
-						{label: '<img src="images/icon/eklektika.svg" style="width:20px;height:20px;"> "Эклектика'},
-						{label: '<img src="images/icon/barokko.svg" style="width:20px;height:20px;"> "Сибирское барокко'},
-						{label: '<img src="images/icon/modern.svg" style="width:20px;height:20px;"> "Модерн'},
-						{label: '<img src="images/icon/konstruktivizm.svg" style="width:20px;height:20px;"> "Конструктивизм'},
-						{label: '<img src="images/icon/klassicizm.svg" style="width:20px;height:20px;"> "Классицизм'},
+						{label: '<img src="images/icon/eklektika.svg" style="width:20px;height:20px;"> Эклектика'},
+						{label: '<img src="images/icon/barokko.svg" style="width:20px;height:20px;"> Сибирское барокко'},
+						{label: '<img src="images/icon/modern.svg" style="width:20px;height:20px;"> Модерн'},
+						{label: '<img src="images/icon/konstruktivizm.svg" style="width:20px;height:20px;"> Конструктивизм'},
+						{label: '<img src="images/icon/klassicizm.svg" style="width:20px;height:20px;"> Классицизм'},
 						]},
 				]	
 			};
@@ -607,7 +608,7 @@ guides.start();
 				collapsed: true,
 				children: [
 						{label: 'ГИК экспертизы 2022', collapsed: true, children: [
-						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Зпланированые на 2022', layer: histCultExp2022},
+						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
 						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
 						]},
 						{label: 'Партнеры', collapsed: true, children: [
@@ -618,6 +619,9 @@ guides.start();
 						{label: '<img src="images/icon/eventFire.svg" style="width:15px;height:15px;"> Пожары', layer: eventFire},
 						{label: '<img src="images/icon/eventEmergency.svg" style="width:15px;height:15px;"> ЧС', layer: eventEmergency},
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkRed ;fill-opacity:0.2; stroke-width:3;stroke: DarkRed" /></svg> Пожар 1879 года', layer: fireGroup},
+						]},
+						{label: 'Прочие', collapsed: true, children: [
+						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
 						]},
 				]
 			};
