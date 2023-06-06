@@ -255,7 +255,7 @@ var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 ////////////////////////////////////////////////////////////////////////////////
  
  
-// create wfs layer Historical and cultural expertise
+// create wfs layer Historical and cultural expertise  2022
 var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
@@ -284,6 +284,37 @@ var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 });
 
 /*map.addLayer(histCultExp2022);*/
+
+// create wfs layer Historical and cultural expertise  2023
+var histCultExp2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2023&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"<dt>"+feature.properties.eventdis+"</dt>"
+				,popupOptions
+				);
+				}
+				
+});
+
+/*map.addLayer(histCultExp2023);*/
+
 /////////////////////////////////////////////////////////////////
 
 // create wfs layer negativ Historical and cultural expertise
@@ -607,6 +638,9 @@ guides.start();
 				label: 'Доп. слои',
 				collapsed: true,
 				children: [
+						{label: 'ГИК экспертизы 2023', collapsed: true, children: [
+						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
+						]},
 						{label: 'ГИК экспертизы 2022', collapsed: true, children: [
 						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
 						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
