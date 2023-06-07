@@ -136,8 +136,8 @@ var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				onEachFeature: function (feature, layer) {
                 popupOptions = {maxWidth: 300};
                 layer.bindPopup(
-				(feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg/"+feature.properties.zd_gov+"'>Здания говорят</a>" : "")
-				+(feature.properties.zd_gov!="-" ? "<audio controls><source src='https://irkologia.ru/assets/zg/audio/"+feature.properties.zd_gov+".mp3' type='audio/mpeg'></audio>" : "")
+				(feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg#"+feature.properties.zd_link+"'>"+feature.properties.zd_name+"</a>" : "")
+				+(feature.properties.zd_gov!="-" ? "<audio controls><source src='https://irkologia.ru/assets/zg/"+feature.properties.zd_gov+".mp3' type='audio/mpeg'></audio>" : "")
 				,popupOptions
 				);
 				}
