@@ -20,7 +20,7 @@ window.addEventListener("load", function(){
 	renderer.setClearColor(new THREE.Color( 0xD3D3D3 ), 1.0);
 	renderSurface.appendChild( renderer.domElement );
 
-	const light = new THREE.AmbientLight( 0xE0FFFF );
+	const light = new THREE.AmbientLight( 0xFFFFFF,2 );
 	scene.add( light );
 
 	// Условная поверхность земли
