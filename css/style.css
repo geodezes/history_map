@@ -1,7 +1,7 @@
 .map {
 	z-index: 1;	
 	width: 98vw; 
-	height:70%;
+	height:80%;
 	margin: auto;
 	max-width: 1200px;
 }
@@ -10,94 +10,31 @@
   position: relative;
 }
 
-
-
-/* боковая панель*/
-.panel {
-    position: fixed;
-    left: -15.625em; /*left or right and the width of your navigation panel*/
-    width: 15.625em; /*should match the above value*/
-    z-index: 9999;
-    background: #DCDCDC;
-	overflow-y: auto;
-	padding-left: 2px;
-	
-	padding-top: 50px;
-	padding-bottom: 100px;
-}
-
-a.menu-link {
-  display: inline-block;
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-  user-select: none;
-  padding: .5em 2em;
-  outline: none;
-  border: 2px solid;
-  border-radius: 1px;
-  transition: 0.2s;
-  position	: absolute;
-	bottom		: 5%;
-	left		: 0; 
-	background: #696969;
-} 
-
-a.menu-link:hover { background: #ccc; }
-a.menu-link:active { background: #696969; }
-
-
-/* Style the button that is used to open and close the collapsible content */
-.collapsible {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .collapsible:hover {
-  background-color: #ccc;
-}
-
-/* Style the collapsible content. Note: hidden by default */
+/* Style info*/
 .content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
+  position: relative;
   background-color: #f1f1f1;
   background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding-right: 6px;
-  padding-left: 18px;
-  width: 90%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
+  width:96vw;
+  max-width: 1200px;
+  margin: auto;
+  text-align: justify;
+  font-size: 16px;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
-.inputs {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
+.contentTitle  {
+  position: relative;
+  top: 10px;
+  color: white;
+  background-color: #f1f1f1;
+  background-color: #696969;
+  width:98vw;
+  max-width: 1200px;
+  margin: auto;
+  font-size: 17px;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
-/* боковая панель*/
 
 .headimg  {
 	width:98vw;
@@ -107,7 +44,7 @@ a.menu-link:active { background: #696969; }
 
 /* Header image */
 .titelMap {
-	position	: relative;
+	position	: ;
 	width:98vw;
 	max-width: 1200px;
 	margin: auto;
@@ -116,22 +53,22 @@ a.menu-link:active { background: #696969; }
 }
 
 .ya-share2 {
-	position	: relative;
+	position	: absolute;
 	text-align: right ;
-	bottom		: 0%;
+	top		: 0%;
 	right		: 0%;
 	
 }
 
 h2 {
-	position	: absolute;
-	text-align: right ;
+	position	: relative;
+	text-align: left ;
 	top		: 0%;
-	right		: 0%;
+	left		: 0%;
 	width		: 100%;
 }
 
-h2 span {
+ h2 span {
 	color			: white;
 	font-family		: "Helvetica Neue", Arial, Helvetica, sans-serif;
 	letter-spacing		: -1px;
