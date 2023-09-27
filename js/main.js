@@ -564,7 +564,7 @@ function zoomToFeature(e) {
   
 		
 ////////////////////////////////////////////////////////////////	
-/*
+
 		var guides = $.guides({
 	distance: 50,
 	guides: [{
@@ -578,7 +578,7 @@ function zoomToFeature(e) {
 		}, {
 			//element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
 			html: '<button type="button" id="demo" class="demo btn btn-success">Start demo</button>'
-		}, /*{
+		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
 			html: 'Отфильтровать по архитектурному стилю'
 		}, {
@@ -599,7 +599,7 @@ function zoomToFeature(e) {
 		}]
 	});
 guides.start();
-*/
+
 /////////////////
 
 		var baseTree =
