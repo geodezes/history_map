@@ -705,4 +705,3 @@ function closeModal()
 	modal.classList.add('is-inactive');
 }
  
-

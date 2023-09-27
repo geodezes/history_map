@@ -30,7 +30,7 @@
   background-color: #696969;
   width:98vw;
   max-width: 1200px;
-margin-top: 10px;
+  margin: auto;
   font-size: 17px;
   font-weight: bolder;
   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -72,7 +72,7 @@ h2 {
 }
 
 .line {
-  margin: 20px;
+
 }
 
 
