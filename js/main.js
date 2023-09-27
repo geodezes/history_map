@@ -567,25 +567,25 @@ function zoomToFeature(e) {
 
 		var guides = $.guides({
 	distance: 50,
-	guides: [{
-			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
-		}, {
-			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div.leaflet-legend.leaflet-bar.leaflet-control'),
-			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
-		}, {
-			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
-			html: 'Выбрать ОКН по статусу государственной охраны'
-		}, {
-			//element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
+	guides: [
+		{
 			html: '<button type="button" id="demo" class="demo btn btn-success">Start demo</button>'
 		}, {
+			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section'),
+			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
+		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
-			html: 'Отфильтровать по архитектурному стилю'
+			html: 'Выбрать ОКН по статусу государственной охраны'
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(5)'),
-			html: 'Отобразит здания на которые есть 3D модели'
+			html: 'Отфильтровать по архитектурному стилю'
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(6)'),
+			html: 'Отобразит здания на которые есть 3D модели'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(7)'),
 			html: 'Поиск'
 		},  {
 			element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
@@ -593,9 +593,6 @@ function zoomToFeature(e) {
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control'),
 			html: 'Полноэкранный режим'
-		},   {
-			element: $('.menu-link'),
-			html: 'Здесь узнаете о проекте и его команде'
 		}]
 	});
 guides.start();
