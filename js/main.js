@@ -9,7 +9,12 @@
     position: 'bottomright'
 }).addTo(map);
 
-	map.addControl(new L.Control.Fullscreen());
+	map.addControl(new L.Control.Fullscreen({
+		title: {
+			'false': 'Полноэкранный режим',
+			'true': 'Выйти из полноэкранного режима'
+		}
+	}));
 	
 	
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
@@ -563,18 +568,24 @@ function zoomToFeature(e) {
   /* Leaflet.Control.Search */
   
 		
-////////////////////////////////////////////////////////////////	
-
-		var guides = $.guides({
+////////////////////////////////////////////////////////////////
+/*  
+	var guides = $.guides({
 	distance: 50,
 	guides: [
 		{
-			html: '<button type="button" id="demo" class="demo btn btn-success">Start demo</button>'
+			html: '<button type="button" id="gend" class="gend btn btn-success" onclick="">пропустить обучение</button>'
 		}, {
 			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
 		}, {
-			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div > section'),
+			element: $('#img'),
 			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
+			html: 'Выбрать ОКН по количиству этажей'
+		}, {
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
+			html: 'Отфильтровать по материалу постройки'
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
 			html: 'Выбрать ОКН по статусу государственной охраны'
@@ -586,18 +597,18 @@ function zoomToFeature(e) {
 			html: 'Отобразит здания на которые есть 3D модели'
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(7)'),
-			html: 'Поиск'
+			html: 'Поиск по адресу и названию ОКН'
 		},  {
 			element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
-			html: 'Геолокация'
+			html: 'Узнать где вы сейчас находитесь'
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control'),
 			html: 'Полноэкранный режим'
 		}]
 	});
-guides.start();
-
-/////////////////
+	guides.start();
+ */
+///////////////// 
 
 		var baseTree =
 			{

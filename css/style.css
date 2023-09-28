@@ -1,6 +1,6 @@
 .map {
 	z-index: 1;	
-	width: 98vw; 
+	width: 97vw; 
 	height:80%;
 	margin: auto;
 	max-width: 1200px;
@@ -75,7 +75,12 @@ h2 {
 
 }
 
-
+.patternImg {
+	width:98vw;
+	max-width: 1200px;
+	margin: auto;
+	
+}
 
 .custom-popup {
     border-radius: 2px;
