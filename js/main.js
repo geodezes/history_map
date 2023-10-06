@@ -569,17 +569,25 @@ function zoomToFeature(e) {
   
 		
 ////////////////////////////////////////////////////////////////
-/*  
-	var guides = $.guides({
+ //
+	var guidess = $.guides({
+	distance: 50,
+	guides: [
+		{	element: $('#demo'),
+			html: 'Посмотреть обучение'
+		}]
+	});
+	guidess.start();
+	
+	$('#demo').guides({
 	distance: 50,
 	guides: [
 		{
-			html: '<button type="button" id="gend" class="gend btn btn-success" onclick="">пропустить обучение</button>'
-		}, {
 			html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
 		}, {
-			element: $('#img'),
-			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными'
+			
+			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right'),
+			html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными',
 		}, {
 			element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
 			html: 'Выбрать ОКН по количиству этажей'
@@ -606,13 +614,13 @@ function zoomToFeature(e) {
 			html: 'Полноэкранный режим'
 		}]
 	});
-	guides.start();
- */
+/* 	guides.start(); */
+
 ///////////////// 
 
 		var baseTree =
 			{
-				label: 'Условные обозначения',
+				label: 'Условные обозначения<div class="tree" id="tree"></div>',
 				collapsed: true,
 				children: [
 						{label: 'Категория гос. охраны', collapsed: true, children: [

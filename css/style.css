@@ -74,6 +74,15 @@ h2 {
 .line {
 
 }
+.navBar {
+	position	: relative;
+	width:98vw;
+	max-width: 1200px;
+	margin: auto;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;	
+}	
+.demo btn btn-success {
+	}
 
 .patternImg {
 	width:98vw;
