@@ -651,9 +651,9 @@ function zoomToFeature(e) {
 
 
 var guidess = $.guides({
-  distance: 100,
+  distance: 50,
   guides: [
-    {
+	{
       element: $('#demo'),
       html: 'Посмотреть обучение'
 		}]
