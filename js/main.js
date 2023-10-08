@@ -350,7 +350,7 @@ var negativHCE2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				
 });
 
-map.addLayer(negativHCE2022);
+/* map.addLayer(negativHCE2022); */
 /////////////////////////////////////////////////////////////////
 
 ////геолакация

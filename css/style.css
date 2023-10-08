@@ -32,6 +32,8 @@
   width:98vw;
   max-width: 1200px;
   margin: auto;
+ 
+  padding	: 3px 10px;
   font-size: 17px;
   font-weight: bolder;
   font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;
@@ -83,9 +85,15 @@ h2 {
 	font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;	
 }	
 .demoBtn {
+	/* left		: 0%; */
+	box-shadow: 0 1px 7px #999;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background		: #696969;
+	color			: white;
+	margin: auto;
+	position	: relative;
 	font-family: system-ui;
-	right: 0px;
-	position	: absolute;
 	}
 
 .patternImg {
