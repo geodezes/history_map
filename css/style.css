@@ -4,6 +4,7 @@
 	height:80%;
 	margin: auto;
 	max-width: 1200px;
+	font-family: system-ui
 }
 
 .wrap {
@@ -20,7 +21,7 @@
   text-align: justify;
   font-size: 16px;
   line-height: 150%;
-  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;
 }
 
 .contentTitle  {
@@ -33,7 +34,7 @@
   margin: auto;
   font-size: 17px;
   font-weight: bolder;
-  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;
 }
 
 .headimg  {
@@ -49,7 +50,7 @@
 	width:98vw;
 	max-width: 1200px;
 	margin: auto;
-	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;
 	/*width		: 100%; /* for IE 6 */
 }
 
@@ -64,7 +65,7 @@ h2 {
 
  h2 span {
 	color			: white;
-	font-family		: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-family		: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;
 	letter-spacing		: -1px;
 	background		: #696969; /* на случай, если следующая строка не сработает */ 
 	background		: #696969;
@@ -79,13 +80,16 @@ h2 {
 	width:98vw;
 	max-width: 1200px;
 	margin: auto;
-	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;	
+	font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;	
 }	
 .demoBtn {
+	font-family: system-ui;
+	right: 0px;
+	position	: absolute;
 	}
 
 .patternImg {
-	  width:100px;
+  width:100px;
   margin: auto;
   right: 0px;
   top: 0px;
@@ -97,23 +101,19 @@ h2 {
 }
 
 .custom-popup {
-    border-radius: 2px;
+    border-radius: 5px;
     color: #504e4e;
-    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; 
-    font-size: 12px;
     line-height: 10px;
-    height: 10 px ;
-    max-height: 300px;
     }
 
 .custom-popup, .leaflet-popup-tip {
-    background: #e7e7e7;
+    background: #f4f4f4;
     border: none;
     box-shadow: none;
     }
 
 .leaflet-popup-content-wrapper {
-   background: #e7e7e7;
+   background: #f4f4f4;
    border-radius: 2px;
    }
 
@@ -127,8 +127,10 @@ h2 {
     margin-right: 2px;
     padding-right: 12px;
     min-width: 100 px !important;
-    max-height: 300px;
+    max-height: 350px;
     overflow: auto;
+	font-size: 13px;
+	/* font-family: system-ui; */
     }
 	
 	

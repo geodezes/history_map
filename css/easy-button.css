@@ -19,7 +19,7 @@
   overflow: hidden;
   display: block;
   padding-left: 2;
-  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-family: system-ui /*"Helvetica Neue", Arial, Helvetica, sans-serif ;*/
  
 }
 

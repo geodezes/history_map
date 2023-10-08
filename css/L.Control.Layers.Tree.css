@@ -62,6 +62,8 @@
 
 /*my style change color etc/ */
 .leaflet-control-layers-expanded {
-	border-radius: 2px;
-	background-color: #e7e7e7;
+	border-radius: 4px;
+	background-color: #f4f4f4;
+	font-size: 13px;
+	/* font-family: system-ui; */
 }

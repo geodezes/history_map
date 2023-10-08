@@ -654,8 +654,8 @@ var guidess = $.guides({
   distance: 50,
   guides: [
 	{
-      element: $('#demo'),
-      html: 'Посмотреть обучение'
+      element: $('#demo.demobtn'),
+      html: 'Понять как пользоваться картой'
 		}]
 });
 guidess.start();
@@ -663,36 +663,33 @@ guidess.start();
 $('#demo').guides({
   distance: 50,
   guides: [
-    {
-      html: 'Здесь вы можете узнать где в Иркутске находятся объекты культурного наследия. Узнать из чего они сделаны и какой у них архитектурный стиль'
-		}, {
-
+	{
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div.leaflet-control-layers-expanded'),
-      html: 'Здесь можно посмотреть условные обозначения, а так же включить дополнительные слои с интересными данными',
+      html: 'Здесь можно посмотреть условные обозначения. Включить дополнительные слои с интересными данными',
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
-      html: 'Выбрать ОКН по количиству этажей'
+      html: 'Ознакомиться с этажностью ОКН'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
-      html: 'Отфильтровать по материалу постройки'
+      html: 'Использовать фильтр по материалу постройки'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
       html: 'Выбрать ОКН по статусу государственной охраны'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(5)'),
-      html: 'Отфильтровать по архитектурному стилю'
+      html: 'Посмотреть архитектурный стиль'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(6)'),
       html: 'Отобразит здания на которые есть 3D модели'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(7)'),
-      html: 'Поиск по адресу и названию ОКН'
+      html: 'Поиск по адресу и нименованию ОКН'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
-      html: 'Узнать где вы сейчас находитесь'
+      html: 'Узнать где Вы сейчас находитесь'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control'),
-      html: 'Полноэкранный режим'
+      html: 'Включить полноэкранный режим'
 		}]
 });
 /* 	guides.start(); */
