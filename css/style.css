@@ -4,7 +4,8 @@
 	height:80%;
 	margin: auto;
 	max-width: 1200px;
-	font-family: system-ui
+	font-family: system-ui;
+	border: solid 1px gray;
 }
 
 .wrap {
@@ -40,7 +41,7 @@
 }
 
 .headimg  {
-  width:50px;
+  width:80px;
   margin: auto;
   right: 0px;
   top: -10px;
@@ -58,6 +59,7 @@
 
 
 h2 {
+	margin: 0px auto;
 	position	: relative;
 	text-align: left ;
 	top		: 0%;
@@ -78,24 +80,47 @@ h2 {
 
 }
 .navBar {
+	display: flex;
 	position	: relative;
 	width:98vw;
 	max-width: 1200px;
-	margin: auto;
+	margin: 0px auto;
+	bottom : -10px;
 	font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;	
-}	
-.demoBtn {
-	/* left		: 0%; */
+}
+
+/* Стиль серых кнопок */	
+/* .demoBtn {
+	left		: 0%;
 	box-shadow: 0 1px 7px #999;
+	border:none;
+	padding: 0px;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	background		: #696969;
 	color			: white;
-	margin: auto;
+	margin-left : 0%;
 	position	: relative;
+	font-size: 13px;
+	font-family: system-ui;
+	} */
+
+/* Ссылка для перехода по странице */
+.navBtn {
+	position	: relative;
+	margin : 0px 1px;
+	box-shadow: 2px -1px 2px #999;
+	background		: #696969;
+	color			: white;
+	padding: 2px 4px;
+    text-decoration: none;
+/*     border-top-left-radius: 6px;
+	border-top-right-radius: 6px; */
+	font-size: 13px;
+	border-right: solid 1px gray;
 	font-family: system-ui;
 	}
-
+	
 .patternImg {
   width:100px;
   margin: auto;

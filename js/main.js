@@ -654,7 +654,7 @@ var guidess = $.guides({
   distance: 50,
   guides: [
 	{
-      element: $('#demo.demobtn'),
+      element: $('#demo.navBtn'),
       html: 'Понять как пользоваться картой'
 		}]
 });
