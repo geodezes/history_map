@@ -41,7 +41,7 @@
 }
 
 .headimg  {
-  width:80px;
+  width:50px;
   margin: auto;
   right: 0px;
   top: -10px;
@@ -77,7 +77,7 @@ h2 {
 }
 
 .line {
-
+		position	: relative ;
 }
 .navBar {
 	display: flex;
@@ -87,6 +87,12 @@ h2 {
 	margin: 0px auto;
 	bottom : -10px;
 	font-family: system-ui/* "Helvetica Neue", Arial, Helvetica, sans-serif */;	
+}
+.gallery {
+	position: relative;
+	width:98vw;
+	max-width: 1200px;
+	margin: auto;
 }
 
 /* Стиль серых кнопок */	
@@ -109,17 +115,32 @@ h2 {
 .navBtn {
 	position	: relative;
 	margin : 0px 1px;
-	box-shadow: 2px -1px 2px #999;
+/* 	box-shadow: 2px -1px 2px #999; */
 	background		: #696969;
 	color			: white;
 	padding: 2px 4px;
     text-decoration: none;
-/*     border-top-left-radius: 6px;
+/*  border-top-left-radius: 6px;
 	border-top-right-radius: 6px; */
 	font-size: 13px;
 	border-right: solid 1px gray;
 	font-family: system-ui;
 	}
+	
+	/* Кнопка наверх */
+/* .navBtnUp {
+	position	: relative ;
+	display: block;
+	text-align: center;
+	margin : 0px 0px;
+	background		: #696969;
+	color			: white;
+	padding: 2px 4px;
+    text-decoration: none;
+	font-size: 13px;
+	border-right: solid 1px gray;
+	font-family: system-ui;
+	} */
 	
 .patternImg {
   width:100px;
@@ -163,7 +184,7 @@ h2 {
     max-height: 350px;
     overflow: auto;
 	font-size: 13px;
-	/* font-family: system-ui; */
+ /* font-family: system-ui; */
     }
 	
 	
