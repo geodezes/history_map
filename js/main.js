@@ -655,7 +655,7 @@ var guidess = $.guides({
   guides: [
 	{
       element: $('#demo.navBtn'),
-      html: 'Понять как пользоваться картой'
+      html: 'Понять, как пользоваться картой.'
 		}]
 });
 guidess.start();
@@ -665,31 +665,31 @@ $('#demo').guides({
   guides: [
 	{
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-right > div.leaflet-control-layers-expanded'),
-      html: 'Здесь можно посмотреть условные обозначения. Включить дополнительные слои с интересными данными',
+      html: 'Здесь можно посмотреть условные обозначения. Включить дополнительные слои с интересными данными.',
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(2)'),
-      html: 'Ознакомиться с этажностью ОКН'
+      html: 'Ознакомиться с этажностью ОКН.'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(3)'),
-      html: 'Использовать фильтр по материалу постройки'
+      html: 'Использовать фильтр по материалу постройки.'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(4)'),
-      html: 'Выбрать ОКН по статусу государственной охраны'
+      html: 'Выбрать ОКН по статусу государственной охраны.'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(5)'),
-      html: 'Посмотреть архитектурный стиль'
+      html: 'Посмотреть архитектурный стиль.'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(6)'),
-      html: 'Отобразит здания на которые есть 3D модели'
+      html: 'Отобразить здания с 3D моделями.'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(7)'),
       html: 'Поиск по адресу и нименованию ОКН'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
-      html: 'Узнать где Вы сейчас находитесь'
+      html: 'Узнать, где вы сейчас находитесь.'
 		}, {
       element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div.leaflet-control-fullscreen.leaflet-bar.leaflet-control'),
-      html: 'Включить полноэкранный режим'
+      html: 'Включить полноэкранный режим.'
 		}]
 });
 /* 	guides.start(); */
