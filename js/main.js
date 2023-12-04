@@ -232,16 +232,11 @@ var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				});
 				//Грузим иконки
 				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
-					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
+					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
 				//выбор иконки в зависимости от типа события
 				var eventType=feature.properties.eventname;
 				if(eventType=="emergency"){
                 return L.marker(latlng, {icon: emegencyIcon});}
-				else if (eventType=="fire"){
-                return L.marker(latlng, {icon: fireIcon});}
-				else if (eventType=="histCultExp2022"){
-                return L.marker(latlng, {icon: expIcon});}
             },
 				
 				//create popup
@@ -479,7 +474,109 @@ function zoomToFeature(e) {
 				
 	});
  //map.addLayer(geojsonStateProtection);
+	//////////////////////////////////////////////////////////////
 	
+	/* ворота */
+	
+	 var gate = new L.geoJson.ajax("layers/gate.geojson",{
+
+			pointToLayer: function(feature, latlng) {
+               //стиль иконок
+			var LeafGateIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [12, 14],
+                        popupAnchor:  [2, -11]
+						}
+			});
+				//Грузим иконки
+				var gateIcon = new LeafGateIcon({iconUrl: 'images/icon/gate.svg'});	
+				return new L.marker(latlng, {icon: gateIcon,title:"Ворота"});
+			},
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				(feature.properties.PhotoName!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName +'.jpg" style=max-width:240 alt="'+ feature.properties.PhotoName +'" /></a></div>':"")
+				+(feature.properties.type)
+				+(feature.properties.Note!='-' ? "<dd>"+feature.properties.Note+"</dd>":"")
+                 ,popupOptions
+				 );
+				},
+				
+	});
+/*  map.addLayer(gate); */
+	
+	/* Песчаник */
+	
+	 var wall = new L.geoJson.ajax("layers/wall.geojson",{
+
+			pointToLayer: function(feature, latlng) {
+               //стиль иконок
+			var LeafWallIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [12, 14],
+                        popupAnchor:  [2, -11]
+						}
+			});
+				//Грузим иконки
+				var wallIcon = new LeafWallIcon({iconUrl: 'images/icon/wall.svg'});	
+				return new L.marker(latlng, {icon: wallIcon,title:"Элименты песчаниа"});
+			},
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				(feature.properties.PhotoName!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName +'.jpg" style=max-width:240 alt="'+ feature.properties.PhotoName +'" /></a></div>':"")
+				+(feature.properties.type)
+				+(feature.properties.Note!='-' ? "<dd>"+feature.properties.Note+"</dd>":"")
+                 ,popupOptions
+				 );
+				},
+				
+	});
+/*  map.addLayer(wall); */
+	
+	/* ворота */
+	
+	 var firewall = new L.geoJson.ajax("layers/firewall.geojson",{
+
+			pointToLayer: function(feature, latlng) {
+               //стиль иконок
+			var LeafFwallIcon = L.Icon.extend({
+						options: {
+						iconSize: [27, 27],
+                        iconAnchor: [12, 14],
+                        popupAnchor:  [4, -13]
+						}
+			});
+				//Грузим иконки
+				var firewallIcon = new LeafFwallIcon({iconUrl: 'images/icon/firewall.svg'});	
+				return new L.marker(latlng, {icon: firewallIcon,title:"Брандма́уэр"});
+			},
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				(feature.properties.PhotoName!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
+				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'.jpg" data-lightbox="example-1"><img class="example-image"'
+				+' src="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName +'.jpg" style=max-width:240 alt="'+ feature.properties.PhotoName +'" /></a></div>':"")
+				+(feature.properties.type)
+				+(feature.properties.Note!='-' ? "<dd>"+feature.properties.Note+"</dd>":"")
+                 ,popupOptions
+				 );
+				},
+				
+	});
+/*  map.addLayer(firewall); */
 	
 	//////////////////////////////////////////////////////////////
  
@@ -609,6 +706,11 @@ function zoomToFeature(e) {
 				label: 'Доп. слои',
 				collapsed: true,
 				children: [
+						{label: 'Малые формы', selectAllCheckbox: true, collapsed: true, children: [
+						{label: '<img src="images/icon/gate.svg" style="width:15px;height:15px;"> Ворота', layer: gate},
+						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: firewall},
+						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: wall},
+						]},
 						{label: 'ГИК экспертизы 2023', collapsed: true, children: [
 						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
 						]},

@@ -1,0 +1,18 @@
+{
+"type": "FeatureCollection",
+"name": "wall",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "fid": 150, "type": "Элимент из песчаника", "Note": "Фундамент из песчаника", "PhotoName": "Профсоюзная,87" }, "geometry": { "type": "Point", "coordinates": [ 104.261099151755189, 52.275628252333625 ] } },
+{ "type": "Feature", "properties": { "fid": 2, "type": "Подпорная стенка", "Note": "Песчаник", "PhotoName": "-" }, "geometry": { "type": "Point", "coordinates": [ 104.273990176056756, 52.287556786478689 ] } },
+{ "type": "Feature", "properties": { "fid": 63, "type": "Подпорная стенка", "Note": "Песчаник", "PhotoName": "9уч39" }, "geometry": { "type": "Point", "coordinates": [ 104.291176860106077, 52.2769765895533 ] } },
+{ "type": "Feature", "properties": { "fid": 64, "type": "Подпорная стенка", "Note": "Песчаник", "PhotoName": "9уч40" }, "geometry": { "type": "Point", "coordinates": [ 104.291408084081809, 52.276971077609424 ] } },
+{ "type": "Feature", "properties": { "fid": 86, "type": "Элимент из песчаника", "Note": "-", "PhotoName": "10-1-ЭП" }, "geometry": { "type": "Point", "coordinates": [ 104.310282313806681, 52.279636488749837 ] } },
+{ "type": "Feature", "properties": { "fid": 89, "type": "Строение из песчаника", "Note": "-", "PhotoName": "10-4-СП" }, "geometry": { "type": "Point", "coordinates": [ 104.309502656215486, 52.279855901407352 ] } },
+{ "type": "Feature", "properties": { "fid": 107, "type": "Подпорная стенка", "Note": "Песчаник", "PhotoName": "18" }, "geometry": { "type": "Point", "coordinates": [ 104.278765741212695, 52.274006710250312 ] } },
+{ "type": "Feature", "properties": { "fid": 120, "type": "Элимент из песчаника", "Note": "-", "PhotoName": "7-3-ЭП" }, "geometry": { "type": "Point", "coordinates": [ 104.285140447045549, 52.278922791797442 ] } },
+{ "type": "Feature", "properties": { "fid": 123, "type": "Строение из песчаника", "Note": "-", "PhotoName": "7-6-СП" }, "geometry": { "type": "Point", "coordinates": [ 104.287535449318199, 52.278705267207414 ] } },
+{ "type": "Feature", "properties": { "fid": 128, "type": "Элимент из песчаника", "Note": "-", "PhotoName": "7-11-ЭП" }, "geometry": { "type": "Point", "coordinates": [ 104.289662663935189, 52.277778565213275 ] } },
+{ "type": "Feature", "properties": { "fid": 130, "type": "Элимент из песчаника", "Note": "-", "PhotoName": "7-13-ЭП" }, "geometry": { "type": "Point", "coordinates": [ 104.288817889488712, 52.279607518727502 ] } }
+]
+}
