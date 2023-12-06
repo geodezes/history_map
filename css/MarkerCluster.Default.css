@@ -11,12 +11,33 @@
 .marker-cluster-medium div {
 	background-color: rgba(128, 128, 128, 0.6);
 	}
-
-.marker-cluster-large {
+/**/
+.marker-cluster-largeg {
 	background-color: rgba(128, 128, 128, 0.6);
 	}
-.marker-cluster-large div {
+.marker-cluster-largeg div {
 	background-color: rgba(105, 105, 105, 0.6);
+	}
+
+.marker-cluster-smallg {
+	background-color: rgba(255, 250, 205, 0.6);
+	}
+.marker-cluster-smallg div {
+	background-color: rgba(238, 232, 170, 0.6);
+	}
+
+.marker-cluster-mediumg {
+	background-color: rgba(238, 232, 170, 0.6);
+	}
+.marker-cluster-mediumg div {
+	background-color: rgba(240, 230, 140, 0.6);
+	}
+
+.marker-cluster-large {
+	background-color: rgba(240, 230, 140, 0.6);
+	}
+.marker-cluster-large div {
+	background-color: rgba(189, 183, 107, 0.6);
 	}
 
 	/* IE 6-8 fallback colors */

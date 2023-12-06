@@ -351,16 +351,6 @@ var negativHCE2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 ////геолакация
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
-///Скрываем точечный слой экспертизы при отдалении
-///
-/*
-zsh = new ZoomShowHide();
-zsh.addTo(map);
-histCultExp2022.min_zoom = 15;
-zsh.addLayer(histCultExp2022);
-*/
-/* Zdaniy_govoryt.min_zoom = 14;
-zsh.addLayer(Zdaniy_govoryt); */
 
 ///////////////////////////////////////////////////////////////////	
 	
@@ -578,6 +568,103 @@ function zoomToFeature(e) {
 	});
 /*  map.addLayer(firewall); */
 	
+
+/* малые архитектурные формы: ворота, песчаник, брандмауэры */
+var minForm = new L.layerGroup([gate,wall,firewall])
+
+//markercluster ворота
+var markersGate = L.markerClusterGroup({
+	disableClusteringAtZoom: 16,
+	spiderfyOnMaxZoom : false ,
+	polygonOptions: {color: '#ebd57f' },
+	
+	iconCreateFunction: function (cluster) {
+		var childCount = cluster.getChildCount();
+
+		var c = ' marker-cluster-';
+		if (childCount < 10) {
+			c += 'smallg';
+		} else if (childCount < 100) {
+			c += 'mediumg';
+		} else {
+			c += 'largeg';
+		}
+
+		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+	},
+			
+});
+gate.on('data:loaded', function () {
+    markersGate.addLayer(gate);
+    //console.log(markersBar);
+   // map.addLayer(markers);
+});
+
+//markercluster стены
+var markersWall = L.markerClusterGroup({
+	disableClusteringAtZoom: 16,
+	spiderfyOnMaxZoom : false ,
+	polygonOptions: {color: '#ebd57f' },
+	
+	iconCreateFunction: function (cluster) {
+		var childCount = cluster.getChildCount();
+
+		var c = ' marker-cluster-';
+		if (childCount < 10) {
+			c += 'smallg';
+		} else if (childCount < 100) {
+			c += 'mediumg';
+		} else {
+			c += 'largeg';
+		}
+
+		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+	},
+			
+});
+wall.on('data:loaded', function () {
+    markersWall.addLayer(wall);
+    //console.log(markersBar);
+   // map.addLayer(markers);
+});
+
+//markercluster брандмауэры
+var markersFirewall = L.markerClusterGroup({
+	disableClusteringAtZoom: 16,
+	spiderfyOnMaxZoom : false ,
+	polygonOptions: {color: '#ebd57f' },
+	
+	iconCreateFunction: function (cluster) {
+		var childCount = cluster.getChildCount();
+
+		var c = ' marker-cluster-';
+		if (childCount < 10) {
+			c += 'smallg';
+		} else if (childCount < 100) {
+			c += 'mediumg';
+		} else {
+			c += 'largeg';
+		}
+
+		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
+	},
+			
+});
+firewall.on('data:loaded', function () {
+    markersFirewall.addLayer(firewall);
+    //console.log(markersBar);
+   // map.addLayer(markers);
+});
+
+
+
+/* Скрываем точечный слой в зависимости от масштаба */
+/* zsh = new ZoomShowHide();
+zsh.addTo(map);
+minForm.min_zoom = 15;
+zsh.addLayer(minForm);
+ */
+
 	//////////////////////////////////////////////////////////////
  
 	/*tag filter*/	
@@ -706,11 +793,6 @@ function zoomToFeature(e) {
 				label: 'Доп. слои',
 				collapsed: true,
 				children: [
-						{label: 'Малые формы', selectAllCheckbox: true, collapsed: true, children: [
-						{label: '<img src="images/icon/gate.svg" style="width:15px;height:15px;"> Ворота', layer: gate},
-						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: firewall},
-						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: wall},
-						]},
 						{label: 'ГИК экспертизы 2023', collapsed: true, children: [
 						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
 						]},
@@ -727,9 +809,10 @@ function zoomToFeature(e) {
 						{label: '<img src="images/icon/eventEmergency.svg" style="width:15px;height:15px;"> ЧС', layer: eventEmergency},
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkRed ;fill-opacity:0.2; stroke-width:3;stroke: DarkRed" /></svg> Пожар 1879 года', layer: fireGroup},
 						]},
-						{label: 'Прочие', collapsed: true, children: [
+						{label: '<img src="images/icon/gate.svg" style="width:15px;height:15px;"> Ворота', layer: markersGate},
+						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: markersFirewall},
+						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: markersWall},
 						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
-						]},
 				]
 			};
 
