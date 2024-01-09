@@ -348,6 +348,36 @@ var negativHCE2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 /* map.addLayer(negativHCE2022); */
 /////////////////////////////////////////////////////////////////
 
+// create wfs layer negativ Historical and cultural expertise
+var negativHCE2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=negativHCE2023&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var iconNegativExpIcon = new LeafIcon({iconUrl: 'images/icon/iconNegativExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconNegativExpIcon,title:"Отрицательная Экспертиза"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"<dt>"+feature.properties.discrhce+"</dt>"
+				,popupOptions
+				);
+				}
+				
+});
+
+map.addLayer(negativHCE2023);
+
 ////геолакация
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
@@ -795,6 +825,7 @@ zsh.addLayer(minForm);
 				children: [
 						{label: 'ГИК экспертизы 2023', collapsed: true, children: [
 						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
+						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2023', layer: negativHCE2023},
 						]},
 						{label: 'ГИК экспертизы 2022', collapsed: true, children: [
 						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
