@@ -401,13 +401,13 @@ L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
 
  /*Подсветка при наведении- ломает фильтр*/
- /*
+
 function highlightFeature(e) {
 		var layer = e.target;
 
 		layer.setStyle({
 			weight: 3,
-			color: 'yellow',
+			color: 'Goldenrod',
 			dashArray: '',
 			fillOpacity: 1
 		});
@@ -420,10 +420,10 @@ function highlightFeature(e) {
 
 
 function resetHighlight(e) {
-    geojsonStateProtection.resetStyle(e.target);
+    oldNameStreet.resetStyle(e.target);
 }
 
-*/
+
 
 
 function zoomToFeature(e) {
@@ -431,8 +431,36 @@ function zoomToFeature(e) {
 }
 ////////////////////
 
-
-
+ var oldNameStreet = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=oldNameStreet&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				//стиль слоя		 
+				style: 
+									            {
+                color: 'BurlyWood',
+                weight: 5,
+                opacity: .7,
+                dashArray: '20,15',
+                lineJoin: 'round'
+            }
+				
+				,
+				//стиль всплывающих окон
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250
+                };
+                layer.bindPopup(
+				(feature.properties['1869streetName'] !="-"? "<dt>"+"Планъ губернскаго города Иркутска 1869г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1869streetName'] +"</b>"+"</dd>":"")
+				+(feature.properties['1940streetName'] !="-"? "<dt>"+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
+                    ,popupOptions);
+				
+					layer.on({
+					mouseover: highlightFeature,
+					mouseout: resetHighlight
+				});
+				
+				},
+				
+	});
+	/* map.addLayer(oldNameStreet); */
 
 //слой отображающий ОКН
  var geojsonStateProtection = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
@@ -844,6 +872,7 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: markersFirewall},
 						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: markersWall},
 						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
+						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Старые названия улиц', layer: oldNameStreet},
 				]
 			};
 
