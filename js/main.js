@@ -28,6 +28,7 @@
 	//map.attributionControl.addAttribution('&copy <a herf="https://maydemirx.github.io/leaflet-tag-filter-button/">Mehmet Aydemir</a>');
 	//map.attributionControl.addAttribution('&copy <a>2020 ptma@163.com</a>');
 	//map.attributionControl.addAttribution('&copy <a herf="http://fsf.org/">Free Software Foundation</a>');		
+	// Leaflet.TextPath Copyright (c) 2012 Makina Corpus
 	/* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -406,8 +407,9 @@ function highlightFeature(e) {
 		var layer = e.target;
 
 		layer.setStyle({
-			weight: 3,
-			color: 'Goldenrod',
+			weight: 7,
+			opacity: .9,
+			color: 'Chocolate',
 			dashArray: '',
 			fillOpacity: 1
 		});
@@ -435,9 +437,9 @@ function zoomToFeature(e) {
 				//стиль слоя		 
 				style: 
 									            {
-                color: 'BurlyWood',
+                color: 'Chocolate',
                 weight: 5,
-                opacity: .7,
+                opacity: .5,
                 dashArray: '20,15',
                 lineJoin: 'round'
             }
@@ -452,9 +454,19 @@ function zoomToFeature(e) {
 				+(feature.properties['1940streetName'] !="-"? "<dt>"+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
                     ,popupOptions);
 				
+				 /* layer.setText(feature.properties['1869streetName']); */
+				
 					layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
+				});
+				
+				layer.on('mouseover', function () {
+					this.setText('     '+feature.properties['1869streetName']+'     ', {repeat: true, attributes:  { style: "fill: White; font-family: system-ui; font-size: 18; stroke: Maroon; font-weight: bold; stroke-width: 1;" }});
+				});
+
+				layer.on('mouseout', function () {
+					this.setText(null);
 				});
 				
 				},
@@ -872,7 +884,7 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: markersFirewall},
 						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: markersWall},
 						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
-						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Старые названия улиц', layer: oldNameStreet},
+						{label: '<img src="images/icon/oldStreet.svg" style="width:15px;height:15px;"> Исторические названия улиц', layer: oldNameStreet},
 				]
 			};
 
