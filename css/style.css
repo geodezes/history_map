@@ -91,12 +91,12 @@ h2 {
 
 
 /* Галерея всех фото */
-/* .gallery {
+  .gallery {
 	position: relative;
 	width:98vw;
 	max-width: 1200px;
 	margin: auto;
-} */
+}
 
 /* Стиль серых кнопок */	
 /* .demoBtn {

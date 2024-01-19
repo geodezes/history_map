@@ -450,8 +450,9 @@ function zoomToFeature(e) {
                 popupOptions = {maxWidth: 250
                 };
                 layer.bindPopup(
-				(feature.properties['1869streetName'] !="-"? "<dt>"+"Планъ губернскаго города Иркутска 1869г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1869streetName'] +"</b>"+"</dd>":"")
-				+(feature.properties['1940streetName'] !="-"? "<dt>"+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
+				(feature.properties['1869streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1869г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1869streetName'] +"</b>"+"</dd>":"")
+				+(feature.properties['1869streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1880г с плана 1872г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1880streetName'] +"</b>"+"</dd>":"")
+				+(feature.properties['1940streetName'] !="-"? "<dt>"+"&#9899 "+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
                     ,popupOptions);
 				
 				 /* layer.setText(feature.properties['1869streetName']); */
@@ -883,8 +884,8 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/gate.svg" style="width:15px;height:15px;"> Ворота', layer: markersGate},
 						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: markersFirewall},
 						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: markersWall},
-						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
 						{label: '<img src="images/icon/oldStreet.svg" style="width:15px;height:15px;"> Исторические названия улиц', layer: oldNameStreet},
+						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
 				]
 			};
 
@@ -910,12 +911,27 @@ zsh.addLayer(minForm);
 var guidess = $.guides({
   distance: 50,
   guides: [
-	{
-      element: $('#demo.navBtn'),
-      html: 'Понять, как пользоваться картой.'
-		}]
+		//Анонс изменений
+		{html: 'Добавилен слой с историческими названиями улиц. Названия взяты с планов города иркутска 1869, 1880 и 1940 годов'
+		},
+		{
+		element: $('#demo.navBtn'),
+		html: 'Понять, как пользоваться картой.'
+		},
+		]
 });
 guidess.start();
+
+
+/* var guidesAnons = $.guides({
+  distance: 50,
+  guides: [
+	{
+      html: 'Добавили слой с историческими названиями улиц'
+		}]
+});
+guidesAnons.start();
+ */
 
 $('#demo').guides({
   distance: 50,
