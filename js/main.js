@@ -316,6 +316,38 @@ var histCultExp2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 
 /*map.addLayer(histCultExp2023);*/
 
+
+// create wfs layer Historical and cultural expertise  2024
+var histCultExp2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2024&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"<dt>"+feature.properties.eventdis+"</dt>"
+				,popupOptions
+				);
+				}
+				
+});
+
+map.addLayer(histCultExp2024);
+
+
 /////////////////////////////////////////////////////////////////
 
 // create wfs layer negativ Historical and cultural expertise
@@ -377,7 +409,7 @@ var negativHCE2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				
 });
 
-map.addLayer(negativHCE2023);
+/* map.addLayer(negativHCE2023); */
 
 ////геолакация
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
@@ -864,6 +896,9 @@ zsh.addLayer(minForm);
 				label: 'Доп. слои',
 				collapsed: true,
 				children: [
+						{label: 'ГИК экспертизы 2024', collapsed: true, children: [
+						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
+						]},
 						{label: 'ГИК экспертизы 2023', collapsed: true, children: [
 						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
 						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2023', layer: negativHCE2023},
@@ -888,7 +923,7 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
 				]
 			};
-
+histCultExp2024
 		        var lay = L.control.layers.tree( 
 		          baseTree, 
 		          overlaysTree,
@@ -912,7 +947,7 @@ var guidess = $.guides({
   distance: 50,
   guides: [
 		//Анонс изменений
-		{html: 'Добавилен слой с историческими названиями улиц. Названия взяты с планов города иркутска 1869, 1880 и 1940 годов'
+		{html: 'Добавили на карту объекты культурного наследия, расположенных на территории Иркутска, подлежащие прохождению государственной историко-культурной экспертизы в 2024 году с целью принятия решения о включении в единый государственный реестр объектов культурного наследия (памятников истории и культуры) народов Российской Федерации либо об отказе во включении в Реестр»'
 		},
 		{
 		element: $('#demo.navBtn'),
