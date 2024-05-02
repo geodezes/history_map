@@ -345,7 +345,7 @@ var histCultExp2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 				
 });
 
-map.addLayer(histCultExp2024);
+//map.addLayer(histCultExp2024);
 
 
 /////////////////////////////////////////////////////////////////
@@ -896,16 +896,18 @@ zsh.addLayer(minForm);
 				label: 'Доп. слои',
 				collapsed: true,
 				children: [
-						{label: 'ГИК экспертизы 2024', collapsed: true, children: [
-						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
-						]},
-						{label: 'ГИК экспертизы 2023', collapsed: true, children: [
-						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
-						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2023', layer: negativHCE2023},
-						]},
-						{label: 'ГИК экспертизы 2022', collapsed: true, children: [
-						{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
-						{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
+						{label: 'ГИКЭ', collapsed: true, children: [
+							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
+							]},
+							{label: 'ГИК экспертизы 2023', collapsed: true, children: [
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
+							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2023', layer: negativHCE2023},
+							]},
+							{label: 'ГИК экспертизы 2022', collapsed: true, children: [
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
+							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
+							]},
 						]},
 						{label: 'Партнеры', collapsed: true, children: [
 						{label: '<img src="images/icon/zg-logo.svg" style="width:15px;height:15px;"> Здания говорят', layer: Zdaniy_govoryt},
