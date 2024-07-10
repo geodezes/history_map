@@ -925,7 +925,8 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
 				]
 			};
-histCultExp2024
+
+
 		        var lay = L.control.layers.tree( 
 		          baseTree, 
 		          overlaysTree,
