@@ -411,6 +411,36 @@ var negativHCE2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 
 /* map.addLayer(negativHCE2023); */
 
+// create wfs layer negativ Historical and cultural expertise
+var negativHCE2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=negativHCE2024&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var iconNegativExpIcon = new LeafIcon({iconUrl: 'images/icon/iconNegativExp.svg'});	
+			
+				return new L.marker(latlng, {icon: iconNegativExpIcon,title:"Отрицательная Экспертиза"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"<dt>"+feature.properties.discrhce+"</dt>"
+				,popupOptions
+				);
+				}
+				
+});
+
+map.addLayer(negativHCE2024);
+
 ////геолакация
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
@@ -899,6 +929,7 @@ zsh.addLayer(minForm);
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
 							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
+							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2024', layer: negativHCE2024},
 							]},
 							{label: 'ГИК экспертизы 2023', collapsed: true, children: [
 							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
@@ -950,7 +981,7 @@ var guidess = $.guides({
   distance: 50,
   guides: [
 		//Анонс изменений
-		{html: 'Добавили на карту объекты культурного наследия, расположенных на территории Иркутска, подлежащие прохождению государственной историко-культурной экспертизы в 2024 году с целью принятия решения о включении в единый государственный реестр объектов культурного наследия (памятников истории и культуры) народов Российской Федерации либо об отказе во включении в Реестр»'
+		{html: 'Исправлена геометрия некоторых объектов культурного наследия. ' + '<br>' + ' Изменен статус государственнои охраны ОКН прошедших экспертизу в 2024 году (по состоянию на 10 июня 2024 года).' + '<br>' + ' Нанесены отрицательные государственные историко культурные экспертизы (по состоянию на 2 октября 2024 года).'
 		},
 		{
 		element: $('#demo.navBtn'),
