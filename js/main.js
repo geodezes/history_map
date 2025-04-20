@@ -439,11 +439,74 @@ var negativHCE2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 				
 });
 
-map.addLayer(negativHCE2024);
+//map.addLayer(negativHCE2024);
 
 ////геолакация
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
+
+/* Ппаздник */
+/* выставка 2025 */
+/* "Выставка в интерьере" */
+var holidayCaffe2025 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=holidayCaffe2025&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [20, 20],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var holidayCaffe = new LeafIcon({iconUrl: 'images/icon/holidayCaffe2025.svg'});	
+			
+				return new L.marker(latlng, {icon: holidayCaffe,title:"Выставка в интерьере"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"Выставка в интерьере"
+				,popupOptions
+				);
+				}
+				
+});
+
+map.addLayer(holidayCaffe2025);
+
+
+/* "Выставка в экстерьере" */
+var holidayStreet2025 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=holidayStreet2025&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+				pointToLayer: function(feature, latlng) {
+                //стиль иконок
+				var LeafIcon = L.Icon.extend({
+						options: {
+						iconSize: [15, 15],
+                        iconAnchor: [7, 6],
+                        popupAnchor:  [0, -6]
+						}
+				});
+				//Грузим иконки
+				var holidayStreet = new LeafIcon({iconUrl: 'images/icon/holidayStreet2025.svg'});	
+			
+				return new L.marker(latlng, {icon: holidayStreet,title:"Выставка в экстерьере"});
+               },
+			   				
+				//create popup
+				onEachFeature: function (feature, layer) {
+                popupOptions = {maxWidth: 250};
+                layer.bindPopup(
+				"Выставка в экстерьере"
+				,popupOptions
+				);
+				}
+				
+});
+
+map.addLayer(holidayStreet2025);
 
 ///////////////////////////////////////////////////////////////////	
 	
@@ -925,7 +988,11 @@ zsh.addLayer(minForm);
 			{
 				label: 'Доп. слои',
 				collapsed: true,
-				children: [
+				children: [		
+						{label: 'Выставка', collapsed: false, children: [
+						{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: holidayStreet2025},
+						{label: '<img src="images/icon/holidayCaffe2025.svg" style="width:20px;height:20px;"> Отрицательные за 2024', layer: holidayCaffe2025},
+						]},
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
 							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
@@ -981,7 +1048,7 @@ var guidess = $.guides({
   distance: 50,
   guides: [
 		//Анонс изменений
-		{html: 'Исправлена геометрия некоторых объектов культурного наследия. ' + '<br>' + ' Изменен статус государственнои охраны ОКН прошедших экспертизу в 2024 году (по состоянию на 10 июня 2024 года).' + '<br>' + ' Нанесены отрицательные государственные историко культурные экспертизы (по состоянию на 2 октября 2024 года).'
+		{html: 'На карту добавленна выставка, запланированая ИРО ВООПИК в рамках празднования Международного дня охраны памятников и исторических мест (с 20 по 30 апреля 2025 года), согласована, получено разрешение от службы по охране объектов культурного наследия Иркутской области'
 		},
 		{
 		element: $('#demo.navBtn'),
