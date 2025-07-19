@@ -990,8 +990,8 @@ zsh.addLayer(minForm);
 				collapsed: true,
 				children: [		
 						{label: 'Выставка', collapsed: false, children: [
-						{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: holidayStreet2025},
-						{label: '<img src="images/icon/holidayCaffe2025.svg" style="width:20px;height:20px;"> Отрицательные за 2024', layer: holidayCaffe2025},
+						{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> Выставка в экстерьере', layer: holidayStreet2025},
+						{label: '<img src="images/icon/holidayCaffe2025.svg" style="width:15px;height:15px;"> Выставка в интерьере', layer: holidayCaffe2025},
 						]},
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
