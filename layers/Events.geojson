@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"name": "Events",
+"features": [
+{ "type": "Feature", "properties": { "id_0": 2, "id": 2, "eventdate": "2021-02-20", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.2950955503362, 52.288799564686165 ] } },
+{ "type": "Feature", "properties": { "id_0": 3, "id": 3, "eventdate": "2021-02-17", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.296814097812103, 52.28902769346552 ] } },
+{ "type": "Feature", "properties": { "id_0": 1, "id": 1, "eventdate": "2020-12-15", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.276993297860798, 52.283313065454472 ] } },
+{ "type": "Feature", "properties": { "id_0": 4, "id": 4, "eventdate": "2021-02-23", "eventname": "emergency", "eventdis": "Обрушилась крыша" }, "geometry": { "type": "Point", "coordinates": [ 104.295397856966787, 52.289707047982368 ] } },
+{ "type": "Feature", "properties": { "id_0": 41, "id": 5, "eventdate": "2022-05-13", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.283236131314609, 52.279926054340699 ] } },
+{ "type": "Feature", "properties": { "id_0": 42, "id": 6, "eventdate": "2022-06-09", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.2898833741354, 52.276679931491564 ] } },
+{ "type": "Feature", "properties": { "id_0": 43, "id": 7, "eventdate": "2022-08-06", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.292443615070198, 52.28566324975052 ] } },
+{ "type": "Feature", "properties": { "id_0": 44, "id": 8, "eventdate": "2022-12-25", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.289712889308831, 52.277252926439097 ] } },
+{ "type": "Feature", "properties": { "id_0": 45, "id": 9, "eventdate": "2022-12-29", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.289381145384439, 52.280537985737972 ] } },
+{ "type": "Feature", "properties": { "id_0": 46, "id": 10, "eventdate": "2023-02-10", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.303336538224798, 52.279689637413924 ] } },
+{ "type": "Feature", "properties": { "id_0": 47, "id": 11, "eventdate": "2023-05-14", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.333671917735387, 52.298703719711099 ] } },
+{ "type": "Feature", "properties": { "id_0": 48, "id": 12, "eventdate": "2023-05-31", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.299240339952078, 52.278256016430646 ] } },
+{ "type": "Feature", "properties": { "id_0": 49, "id": 13, "eventdate": "2023-11-26", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.292412281212307, 52.279339504560411 ] } },
+{ "type": "Feature", "properties": { "id_0": 50, "id": 14, "eventdate": "2023-12-16", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.275385252862833, 52.282666842823787 ] } },
+{ "type": "Feature", "properties": { "id_0": 51, "id": 15, "eventdate": "2024-03-07", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.298420051228305, 52.287803361408102 ] } },
+{ "type": "Feature", "properties": { "id_0": 52, "id": 16, "eventdate": "2024-07-30", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.292851770277721, 52.27957007861874 ] } },
+{ "type": "Feature", "properties": { "id_0": 53, "id": 17, "eventdate": "2024-10-09", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.306981725211813, 52.287617124340336 ] } },
+{ "type": "Feature", "properties": { "id_0": 54, "id": 18, "eventdate": "2024-11-10", "eventname": "fire", "eventdis": "Пожар" }, "geometry": { "type": "Point", "coordinates": [ 104.301855964086769, 52.289262200588453 ] } }
+]
+}

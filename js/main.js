@@ -22,6 +22,18 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osmG);
 	
+	var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+	//map.addLayer(osm);
+	
+	var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+	});
+
+	var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+	});
+	
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	//map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
 	//map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
@@ -39,11 +51,18 @@
 map.addControl(sidebar);
 */
 
+	var baseLayers = {
+	"Серая карта": osmG,	
+    "OpenStreetMap": osm,
+    "Спутник": satelliteLayer,
+    "Темная карта": darkLayer
+	};
+	
 // layer quartals stripes
 var stripes = new L.StripePattern({weight: 1, color: "#d6ca97", angle: 100}); stripes.addTo(map);
 	
 // create wfs layer quartals
-var quartals = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=quarters&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var quartals = new L.geoJson.ajax("layers/quartals.geojson",{
 				//layer style
 				style: {
 					//stroke: false,
@@ -70,7 +89,7 @@ map.addLayer(quartals);
  
  
 // create wfs layer Fasadnik
-var Fasadnik = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Fasadnik&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var Fasadnik = new L.geoJson.ajax("layers/Fasadnik.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -122,7 +141,7 @@ map.addLayer(markers); */
 
 
 // create wfs layer Zdaniy_govoryt
-var Zdaniy_govoryt = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Zdaniy_govoryt&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var Zdaniy_govoryt = new L.geoJson.ajax("layers/Zdaniy_govoryt.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafZdGovIcon = L.Icon.extend({
@@ -184,7 +203,7 @@ map.addLayer(irkutckCool);
 ////////////////////////////////////////////////////
 
 // create wfs layer Events
-var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var eventFire = new L.geoJson.ajax("layers/Events.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -221,7 +240,7 @@ var eventFire = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows
 /*map.addLayer(eventFire);*/
 
 // create wfs layer Events
-var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=Events&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var eventEmergency = new L.geoJson.ajax("layers/Events.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -257,7 +276,7 @@ var eventEmergency = new L.geoJson.ajax("https://historymap.online:8443/geoserve
  
  
 // create wfs layer Historical and cultural expertise  2022
-var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var histCultExp2022 = new L.geoJson.ajax("layers/histcultexp2022.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -287,7 +306,7 @@ var histCultExp2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 /*map.addLayer(histCultExp2022);*/
 
 // create wfs layer Historical and cultural expertise  2023
-var histCultExp2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2023&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var histCultExp2023 = new L.geoJson.ajax("layers/histcultexp2023.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -318,7 +337,7 @@ var histCultExp2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 
 
 // create wfs layer Historical and cultural expertise  2024
-var histCultExp2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=histCultExp2024&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var histCultExp2024 = new L.geoJson.ajax("layers/histcultexp2024.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -351,7 +370,7 @@ var histCultExp2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserv
 /////////////////////////////////////////////////////////////////
 
 // create wfs layer negativ Historical and cultural expertise
-var negativHCE2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=negativHCE2022&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var negativHCE2022 = new L.geoJson.ajax("layers/negativHCE2022.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -382,7 +401,7 @@ var negativHCE2022 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 /////////////////////////////////////////////////////////////////
 
 // create wfs layer negativ Historical and cultural expertise
-var negativHCE2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=negativHCE2023&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var negativHCE2023 = new L.geoJson.ajax("layers/negativHCE2023.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -412,7 +431,7 @@ var negativHCE2023 = new L.geoJson.ajax("https://historymap.online:8443/geoserve
 /* map.addLayer(negativHCE2023); */
 
 // create wfs layer negativ Historical and cultural expertise
-var negativHCE2024 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=negativHCE2024&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+var negativHCE2024 = new L.geoJson.ajax("layers/negativHCE2024.geojson",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -448,7 +467,7 @@ L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 /* Ппаздник */
 /* выставка 2025 */
 /* "Выставка в интерьере" */
-var holidayCaffe2025 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=holidayCaffe2025&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+/* var holidayCaffe2025 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=holidayCaffe2025&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -475,11 +494,11 @@ var holidayCaffe2025 = new L.geoJson.ajax("https://historymap.online:8443/geoser
 				
 });
 
-map.addLayer(holidayCaffe2025);
+map.addLayer(holidayCaffe2025); */
 
 
 /* "Выставка в экстерьере" */
-var holidayStreet2025 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=holidayStreet2025&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+/* var holidayStreet2025 = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=holidayStreet2025&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
 				pointToLayer: function(feature, latlng) {
                 //стиль иконок
 				var LeafIcon = L.Icon.extend({
@@ -506,21 +525,23 @@ var holidayStreet2025 = new L.geoJson.ajax("https://historymap.online:8443/geose
 				
 });
 
-map.addLayer(holidayStreet2025);
+map.addLayer(holidayStreet2025); */
 
 ///////////////////////////////////////////////////////////////////	
 	
 	/* Пожар */
-	var fireLine = L.tileLayer.wms('https://historymap.online:8443/geoserver/ows?', {
-              format: 'image/png',
-              layers: 'fireLine',
-              transparent: 'true'
-             });
-	var firePoli = L.tileLayer.wms('https://historymap.online:8443/geoserver/ows?', {
-              format: 'image/png',
-              layers: 'firePoli',
-              transparent: 'true'
-             });
+	var fireLine = new L.geoJson.ajax("layers/fireLine.geojson",{
+				//layer style
+				//style: {
+					stroke: true,
+					weight: 0.3,
+					color: "#900509",
+					//zIndex: -1
+				//},
+	});
+	var firePoli = new L.geoJson.ajax("layers/firePoli.geojson",{
+					color: "#900509",	
+	});
 	var fireGroup = L.layerGroup([fireLine, firePoli]);
 
 
@@ -558,7 +579,7 @@ function zoomToFeature(e) {
 }
 ////////////////////
 
- var oldNameStreet = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=oldNameStreet&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var oldNameStreet = new L.geoJson.ajax("layers/oldNameStreet.geojson",{
 				//стиль слоя		 
 				style: 
 									            {
@@ -601,7 +622,7 @@ function zoomToFeature(e) {
 	/* map.addLayer(oldNameStreet); */
 
 //слой отображающий ОКН
- var geojsonStateProtection = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=okn&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
+ var geojsonStateProtection = new L.geoJson.ajax("layers/okn.geojson",{
 				//стиль слоя		 
 				style: goStyle,
 				//стиль всплывающих окон
@@ -989,10 +1010,11 @@ zsh.addLayer(minForm);
 				label: 'Доп. слои',
 				collapsed: true,
 				children: [		
+						/* //выставка на праздник 2025 года//
 						{label: 'Выставка', collapsed: false, children: [
 						{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> Выставка в экстерьере', layer: holidayStreet2025},
 						{label: '<img src="images/icon/holidayCaffe2025.svg" style="width:15px;height:15px;"> Выставка в интерьере', layer: holidayCaffe2025},
-						]},
+						]}, */
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
 							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
@@ -1042,6 +1064,8 @@ zsh.addLayer(minForm);
         L.DomEvent.on(L.DomUtil.get('onlysel'), 'click', function() {
             lay.collapseTree(true).expandSelected(true);
         })*/;  
+
+L.control.layers(baseLayers, null, {position: 'topright'}).addTo(map);
 
 
 var guidess = $.guides({

@@ -1,0 +1,19 @@
+{
+"type": "FeatureCollection",
+"name": "negativHCE2022",
+"features": [
+{ "type": "Feature", "properties": { "id_0": 1, "id": 1, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Горная 12" }, "geometry": { "type": "Point", "coordinates": [ 104.303745892137314, 52.280694198310677 ] } },
+{ "type": "Feature", "properties": { "id_0": 2, "id": 2, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Комунаров 11" }, "geometry": { "type": "Point", "coordinates": [ 104.292710767051872, 52.276428729632492 ] } },
+{ "type": "Feature", "properties": { "id_0": 3, "id": 3, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Партизанска 40б" }, "geometry": { "type": "Point", "coordinates": [ 104.304415944549561, 52.278583965118905 ] } },
+{ "type": "Feature", "properties": { "id_0": 4, "id": 4, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Баррикад 15" }, "geometry": { "type": "Point", "coordinates": [ 104.300159516368453, 52.298011979678577 ] } },
+{ "type": "Feature", "properties": { "id_0": 5, "id": 5, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Карла Либкнехта 68" }, "geometry": { "type": "Point", "coordinates": [ 104.303404484479543, 52.282748211768094 ] } },
+{ "type": "Feature", "properties": { "id_0": 6, "id": 6, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Тимирязева 47" }, "geometry": { "type": "Point", "coordinates": [ 104.300721881785918, 52.285827223588683 ] } },
+{ "type": "Feature", "properties": { "id_0": 7, "id": 7, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Софьи Перовской 43" }, "geometry": { "type": "Point", "coordinates": [ 104.302268538405926, 52.282928665059167 ] } },
+{ "type": "Feature", "properties": { "id_0": 8, "id": 8, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Богдана Хмельницкого 19а" }, "geometry": { "type": "Point", "coordinates": [ 104.29076263971659, 52.281210250830334 ] } },
+{ "type": "Feature", "properties": { "id_0": 9, "id": 9, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Сурикова 7" }, "geometry": { "type": "Point", "coordinates": [ 104.269881907004205, 52.288954965765001 ] } },
+{ "type": "Feature", "properties": { "id_0": 10, "id": 10, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Буркова 3а" }, "geometry": { "type": "Point", "coordinates": [ 104.269494452764661, 52.289099435038956 ] } },
+{ "type": "Feature", "properties": { "id_0": 11, "id": 11, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Бабушкина 2" }, "geometry": { "type": "Point", "coordinates": [ 104.294090460976548, 52.288961163474106 ] } },
+{ "type": "Feature", "properties": { "id_0": 12, "id": 12, "year": 2022, "discrhce": "Отрицательная экспертиза 2022. Гагарина 8" }, "geometry": { "type": "Point", "coordinates": [ 104.28287198912605, 52.272780055502928 ] } },
+{ "type": "Feature", "properties": { "id_0": 13, "id": null, "year": null, "discrhce": null }, "geometry": null }
+]
+}
