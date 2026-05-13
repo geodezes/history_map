@@ -43,13 +43,7 @@
 	// Leaflet.TextPath Copyright (c) 2012 Makina Corpus
 	/* 	(C) 2007 Free Software Foundation, Inc. <http://fsf.org/> */
 
-////////////////////////////////////////////////////////////////////////////////////
-/*var sidebar = L.Control.Sidebar('sidebar', {
-	position: 'left'
-});
 
-map.addControl(sidebar);
-*/
 
 	var baseLayers = {
 	"Серая карта": osmG,	
@@ -169,38 +163,7 @@ var Zdaniy_govoryt = new L.geoJson.ajax("layers/Zdaniy_govoryt.geojson",{
 				
 });
 
-////////////////////////////////////////слой с видео не доделан
-/*
-var irkutckCool = new L.geoJson.ajax("https://historymap.online:8443/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=irkutskCoolSity&outputFormat=application%2Fjson&format_options=callback%3AgetJson&SrsName=EPSG%3A4326",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafirkutckCoolSityIcon = L.Icon.extend({
-						options: {
-						iconSize: [18, 18],
-						iconAnchor: [15, 5],
-						popupAnchor:  [0, -5]
-						}
-				});
-				//Грузим иконки не верные
-				var irkutckCoolSityIcon = new LeafirkutckCoolSityIcon({iconUrl: 'images/icon/zg-logo.svg'});	
-			
-				return new L.marker(latlng, {icon: irkutckCoolSityIcon,title:"Здания говорят"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 300};
-				layer.bindPopup(
-				(feature.properties.name)
-				+(feature.properties.webadress!="-" ? "<video width='280' controls='controls' ><source src='hudmuz.mp4'>" : '')
-				,popupOptions
-				);
-				}
-				
-});
-map.addLayer(irkutckCool);
-*/
-////////////////////////////////////////////////////
+
 
 // create wfs layer Events
 var eventFire = new L.geoJson.ajax("layers/Events.geojson",{
@@ -697,7 +660,7 @@ var arch_day_2026_line = new L.geoJson.ajax("layers/arch_day_2026_line.geojson",
 					weight: 4.3,
 					color: "#731824",					
 	});
-map.addLayer(arch_day_2026_line)
+/* map.addLayer(arch_day_2026_line) */
 
 
 var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson",{
@@ -727,9 +690,9 @@ var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson
 				}
 				
 });
-map.addLayer(arch_day_2026_point)
+/* map.addLayer(arch_day_2026_point) */
 
-	
+var arch_day_2026 = L.layerGroup([arch_day_2026_point, arch_day_2026_line]);
 	
 	
 	/* ворота */
@@ -1019,9 +982,7 @@ zsh.addLayer(minForm);
   
 		
 ////////////////////////////////////////////////////////////////
- //
-	
-///////////////// 
+
 
 		var baseTree =
 			{
@@ -1064,6 +1025,10 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> Выставка в экстерьере', layer: holidayStreet2025},
 						{label: '<img src="images/icon/holidayCaffe2025.svg" style="width:15px;height:15px;"> Выставка в интерьере', layer: holidayCaffe2025},
 						]}, */
+						{label: 'День архитектурного наследия', collapsed: true, children: [
+							{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> 2026', layer: arch_day_2026},
+							/* {label: '<img src="images/icon/holidayCaffe2025.svg" style="width:15px;height:15px;"> Выставка в интерьере', layer: holidayCaffe2025}, */
+						]},
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
 							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
@@ -1121,8 +1086,8 @@ var guidess = $.guides({
   distance: 50,
   guides: [
 		//Анонс изменений
-		/*{html: ''
-		},*/
+		{html: 'Статус ОКН указан на 1 января 2026 года'
+		},
 		{
 		element: $('#demo.navBtn'),
 		html: 'Понять, как пользоваться картой.'
@@ -1131,16 +1096,6 @@ var guidess = $.guides({
 });
 guidess.start();
 
-
-/* var guidesAnons = $.guides({
-  distance: 50,
-  guides: [
-	{
-	  html: 'Добавили слой с историческими названиями улиц'
-		}]
-});
-guidesAnons.start();
- */
 
 $('#demo').guides({
   distance: 50,
