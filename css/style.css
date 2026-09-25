@@ -190,7 +190,7 @@ h2 {
     margin-top: 20px;
     margin-right: 2px;
     padding-right: 12px;
-    min-width: 100 px !important;
+    min-width: 100px !important; /* исправлено: было «100 px» с пробелом — браузер игнорировал правило */
     max-height: 350px;
     overflow: auto;
 	font-size: 13px;
@@ -204,4 +204,16 @@ h2 {
   width: 50px;
   text-align: center;
   text-decoration: none;
+}
+
+
+/* Фото в попапе (функция photoGallery в js/main.js).
+   Фото занимает всю ширину попапа, высота меняется пропорционально,
+   поэтому фото больше не открывается в своём исходном разрешении.
+   display:block убирает пустую полоску под картинкой. */
+.leaflet-popup-content .popup-photo {
+	width: 100%;
+	height: auto;
+	display: block;
+	margin-bottom: 6px;
 }

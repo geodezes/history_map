@@ -70,7 +70,7 @@ var quartals = new L.geoJson.ajax("layers/quartals.geojson",{
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup("<b>"+"Квартал №"+feature.properties.quarter+"</b>"
 				,popupOptions);		
 				layer.on({
@@ -84,347 +84,176 @@ map.addLayer(quartals);
  ////////////////////////////////////////////////////////////////////////////////
  
  
-// create wfs layer Fasadnik
-var Fasadnik = new L.geoJson.ajax("layers/Fasadnik.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [27, 27],
-						iconAnchor: [15, 13],
-						popupAnchor:  [0, -12]
-						}
-				});
-				//Грузим иконки
-				var fsadnikIcon = new LeafIcon({iconUrl: 'images/icon/fasadnik_old.svg'});	
-			
-				return new L.marker(latlng, {icon: fsadnikIcon,title:"Фасадник"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+(feature.properties.zd_gov!="-" ? "<a href='https://fasadnik.org'>Фасадник</a>" : "")+"</dt>"
-				+"<dt>"+feature.properties.nameF+"</dt>"
-				,popupOptions
-				);
-				}
-				
+/* =====================================================================
+   ОБЩИЕ ФУНКЦИИ ДЛЯ СОЗДАНИЯ СЛОЁВ
+   Раньше каждый точечный слой описывался отдельным блоком из 20–30 строк,
+   которые отличались только файлом, иконкой и текстом попапа.
+   Теперь слои создаются через функции ниже, а различия задаются параметрами.
+   Вид иконок, попапов и кластеров не изменился.
+   ===================================================================== */
+
+// Иконка Leaflet. size — размер, anchor — точка привязки к координате,
+// popupAnchor — смещение попапа относительно точки привязки
+function makeIcon(url, size, anchor, popupAnchor) {
+	return L.icon({iconUrl: url, iconSize: size, iconAnchor: anchor, popupAnchor: popupAnchor});
+}
+
+// Точечный слой GeoJSON с иконкой и попапом.
+// opts.icon     — иконка (makeIcon) или функция feature -> иконка
+// opts.title    — всплывающая подсказка у маркера
+// opts.popup    — функция feature -> HTML попапа
+// opts.maxWidth — ширина попапа (по умолчанию 250)
+// opts.minWidth — минимальная ширина попапа (число или функция feature -> число)
+// opts.filter   — необязательный фильтр объектов
+function markerLayer(url, opts) {
+	var options = {
+		pointToLayer: function (feature, latlng) {
+			var icon = (typeof opts.icon === 'function') ? opts.icon(feature) : opts.icon;
+			if (!icon) return; // объект без подходящей иконки не выводится (как было раньше)
+			var markerOptions = {icon: icon};
+			if (opts.title) markerOptions.title = opts.title;
+			return L.marker(latlng, markerOptions);
+		},
+		onEachFeature: function (feature, layer) {
+			var popupOpts = {maxWidth: opts.maxWidth || 250};
+			// opts.minWidth может быть числом или функцией feature -> число
+			// (например, фиксированная ширина только у попапов с фото)
+			var minWidth = (typeof opts.minWidth === 'function') ? opts.minWidth(feature) : opts.minWidth;
+			if (minWidth) popupOpts.minWidth = minWidth;
+			layer.bindPopup(opts.popup(feature), popupOpts);
+		}
+	};
+	if (opts.filter) options.filter = opts.filter;
+	return new L.geoJson.ajax(url, options);
+}
+
+// Кластеризация маркеров. customIcons = true включает жёлтые кластеры
+// (классы marker-cluster-smallg / mediumg / largeg), как у малых форм
+function clusterGroup(color, customIcons) {
+	var options = {
+		disableClusteringAtZoom: 16,
+		spiderfyOnMaxZoom: false,
+		polygonOptions: {color: color}
+	};
+	if (customIcons) {
+		options.iconCreateFunction = function (cluster) {
+			var childCount = cluster.getChildCount();
+			var c = ' marker-cluster-' + (childCount < 10 ? 'smallg' : childCount < 100 ? 'mediumg' : 'largeg');
+			return new L.DivIcon({html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)});
+		};
+	}
+	return L.markerClusterGroup(options);
+}
+
+// Слой, который после загрузки данных помещается в кластер
+function clusteredLayer(layer, color, customIcons) {
+	var cluster = clusterGroup(color, customIcons);
+	layer.on('data:loaded', function () { cluster.addLayer(layer); });
+	return cluster;
+}
+
+// Строка попапа «заголовок + значение» в формате <dt>/<dd>
+function popupRow(title, value) {
+	return "<dt><b>" + title + "</b></dt><dd>" + value + "</dd>";
+}
+
+// Блок фотографий для lightbox: имя.jpg, имя(1).jpg и имя(2).jpg.
+// В попапе видно только основное фото (имя.jpg). Ссылки на имя(1) и имя(2) пустые
+// и невидимые, но входят в ту же группу data-lightbox, поэтому в полноэкранном
+// просмотре все три фото по-прежнему листаются стрелками.
+// Исправлено:
+//  - раньше в скрытых ссылках стоял незакрытый тег <img class="example-image"</a>
+//    без src, из-за чего разметка попапа была некорректной;
+//  - раньше у фото было style=max-width:240 без кавычек и единиц, браузер это правило
+//    игнорировал, и фото показывалось в своём исходном разрешении.
+//    Теперь ширину задаёт класс popup-photo в css/style.css: фото занимает всю
+//    ширину попапа, высота меняется пропорционально.
+function photoGallery(baseUrl, name) {
+	return '<div class="popup-gallery">'
+		+ '<a class="example-image-link" href="' + baseUrl + name + '.jpg" data-lightbox="example-1">'
+		+ '<img class="example-image popup-photo" src="' + baseUrl + name + '.jpg" alt="' + name + '" /></a>'
+		+ '<a href="' + baseUrl + name + '(1).jpg" data-lightbox="example-1"></a>'
+		+ '<a href="' + baseUrl + name + '(2).jpg" data-lightbox="example-1"></a>'
+		+ '</div>';
+}
+
+// Ширина попапа с фото. Используется как maxWidth и как minWidth,
+// чтобы все попапы с фото были одной ширины и фото не зависело от длины текста
+var PHOTO_POPUP_WIDTH = 250;
+
+var PHOTO_URL = 'https://444226.selcdn.ru/historymap.online/';
+
+/* ===================== Партнёры ===================== */
+
+// Фасадник
+var Fasadnik = markerLayer("layers/Fasadnik.geojson", {
+	icon: makeIcon('images/icon/fasadnik_old.svg', [27, 27], [15, 13], [0, -12]),
+	title: "Фасадник",
+	popup: function (feature) {
+		return "<dt>" + (feature.properties.zd_gov != "-" ? "<a href='https://fasadnik.org'>Фасадник</a>" : "") + "</dt>"
+			+ "<dt>" + feature.properties.nameF + "</dt>";
+	}
+});
+var markersFasadnik = clusteredLayer(Fasadnik, '#808080', false);
+
+// Здания говорят
+var Zdaniy_govoryt = markerLayer("layers/Zdaniy_govoryt.geojson", {
+	icon: makeIcon('images/icon/zg-logo.svg', [18, 18], [15, 5], [0, -5]),
+	title: "Здания говорят",
+	maxWidth: 300,
+	popup: function (feature) {
+		var p = feature.properties;
+		if (p.zd_gov == "-") return "";
+		return "<a href='https://www.irkologia.ru/zg#" + p.zd_link + "'>" + p.zd_name + "</a>"
+			+ "<audio controls><source src='https://irkologia.ru/assets/zg/" + p.zd_gov + ".mp3' type='audio/mpeg'></audio>";
+	}
 });
 
+/* ===================== События (пожары и ЧС) ===================== */
 
-/////////////////////////////////////////////////////////////////////////////////
+// Оба слоя берут данные из одного файла Events.geojson и отличаются только фильтром
+var eventIcons = {
+	fire: makeIcon('images/icon/eventFire.svg', [27, 27], [13, 27], [1, -24]),
+	emergency: makeIcon('images/icon/eventEmergency.svg', [27, 27], [13, 27], [1, -24])
+};
+function eventLayer(eventName) {
+	return markerLayer("layers/Events.geojson", {
+		icon: eventIcons[eventName],
+		popup: function (feature) {
+			return popupRow("Дата события:", feature.properties.eventdate)
+				+ popupRow("Описание:", feature.properties.eventdis);
+		},
+		filter: function (feature) { return feature.properties.eventname === eventName; }
+	});
+}
+var eventFire = eventLayer("fire");
+var eventEmergency = eventLayer("emergency");
 
-//markercluster 
-var markersFasadnik = L.markerClusterGroup({
-	disableClusteringAtZoom: 16,
-	spiderfyOnMaxZoom : false ,
-	polygonOptions: {color: '#808080' }
-});
-Fasadnik.on('data:loaded', function () {
-	markersFasadnik.addLayer(Fasadnik);
-	//console.log(markersBar);
-	//map.addLayer(markers);
-});
+/* ===================== ГИКЭ ===================== */
 
+// Историко-культурные экспертизы: запланированные (histCultExpГГГГ)
+// и отрицательные (negativHCEГГГГ). Чтобы добавить новый год,
+// достаточно положить файлы в layers/ и дописать год в overlaysTree
+var expIcon = makeIcon('images/icon/iconExp.svg', [15, 15], [7, 6], [0, -6]);
+var negativExpIcon = makeIcon('images/icon/iconNegativExp.svg', [15, 15], [7, 6], [0, -6]);
 
-/* markers.addLayer(Fasadnik);
-map.addLayer(markers); */
- 
-////////////////////////////////////////////////// 
-
-
-
-// create wfs layer Zdaniy_govoryt
-var Zdaniy_govoryt = new L.geoJson.ajax("layers/Zdaniy_govoryt.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafZdGovIcon = L.Icon.extend({
-						options: {
-						iconSize: [18, 18],
-						iconAnchor: [15, 5],
-						popupAnchor:  [0, -5]
-						}
-				});
-				//Грузим иконки
-				var zdGovIcon = new LeafZdGovIcon({iconUrl: 'images/icon/zg-logo.svg'});	
-			
-				return new L.marker(latlng, {icon: zdGovIcon,title:"Здания говорят"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 300};
-				layer.bindPopup(
-				(feature.properties.zd_gov!="-" ? "<a href='https://www.irkologia.ru/zg#"+feature.properties.zd_link+"'>"+feature.properties.zd_name+"</a>" : "")
-				+(feature.properties.zd_gov!="-" ? "<audio controls><source src='https://irkologia.ru/assets/zg/"+feature.properties.zd_gov+".mp3' type='audio/mpeg'></audio>" : "")
-				,popupOptions
-				);
-				}
-				
-});
-
-
-
-// create wfs layer Events
-var eventFire = new L.geoJson.ajax("layers/Events.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [27, 27],
-						iconAnchor: [13, 27],
-						popupAnchor:  [1, -24]
-						}
-				});
-				//Грузим иконки
-				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'}),
-					expIcon= new LeafIcon({iconUrl: 'images/icon/eventExp.svg'});
-				//выбор иконки в зависимости от типа события
-				var eventType=feature.properties.eventname;
-				if(eventType=="emergency"){
-				return L.marker(latlng, {icon: emegencyIcon});}
-				else if (eventType=="fire"){
-				return L.marker(latlng, {icon: fireIcon});}
-				else if (eventType=="histCultExp2022"){
-				return L.marker(latlng, {icon: expIcon});}
-			},
-				
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup("<dt>"+"<b>"+"Дата события:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdate+"</dd>"
-				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
-				,popupOptions
-				);
-				},
-				filter: function (feature, layer){if (feature.properties.eventname === "fire")return true;}
-});
-/*map.addLayer(eventFire);*/
-
-// create wfs layer Events
-var eventEmergency = new L.geoJson.ajax("layers/Events.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [27, 27],
-						iconAnchor: [13, 27],
-						popupAnchor:  [1, -24]
-						}
-				});
-				//Грузим иконки
-				var emegencyIcon = new LeafIcon({iconUrl: 'images/icon/eventEmergency.svg'}),
-					fireIcon= new LeafIcon({iconUrl: 'images/icon/eventFire.svg'});
-				//выбор иконки в зависимости от типа события
-				var eventType=feature.properties.eventname;
-				if(eventType=="emergency"){
-				return L.marker(latlng, {icon: emegencyIcon});}
-			},
-				
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup("<dt>"+"<b>"+"Дата события:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdate+"</dd>"
-				+"<dt>"+"<b>"+"Описание:"+"</b>"+"</dt>"+"<dd>"+feature.properties.eventdis+"</dd>"
-				,popupOptions
-				);
-				},
-				filter: function (feature, layer){if (feature.properties.eventname === "emergency")return true;}
-});
-/* map.addLayer(eventEmergency); */
-
-
-////////////////////////////////////////////////////////////////////////////////
- 
- 
-// create wfs layer Historical and cultural expertise  2022
-var histCultExp2022 = new L.geoJson.ajax("layers/histcultexp2022.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [15, 15],
-						iconAnchor: [7, 6],
-						popupAnchor:  [0, -6]
-						}
-				});
-				//Грузим иконки
-				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
-			
-				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+feature.properties.eventdis+"</dt>"
-				,popupOptions
-				);
-				}
-				
-});
-
-/*map.addLayer(histCultExp2022);*/
-
-// create wfs layer Historical and cultural expertise  2023
-var histCultExp2023 = new L.geoJson.ajax("layers/histcultexp2023.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [15, 15],
-						iconAnchor: [7, 6],
-						popupAnchor:  [0, -6]
-						}
-				});
-				//Грузим иконки
-				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
-			
-				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+feature.properties.eventdis+"</dt>"
-				,popupOptions
-				);
-				}
-				
-});
-
-/*map.addLayer(histCultExp2023);*/
-
-
-// create wfs layer Historical and cultural expertise  2024
-var histCultExp2024 = new L.geoJson.ajax("layers/histcultexp2024.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [15, 15],
-						iconAnchor: [7, 6],
-						popupAnchor:  [0, -6]
-						}
-				});
-				//Грузим иконки
-				var iconExpIcon = new LeafIcon({iconUrl: 'images/icon/iconExp.svg'});	
-			
-				return new L.marker(latlng, {icon: iconExpIcon,title:"Экспертиза"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+feature.properties.eventdis+"</dt>"
-				,popupOptions
-				);
-				}
-				
-});
-
-//map.addLayer(histCultExp2024);
-
-
-/////////////////////////////////////////////////////////////////
-
-// create wfs layer negativ Historical and cultural expertise
-var negativHCE2022 = new L.geoJson.ajax("layers/negativHCE2022.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [15, 15],
-						iconAnchor: [7, 6],
-						popupAnchor:  [0, -6]
-						}
-				});
-				//Грузим иконки
-				var iconNegativExpIcon = new LeafIcon({iconUrl: 'images/icon/iconNegativExp.svg'});	
-			
-				return new L.marker(latlng, {icon: iconNegativExpIcon,title:"Отрицательная Экспертиза"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+feature.properties.discrhce+"</dt>"
-				,popupOptions
-				);
-				}
-				
-});
-
-/* map.addLayer(negativHCE2022); */
-/////////////////////////////////////////////////////////////////
-
-// create wfs layer negativ Historical and cultural expertise
-var negativHCE2023 = new L.geoJson.ajax("layers/negativHCE2023.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [15, 15],
-						iconAnchor: [7, 6],
-						popupAnchor:  [0, -6]
-						}
-				});
-				//Грузим иконки
-				var iconNegativExpIcon = new LeafIcon({iconUrl: 'images/icon/iconNegativExp.svg'});	
-			
-				return new L.marker(latlng, {icon: iconNegativExpIcon,title:"Отрицательная Экспертиза"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+feature.properties.discrhce+"</dt>"
-				,popupOptions
-				);
-				}
-				
-});
-
-/* map.addLayer(negativHCE2023); */
-
-// create wfs layer negativ Historical and cultural expertise
-var negativHCE2024 = new L.geoJson.ajax("layers/negativHCE2024.geojson",{
-				pointToLayer: function(feature, latlng) {
-				//стиль иконок
-				var LeafIcon = L.Icon.extend({
-						options: {
-						iconSize: [15, 15],
-						iconAnchor: [7, 6],
-						popupAnchor:  [0, -6]
-						}
-				});
-				//Грузим иконки
-				var iconNegativExpIcon = new LeafIcon({iconUrl: 'images/icon/iconNegativExp.svg'});	
-			
-				return new L.marker(latlng, {icon: iconNegativExpIcon,title:"Отрицательная Экспертиза"});
-			   },
-							
-				//create popup
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				"<dt>"+feature.properties.discrhce+"</dt>"
-				,popupOptions
-				);
-				}
-				
-});
-
-//map.addLayer(negativHCE2024);
-
+function histCultExpLayer(year) {
+	return markerLayer("layers/histcultexp" + year + ".geojson", {
+		icon: expIcon,
+		title: "Экспертиза",
+		popup: function (feature) { return "<dt>" + feature.properties.eventdis + "</dt>"; }
+	});
+}
+function negativHCELayer(year) {
+	return markerLayer("layers/negativHCE" + year + ".geojson", {
+		icon: negativExpIcon,
+		title: "Отрицательная Экспертиза",
+		popup: function (feature) { return "<dt>" + feature.properties.discrhce + "</dt>"; }
+	});
+}
+var histCultExp2022 = histCultExpLayer(2022), negativHCE2022 = negativHCELayer(2022);
+var histCultExp2023 = histCultExpLayer(2023), negativHCE2023 = negativHCELayer(2023);
+var histCultExp2024 = histCultExpLayer(2024), negativHCE2024 = negativHCELayer(2024);
 ////геолакация
 L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 
@@ -450,7 +279,7 @@ L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 							
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup(
 				"Выставка в интерьере"
 				,popupOptions
@@ -481,7 +310,7 @@ map.addLayer(holidayCaffe2025); */
 							
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup(
 				"Выставка в экстерьере"
 				,popupOptions
@@ -562,11 +391,13 @@ function zoomToFeature(e) {
 				,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250
+				var popupOptions = {maxWidth: 250
 				};
+				// Исправлено: строка про план 1880 г. проверяла поле 1869streetName вместо 1880streetName,
+				// поэтому название 1880 г. показывалось или скрывалось по данным 1869 г.
 				layer.bindPopup(
 				(feature.properties['1869streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1869г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1869streetName'] +"</b>"+"</dd>":"")
-				+(feature.properties['1869streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1880г с плана 1872г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1880streetName'] +"</b>"+"</dd>":"")
+				+(feature.properties['1880streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1880г с плана 1872г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1880streetName'] +"</b>"+"</dd>":"")
 				+(feature.properties['1940streetName'] !="-"? "<dt>"+"&#9899 "+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
 					,popupOptions);
 				
@@ -596,13 +427,12 @@ function zoomToFeature(e) {
 				style: goStyle,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250
+				var popupOptions = {maxWidth: 250
 				};
+				// у попапа с фото фиксированная ширина, чтобы фото растягивалось на всю ширину попапа
+				if (feature.properties.Photo != "-") popupOptions.minWidth = PHOTO_POPUP_WIDTH;
 				layer.bindPopup(
-				(feature.properties.Photo!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/'+ feature.properties.Photo +'.jpg" style=max-width:240 alt="'+ feature.properties.Photo +'" /></a></div>':"")
+				(feature.properties.Photo!="-" ? photoGallery(PHOTO_URL, feature.properties.Photo) : "") // фото через общую функцию photoGallery
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>&#128270  Посмотреть 3D модель</b></a>" : "")
 				+"<dt>"+"<b>"+feature.properties.Name+"</b>"+"</dt>"
 				/*+"<dd>"+feature.properties.Name+"</dd>"*/
@@ -620,7 +450,7 @@ function zoomToFeature(e) {
 				layer.options.tags=
 				[feature.properties.Material,
 				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
-				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
+				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не определен'), // исправлена опечатка «Не опеделен» (тег и кнопка фильтра изменены одновременно)
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : ''),
 				//теги этажей для фильтра
@@ -681,7 +511,7 @@ var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson
 							
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup(
 				"<dt>"+feature.properties.disc+"</dt>"
 				,popupOptions
@@ -697,198 +527,47 @@ var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson
 var arch_day_2026 = L.layerGroup([arch_day_2026_point, arch_day_2026_line]);
 	
 	
-	/* ворота */
-	
-	 var gate = new L.geoJson.ajax("layers/gate.geojson",{
+	/* ===================== Малые архитектурные формы ===================== */
+	// Ворота, элементы из песчаника и брандмауэры: одинаковый попап
+	// (фото, тип, примечание), фотографии лежат в папке vorota/
+	function minFormPopup(feature) {
+		var p = feature.properties;
+		return (p.PhotoName != "-" ? photoGallery(PHOTO_URL + 'vorota/', p.PhotoName) : "")
+			+ p.type
+			+ (p.Note != '-' ? "<dd>" + p.Note + "</dd>" : "");
+	}
 
-			pointToLayer: function(feature, latlng) {
-			   //стиль иконок
-			var LeafGateIcon = L.Icon.extend({
-						options: {
-						iconSize: [27, 27],
-						iconAnchor: [12, 14],
-						popupAnchor:  [2, -11]
-						}
-			});
-				//Грузим иконки
-				var gateIcon = new LeafGateIcon({iconUrl: 'images/icon/gate.svg'});	
-				return new L.marker(latlng, {icon: gateIcon,title:"Ворота"});
-			},
-				//стиль всплывающих окон
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				(feature.properties.PhotoName!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName +'.jpg" style=max-width:240 alt="'+ feature.properties.PhotoName +'" /></a></div>':"")
-				+(feature.properties.type)
-				+(feature.properties.Note!='-' ? "<dd>"+feature.properties.Note+"</dd>":"")
-				 ,popupOptions
-				 );
-				},
-				
-	});
-/*  map.addLayer(gate); */
-	
-	/* Песчаник */
-	
-	 var wall = new L.geoJson.ajax("layers/wall.geojson",{
+	// У попапов с фото ширина фиксированная (PHOTO_POPUP_WIDTH), без фото — как раньше
+	function minFormPopupWidth(feature) {
+		return feature.properties.PhotoName != "-" ? PHOTO_POPUP_WIDTH : null;
+	}
 
-			pointToLayer: function(feature, latlng) {
-			   //стиль иконок
-			var LeafWallIcon = L.Icon.extend({
-						options: {
-						iconSize: [27, 27],
-						iconAnchor: [12, 14],
-						popupAnchor:  [2, -11]
-						}
-			});
-				//Грузим иконки
-				var wallIcon = new LeafWallIcon({iconUrl: 'images/icon/wall.svg'});	
-				return new L.marker(latlng, {icon: wallIcon,title:"Элименты песчаниа"});
-			},
-				//стиль всплывающих окон
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				(feature.properties.PhotoName!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName +'.jpg" style=max-width:240 alt="'+ feature.properties.PhotoName +'" /></a></div>':"")
-				+(feature.properties.type)
-				+(feature.properties.Note!='-' ? "<dd>"+feature.properties.Note+"</dd>":"")
-				 ,popupOptions
-				 );
-				},
-				
+	var gate = markerLayer("layers/gate.geojson", {
+		icon: makeIcon('images/icon/gate.svg', [27, 27], [12, 14], [2, -11]),
+		title: "Ворота",
+		popup: minFormPopup,
+		minWidth: minFormPopupWidth
 	});
-/*  map.addLayer(wall); */
-	
-	/* ворота */
-	
-	 var firewall = new L.geoJson.ajax("layers/firewall.geojson",{
-
-			pointToLayer: function(feature, latlng) {
-			   //стиль иконок
-			var LeafFwallIcon = L.Icon.extend({
-						options: {
-						iconSize: [27, 27],
-						iconAnchor: [12, 14],
-						popupAnchor:  [4, -13]
-						}
-			});
-				//Грузим иконки
-				var firewallIcon = new LeafFwallIcon({iconUrl: 'images/icon/firewall.svg'});	
-				return new L.marker(latlng, {icon: firewallIcon,title:"Брандма́уэр"});
-			},
-				//стиль всплывающих окон
-				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
-				layer.bindPopup(
-				(feature.properties.PhotoName!="-" ? '<div><a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-				+'<a class="example-image-link" href="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName+'.jpg" data-lightbox="example-1"><img class="example-image"'
-				+' src="https://444226.selcdn.ru/historymap.online/vorota/'+ feature.properties.PhotoName +'.jpg" style=max-width:240 alt="'+ feature.properties.PhotoName +'" /></a></div>':"")
-				+(feature.properties.type)
-				+(feature.properties.Note!='-' ? "<dd>"+feature.properties.Note+"</dd>":"")
-				 ,popupOptions
-				 );
-				},
-				
+	var wall = markerLayer("layers/wall.geojson", {
+		icon: makeIcon('images/icon/wall.svg', [27, 27], [12, 14], [2, -11]),
+		title: "Элементы песчаника", // исправлена опечатка «Элименты песчаниа»
+		popup: minFormPopup,
+		minWidth: minFormPopupWidth
 	});
-/*  map.addLayer(firewall); */
-	
+	var firewall = markerLayer("layers/firewall.geojson", {
+		icon: makeIcon('images/icon/firewall.svg', [27, 27], [12, 14], [4, -13]),
+		title: "Брандма́уэр",
+		popup: minFormPopup,
+		minWidth: minFormPopupWidth
+	});
 
 /* малые архитектурные формы: ворота, песчаник, брандмауэры */
-var minForm = new L.layerGroup([gate,wall,firewall])
+var minForm = new L.layerGroup([gate, wall, firewall]);
 
-//markercluster ворота
-var markersGate = L.markerClusterGroup({
-	disableClusteringAtZoom: 16,
-	spiderfyOnMaxZoom : false ,
-	polygonOptions: {color: '#ebd57f' },
-	
-	iconCreateFunction: function (cluster) {
-		var childCount = cluster.getChildCount();
-
-		var c = ' marker-cluster-';
-		if (childCount < 10) {
-			c += 'smallg';
-		} else if (childCount < 100) {
-			c += 'mediumg';
-		} else {
-			c += 'largeg';
-		}
-
-		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-	},
-			
-});
-gate.on('data:loaded', function () {
-	markersGate.addLayer(gate);
-	//console.log(markersBar);
-   // map.addLayer(markers);
-});
-
-//markercluster стены
-var markersWall = L.markerClusterGroup({
-	disableClusteringAtZoom: 16,
-	spiderfyOnMaxZoom : false ,
-	polygonOptions: {color: '#ebd57f' },
-	
-	iconCreateFunction: function (cluster) {
-		var childCount = cluster.getChildCount();
-
-		var c = ' marker-cluster-';
-		if (childCount < 10) {
-			c += 'smallg';
-		} else if (childCount < 100) {
-			c += 'mediumg';
-		} else {
-			c += 'largeg';
-		}
-
-		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-	},
-			
-});
-wall.on('data:loaded', function () {
-	markersWall.addLayer(wall);
-	//console.log(markersBar);
-   // map.addLayer(markers);
-});
-
-//markercluster брандмауэры
-var markersFirewall = L.markerClusterGroup({
-	disableClusteringAtZoom: 16,
-	spiderfyOnMaxZoom : false ,
-	polygonOptions: {color: '#ebd57f' },
-	
-	iconCreateFunction: function (cluster) {
-		var childCount = cluster.getChildCount();
-
-		var c = ' marker-cluster-';
-		if (childCount < 10) {
-			c += 'smallg';
-		} else if (childCount < 100) {
-			c += 'mediumg';
-		} else {
-			c += 'largeg';
-		}
-
-		return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster' + c, iconSize: new L.Point(40, 40) });
-	},
-			
-});
-firewall.on('data:loaded', function () {
-	markersFirewall.addLayer(firewall);
-	//console.log(markersBar);
-   // map.addLayer(markers);
-});
-
-
-
+// Кластеры с жёлтыми значками
+var markersGate = clusteredLayer(gate, '#ebd57f', true);
+var markersWall = clusteredLayer(wall, '#ebd57f', true);
+var markersFirewall = clusteredLayer(firewall, '#ebd57f', true);
 /* Скрываем точечный слой в зависимости от масштаба */
 /* zsh = new ZoomShowHide();
 zsh.addTo(map);
@@ -919,7 +598,7 @@ zsh.addLayer(minForm);
 	
 	 
 	var archStyleFilterButton = L.control.tagFilterButton({
-	  data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
+	  data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не определен'], // исправлена опечатка «Не опеделен»
 	  icon: "<p>"+"Стиль"+"</p>",
 	  filterOnEveryClick: true
 	}).addTo(map);
@@ -940,7 +619,7 @@ zsh.addLayer(minForm);
 
 
 	jQuery('.easy-button-button').click(function() {
-		target = jQuery('.easy-button-button').not(this);
+		var target = jQuery('.easy-button-button').not(this); // var: переменная больше не попадает в глобальную область
 		target.parent().find('.tag-filter-tags-container').css({
 			'display' : 'none',
 		});
@@ -962,21 +641,38 @@ zsh.addLayer(minForm);
 	}
   });
   
+  /* Подсветка найденного ОКН.
+     Раньше жёлтая подсветка снималась только при закрытии панели поиска, и то с ошибкой
+     (обращение к несуществующей переменной featuresLayer). Панель после выбора адреса
+     сама не закрывается (autoCollapse: false), поэтому подсветка оставалась на карте.
+     Теперь найденный объект запоминается в highlightedLayer, а подсветка снимается:
+       - при закрытии его попапа;
+       - при новом поиске (снимается с предыдущего найденного объекта);
+       - при закрытии панели поиска. */
+  var highlightedLayer = null;
+
+  // Вернуть подсвеченному объекту обычный стиль (goStyle)
+  function clearSearchHighlight() {
+	if (highlightedLayer) {
+	  geojsonStateProtection.resetStyle(highlightedLayer);
+	  highlightedLayer = null;
+	}
+  }
+
   searchControl.on('search:locationfound', function(e) {
-  
-	//console.log('search:locationfound', );
-  
-	//map.removeLayer(this._markerSearch)
-  
+	clearSearchHighlight();              // снять подсветку с предыдущего найденного объекта
+	highlightedLayer = e.layer;
 	e.layer.setStyle({ color: 'yellow' });
-	if (e.layer._popup)
+	if (e.layer._popup) {
 	  e.layer.openPopup();
-  
+	  // Обработчик вешается после openPopup, чтобы не сработать от закрытия чужого попапа.
+	  // once — обработчик срабатывает один раз и удаляется
+	  e.layer.once('popupclose', function () {
+		if (highlightedLayer === e.layer) clearSearchHighlight();
+	  });
+	}
   }).on('search:collapsed', function(e) {
-  
-	featuresLayer.eachLayer(function(layer) { //restore feature color
-	  featuresLayer.resetStyle(layer);
-	});
+	clearSearchHighlight();              // закрыли панель поиска — снять подсветку
   });
   
   map.addControl(searchControl); //inizialize search control 
@@ -991,11 +687,12 @@ zsh.addLayer(minForm);
 				label: 'Условные обозначения<div class="tree" id="tree"></div>',
 				collapsed: true,
 				children: [
+						// исправлено: «Муниципального/Регионального/Федерального здания» → «... значения»
 						{label: 'Категория гос. охраны', collapsed: true, children: [
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#f8d900 ;fill-opacity:0.8" /></svg> Вновь выявленные'},
-						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального здания'},
-						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального здания'},
-						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального здания'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального значения'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального значения'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального значения'},
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkGray ;fill-opacity:0.8" /></svg> Исключен/Утрачен'}, 
 						]},	
 						{label: 'Материал постройки', collapsed: true, children: [
@@ -1033,15 +730,15 @@ zsh.addLayer(minForm);
 						]},
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированные на 2024', layer: histCultExp2024},
 							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2024', layer: negativHCE2024},
 							]},
 							{label: 'ГИК экспертизы 2023', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированные на 2023', layer: histCultExp2023},
 							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2023', layer: negativHCE2023},
 							]},
 							{label: 'ГИК экспертизы 2022', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированные на 2022', layer: histCultExp2022},
 							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
 							]},
 						]},
@@ -1058,7 +755,7 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: markersFirewall},
 						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: markersWall},
 						{label: '<img src="images/icon/oldStreet.svg" style="width:15px;height:15px;"> Исторические названия улиц', layer: oldNameStreet},
-						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
+						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> Границы кварталов' /* убрана лишняя кавычка перед названием */},
 				]
 			};
 
@@ -1122,7 +819,7 @@ $('#demo').guides({
 	  html: 'Отобразить здания с 3D моделями.'
 		}, {
 	  element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(7)'),
-	  html: 'Поиск по адресу и нименованию ОКН'
+	  html: 'Поиск по адресу и наименованию ОКН'
 		}, {
 	  element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
 	  html: 'Узнать, где вы сейчас находитесь.'

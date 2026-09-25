@@ -1,11 +1,13 @@
-{ 
-    "name": "Starter", 
-    "short_name": "Starter", 
-    "icons": [{ 
-        "src": "google-touch-icon.png", 
-        "sizes": "512x512" 
-    }], 
-    "background_color" : "#ffffff", 
-    "theme_color": "#ffffff", 
-    "display": "fullscreen" 
+{
+  "name": "Объекты культурного наследия города Иркутска",
+  "short_name": "Карта ОКН Иркутска",
+  "icons": [
+    {
+      "src": "google-touch-icon.png",
+      "sizes": "512x512"
+    }
+  ],
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "fullscreen"
 }

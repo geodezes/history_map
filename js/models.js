@@ -10,10 +10,13 @@ var scene;
 var camera;
 var renderer;
 var model;
+// Контейнер для 3D-модели. Раньше внутри loadModel использовалась неявная глобальная
+// переменная renderSurface (браузер создаёт её по id элемента). Теперь она объявлена явно
+var renderSurface;
 
 window.addEventListener("load", function(){
 	scene = new THREE.Scene();
-	var renderSurface = document.getElementById("renderSurface"); //$('#renderSurface');
+	renderSurface = document.getElementById("renderSurface");
 	camera = new THREE.PerspectiveCamera( 60, /*renderSurface.innerWidth/renderSurface.innerHeight*/ 1.2, 0.1, 200 );
 
 	renderer = new THREE.WebGLRenderer();
@@ -80,7 +83,10 @@ export function loadModel(modelName, onStatus)
 
 	}, function ( xhr ) {
 
-		onStatus( Math.round( xhr.loaded / xhr.total * 100 ) + '% загружено' );
+		// Если сервер не сообщил размер файла (xhr.total = 0), процент посчитать нельзя:
+		// раньше в этом случае выводилось «Infinity% загружено»
+		if (xhr.total) onStatus( Math.round( xhr.loaded / xhr.total * 100 ) + '% загружено' );
+		else onStatus('Загрузка...');
 
 	}, function ( error ) {
 
