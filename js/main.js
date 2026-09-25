@@ -70,7 +70,7 @@ var quartals = new L.geoJson.ajax("layers/quartals.geojson",{
 				},
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup("<b>"+"Квартал №"+feature.properties.quarter+"</b>"
 				,popupOptions);		
 				layer.on({
@@ -103,6 +103,7 @@ function makeIcon(url, size, anchor, popupAnchor) {
 // opts.title    — всплывающая подсказка у маркера
 // opts.popup    — функция feature -> HTML попапа
 // opts.maxWidth — ширина попапа (по умолчанию 250)
+// opts.minWidth — минимальная ширина попапа (число или функция feature -> число)
 // opts.filter   — необязательный фильтр объектов
 function markerLayer(url, opts) {
 	var options = {
@@ -114,7 +115,12 @@ function markerLayer(url, opts) {
 			return L.marker(latlng, markerOptions);
 		},
 		onEachFeature: function (feature, layer) {
-			layer.bindPopup(opts.popup(feature), {maxWidth: opts.maxWidth || 250});
+			var popupOpts = {maxWidth: opts.maxWidth || 250};
+			// opts.minWidth может быть числом или функцией feature -> число
+			// (например, фиксированная ширина только у попапов с фото)
+			var minWidth = (typeof opts.minWidth === 'function') ? opts.minWidth(feature) : opts.minWidth;
+			if (minWidth) popupOpts.minWidth = minWidth;
+			layer.bindPopup(opts.popup(feature), popupOpts);
 		}
 	};
 	if (opts.filter) options.filter = opts.filter;
@@ -151,14 +157,29 @@ function popupRow(title, value) {
 	return "<dt><b>" + title + "</b></dt><dd>" + value + "</dd>";
 }
 
-// Блок из трёх фотографий для lightbox: имя(1).jpg, имя(2).jpg и имя.jpg.
-// HTML сохранён без изменений, чтобы галерея работала так же, как раньше
+// Блок фотографий для lightbox: имя.jpg, имя(1).jpg и имя(2).jpg.
+// В попапе видно только основное фото (имя.jpg). Ссылки на имя(1) и имя(2) пустые
+// и невидимые, но входят в ту же группу data-lightbox, поэтому в полноэкранном
+// просмотре все три фото по-прежнему листаются стрелками.
+// Исправлено:
+//  - раньше в скрытых ссылках стоял незакрытый тег <img class="example-image"</a>
+//    без src, из-за чего разметка попапа была некорректной;
+//  - раньше у фото было style=max-width:240 без кавычек и единиц, браузер это правило
+//    игнорировал, и фото показывалось в своём исходном разрешении.
+//    Теперь ширину задаёт класс popup-photo в css/style.css: фото занимает всю
+//    ширину попапа, высота меняется пропорционально.
 function photoGallery(baseUrl, name) {
-	return '<div><a class="example-image-link" href="' + baseUrl + name + '(1).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-		+ '<a class="example-image-link" href="' + baseUrl + name + '(2).jpg" data-lightbox="example-1"><img class="example-image"</a>'
-		+ '<a class="example-image-link" href="' + baseUrl + name + '.jpg" data-lightbox="example-1"><img class="example-image"'
-		+ ' src="' + baseUrl + name + '.jpg" style=max-width:240 alt="' + name + '" /></a></div>';
+	return '<div class="popup-gallery">'
+		+ '<a class="example-image-link" href="' + baseUrl + name + '.jpg" data-lightbox="example-1">'
+		+ '<img class="example-image popup-photo" src="' + baseUrl + name + '.jpg" alt="' + name + '" /></a>'
+		+ '<a href="' + baseUrl + name + '(1).jpg" data-lightbox="example-1"></a>'
+		+ '<a href="' + baseUrl + name + '(2).jpg" data-lightbox="example-1"></a>'
+		+ '</div>';
 }
+
+// Ширина попапа с фото. Используется как maxWidth и как minWidth,
+// чтобы все попапы с фото были одной ширины и фото не зависело от длины текста
+var PHOTO_POPUP_WIDTH = 250;
 
 var PHOTO_URL = 'https://444226.selcdn.ru/historymap.online/';
 
@@ -258,7 +279,7 @@ L.geolet({ position: 'bottomright', title:'Где я?' }).addTo(map);
 							
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup(
 				"Выставка в интерьере"
 				,popupOptions
@@ -289,7 +310,7 @@ map.addLayer(holidayCaffe2025); */
 							
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup(
 				"Выставка в экстерьере"
 				,popupOptions
@@ -370,11 +391,13 @@ function zoomToFeature(e) {
 				,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250
+				var popupOptions = {maxWidth: 250
 				};
+				// Исправлено: строка про план 1880 г. проверяла поле 1869streetName вместо 1880streetName,
+				// поэтому название 1880 г. показывалось или скрывалось по данным 1869 г.
 				layer.bindPopup(
 				(feature.properties['1869streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1869г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1869streetName'] +"</b>"+"</dd>":"")
-				+(feature.properties['1869streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1880г с плана 1872г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1880streetName'] +"</b>"+"</dd>":"")
+				+(feature.properties['1880streetName'] !="-"? "<dt>"+"&#9899 "+"Планъ губернскаго города Иркутска 1880г с плана 1872г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1880streetName'] +"</b>"+"</dd>":"")
 				+(feature.properties['1940streetName'] !="-"? "<dt>"+"&#9899 "+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
 					,popupOptions);
 				
@@ -404,8 +427,10 @@ function zoomToFeature(e) {
 				style: goStyle,
 				//стиль всплывающих окон
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250
+				var popupOptions = {maxWidth: 250
 				};
+				// у попапа с фото фиксированная ширина, чтобы фото растягивалось на всю ширину попапа
+				if (feature.properties.Photo != "-") popupOptions.minWidth = PHOTO_POPUP_WIDTH;
 				layer.bindPopup(
 				(feature.properties.Photo!="-" ? photoGallery(PHOTO_URL, feature.properties.Photo) : "") // фото через общую функцию photoGallery
 				+ (feature.properties["3D model"]!="-" ? "<a href='#' id='btnShowModal' onclick='openModal(\""+feature.properties["3D model"]+"\");'><b>&#128270  Посмотреть 3D модель</b></a>" : "")
@@ -425,7 +450,7 @@ function zoomToFeature(e) {
 				layer.options.tags=
 				[feature.properties.Material,
 				(feature.properties.go == "ГО н"?"Вновь выявленные":""),(feature.properties.go=="ГО р"?"Регионального значения":""),(feature.properties.go=="ГО ф" ? "Федерального значения":""),(feature.properties.go == "ГО м" ? "Муниципального значения":""),
-				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не опеделен'),
+				(feature.properties.Architectu !="-" ? feature.properties.Architectu : 'Не определен'), // исправлена опечатка «Не опеделен» (тег и кнопка фильтра изменены одновременно)
 				(feature.properties["3D model"]!="-" ? '3d модель' : ''),
 				(feature.properties.statusChange !="-" ? 'исключен/утрачен' : ''),
 				//теги этажей для фильтра
@@ -486,7 +511,7 @@ var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson
 							
 				//create popup
 				onEachFeature: function (feature, layer) {
-				popupOptions = {maxWidth: 250};
+				var popupOptions = {maxWidth: 250};
 				layer.bindPopup(
 				"<dt>"+feature.properties.disc+"</dt>"
 				,popupOptions
@@ -512,20 +537,28 @@ var arch_day_2026 = L.layerGroup([arch_day_2026_point, arch_day_2026_line]);
 			+ (p.Note != '-' ? "<dd>" + p.Note + "</dd>" : "");
 	}
 
+	// У попапов с фото ширина фиксированная (PHOTO_POPUP_WIDTH), без фото — как раньше
+	function minFormPopupWidth(feature) {
+		return feature.properties.PhotoName != "-" ? PHOTO_POPUP_WIDTH : null;
+	}
+
 	var gate = markerLayer("layers/gate.geojson", {
 		icon: makeIcon('images/icon/gate.svg', [27, 27], [12, 14], [2, -11]),
 		title: "Ворота",
-		popup: minFormPopup
+		popup: minFormPopup,
+		minWidth: minFormPopupWidth
 	});
 	var wall = markerLayer("layers/wall.geojson", {
 		icon: makeIcon('images/icon/wall.svg', [27, 27], [12, 14], [2, -11]),
 		title: "Элементы песчаника", // исправлена опечатка «Элименты песчаниа»
-		popup: minFormPopup
+		popup: minFormPopup,
+		minWidth: minFormPopupWidth
 	});
 	var firewall = markerLayer("layers/firewall.geojson", {
 		icon: makeIcon('images/icon/firewall.svg', [27, 27], [12, 14], [4, -13]),
 		title: "Брандма́уэр",
-		popup: minFormPopup
+		popup: minFormPopup,
+		minWidth: minFormPopupWidth
 	});
 
 /* малые архитектурные формы: ворота, песчаник, брандмауэры */
@@ -565,7 +598,7 @@ zsh.addLayer(minForm);
 	
 	 
 	var archStyleFilterButton = L.control.tagFilterButton({
-	  data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не опеделен'],
+	  data: ['Эклектика','Модерн','Классицизм','Сибирское барокко','Конструктивизм','Не определен'], // исправлена опечатка «Не опеделен»
 	  icon: "<p>"+"Стиль"+"</p>",
 	  filterOnEveryClick: true
 	}).addTo(map);
@@ -586,7 +619,7 @@ zsh.addLayer(minForm);
 
 
 	jQuery('.easy-button-button').click(function() {
-		target = jQuery('.easy-button-button').not(this);
+		var target = jQuery('.easy-button-button').not(this); // var: переменная больше не попадает в глобальную область
 		target.parent().find('.tag-filter-tags-container').css({
 			'display' : 'none',
 		});
@@ -608,23 +641,38 @@ zsh.addLayer(minForm);
 	}
   });
   
+  /* Подсветка найденного ОКН.
+     Раньше жёлтая подсветка снималась только при закрытии панели поиска, и то с ошибкой
+     (обращение к несуществующей переменной featuresLayer). Панель после выбора адреса
+     сама не закрывается (autoCollapse: false), поэтому подсветка оставалась на карте.
+     Теперь найденный объект запоминается в highlightedLayer, а подсветка снимается:
+       - при закрытии его попапа;
+       - при новом поиске (снимается с предыдущего найденного объекта);
+       - при закрытии панели поиска. */
+  var highlightedLayer = null;
+
+  // Вернуть подсвеченному объекту обычный стиль (goStyle)
+  function clearSearchHighlight() {
+	if (highlightedLayer) {
+	  geojsonStateProtection.resetStyle(highlightedLayer);
+	  highlightedLayer = null;
+	}
+  }
+
   searchControl.on('search:locationfound', function(e) {
-  
-	//console.log('search:locationfound', );
-  
-	//map.removeLayer(this._markerSearch)
-  
+	clearSearchHighlight();              // снять подсветку с предыдущего найденного объекта
+	highlightedLayer = e.layer;
 	e.layer.setStyle({ color: 'yellow' });
-	if (e.layer._popup)
+	if (e.layer._popup) {
 	  e.layer.openPopup();
-  
+	  // Обработчик вешается после openPopup, чтобы не сработать от закрытия чужого попапа.
+	  // once — обработчик срабатывает один раз и удаляется
+	  e.layer.once('popupclose', function () {
+		if (highlightedLayer === e.layer) clearSearchHighlight();
+	  });
+	}
   }).on('search:collapsed', function(e) {
-  
-	// Исправлено: раньше здесь была несуществующая переменная featuresLayer, и при закрытии поиска возникала ошибка.
-	// Теперь после закрытия поиска подсвеченный жёлтым ОКН возвращает обычный стиль
-	geojsonStateProtection.eachLayer(function(layer) { //restore feature color
-	  geojsonStateProtection.resetStyle(layer);
-	});
+	clearSearchHighlight();              // закрыли панель поиска — снять подсветку
   });
   
   map.addControl(searchControl); //inizialize search control 
@@ -639,11 +687,12 @@ zsh.addLayer(minForm);
 				label: 'Условные обозначения<div class="tree" id="tree"></div>',
 				collapsed: true,
 				children: [
+						// исправлено: «Муниципального/Регионального/Федерального здания» → «... значения»
 						{label: 'Категория гос. охраны', collapsed: true, children: [
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#f8d900 ;fill-opacity:0.8" /></svg> Вновь выявленные'},
-						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального здания'},
-						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального здания'},
-						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального здания'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:YellowGreen ;fill-opacity:0.8" /></svg> Муниципального значения'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#d76d51 ;fill-opacity:0.8" /></svg> Регионального значения'},
+						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:#ad2851 ;fill-opacity:0.8" /></svg> Федерального значения'},
 						{label: '<svg width="15" height="15"><rect width="15" height="15" style="fill:DarkGray ;fill-opacity:0.8" /></svg> Исключен/Утрачен'}, 
 						]},	
 						{label: 'Материал постройки', collapsed: true, children: [
@@ -681,15 +730,15 @@ zsh.addLayer(minForm);
 						]},
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2024', layer: histCultExp2024},
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированные на 2024', layer: histCultExp2024},
 							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2024', layer: negativHCE2024},
 							]},
 							{label: 'ГИК экспертизы 2023', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2023', layer: histCultExp2023},
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированные на 2023', layer: histCultExp2023},
 							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2023', layer: negativHCE2023},
 							]},
 							{label: 'ГИК экспертизы 2022', collapsed: true, children: [
-							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированые на 2022', layer: histCultExp2022},
+							{label: '<img src="images/icon/iconExp.svg" style="width:15px;height:15px;"> Запланированные на 2022', layer: histCultExp2022},
 							{label: '<img src="images/icon/iconNegativExp.svg" style="width:15px;height:15px;"> Отрицательные за 2022', layer: negativHCE2022},
 							]},
 						]},
@@ -706,7 +755,7 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/firewall.svg" style="width:15px;height:15px;"> Брандма́уэры', layer: markersFirewall},
 						{label: '<img src="images/icon/wall.svg" style="width:15px;height:15px;"> Песчаник', layer: markersWall},
 						{label: '<img src="images/icon/oldStreet.svg" style="width:15px;height:15px;"> Исторические названия улиц', layer: oldNameStreet},
-						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> "Границы кварталов'},
+						{label: '<img src="images/icon/quartals_legend.svg" style="width:20px;height:20px;"> Границы кварталов' /* убрана лишняя кавычка перед названием */},
 				]
 			};
 
@@ -770,7 +819,7 @@ $('#demo').guides({
 	  html: 'Отобразить здания с 3D моделями.'
 		}, {
 	  element: $('#map > div.leaflet-control-container > div.leaflet-top.leaflet-left > div:nth-child(7)'),
-	  html: 'Поиск по адресу и нименованию ОКН'
+	  html: 'Поиск по адресу и наименованию ОКН'
 		}, {
 	  element: $('#map > div.leaflet-control-container > div.leaflet-bottom.leaflet-right > div:nth-child(1)'),
 	  html: 'Узнать, где вы сейчас находитесь.'
