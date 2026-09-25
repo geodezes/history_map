@@ -1,4 +1,6 @@
-    <html>
+<!DOCTYPE html>
+<!-- DOCTYPE и lang="ru" добавлены: стандартный режим отрисовки и корректный язык страницы для браузеров и поисковиков -->
+    <html lang="ru">
     <head>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WEG5BB6SD6"></script>
@@ -24,9 +26,6 @@
      
 		<meta name="description" content="Карта ОКН позволит вам узнать где в Иркутске находится памятники архитектуры. Их называние, архитектурный стиль,охранный статус, материал постройки. Посмотреть 3D модели некоторых памятников"/>
       	  
-		<div id="titelMap" class="titelMap" >
-			<h2><span>Сохраним наследие <img src="favicon.svg" alt="что-то пошло не так" id="img" class= "headimg"/> <span></h2>
-		</div>
 
 		<!-- leaflet library -->  
 		<link rel="stylesheet" href="leaflet/leaflet.css" />
@@ -141,6 +140,10 @@
 
     </head>
     <body>
+		<!-- Заголовок перенесён из <head> в <body>: видимые элементы внутри <head> недопустимы по стандарту HTML. Исправлен незакрытый <span> -->
+		<div id="titelMap" class="titelMap" >
+			<h2><span>Сохраним наследие <img src="favicon.svg" alt="Сохраним наследие" id="img" class= "headimg"/></span></h2>
+		</div>
 	 	<div class="navBar" id="navBar">
 			<p><a id="demo" class="navBtn" href="" >Инструкция</a></p>		<!-- Запуск инструкции -->	
 			<p><a id="navBtn" class="navBtn" href="#connect">Контакты</a></p> <!-- Ссылка для перехода по странице -->
@@ -179,9 +182,9 @@
 		 
 		<div class="gallery">
 		<div align="center" >
-		<a class="image-link" href="images/irkutsk-1869.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1869г"><img class="example-image" src="images/irkutsk-1869.jpg" style=max-height:150 /></a>
-		<a class="image-link" href="images/irkutsk-1880.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1880г с плана 1872г"><img class="example-image" src="images/irkutsk-1880.jpg" style=max-height:150 /></a>
-		<a class="image-link" href="images/irkutsk-1940.jpg" data-lightbox="example" data-title="План города Иркутска 1940г"><img class="example-image" src="images/irkutsk-1940.jpg" style=max-height:150 /></a>
+		<a class="image-link" href="images/irkutsk-1869.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1869г"><img class="example-image" src="images/irkutsk-1869.jpg" style="max-height:150px" /> <!-- значение атрибута взято в кавычки, добавлены единицы px --></a>
+		<a class="image-link" href="images/irkutsk-1880.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1880г с плана 1872г"><img class="example-image" src="images/irkutsk-1880.jpg" style="max-height:150px" /> <!-- значение атрибута взято в кавычки, добавлены единицы px --></a>
+		<a class="image-link" href="images/irkutsk-1940.jpg" data-lightbox="example" data-title="План города Иркутска 1940г"><img class="example-image" src="images/irkutsk-1940.jpg" style="max-height:150px" /> <!-- значение атрибута взято в кавычки, добавлены единицы px --></a>
 		</div>
 		</div>
 		 
@@ -198,7 +201,7 @@
 			Эта карта для вас! Дорогие Иркутяне и гости города! Она покажет вам где сконцентрированы объекты культурного наследия в нашем городе, какого года постройки они, имеет ли тот или иной дом охранный статус, в каком стиле он выполнен, а на некоторые объекты есть описание, чем уникальны для нашей культуры именно они, на 100 памятников, вы даже найдете объемную модель, в точности повторяющую оригинал. Эти модели сняты со зданий, по нашему мнению, находящихся в категории риска, поэтому пусть вас не смущает их плачевное состояние.
 			</p>
 			<p>
-			Информация пеедставленная на карте носит ознакомительный характер, и получена из открытых источников. Для получения точных данных рекомендуем обратится к официальным порталам. </p>
+			Информация, представленная на карте, носит ознакомительный характер, и получена из открытых источников. Для получения точных данных рекомендуем обратиться к официальным порталам. </p>
 			<li> <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области </a></li>
 			<li> <a href="https://opendata.mkrf.ru/opendata/7705851331-egrkn/">Портал открытых данных Министерства Культуры Российской Федерации </a></li>
 			
@@ -220,10 +223,10 @@
 		
 		<div class="contentTitle" id="connect" >Контакты</div>
 		<div class="content">
-			<li>Наши канал в МАХ: <a href='https://max.ru/join/GxzK5-ARrRwCzwYLnkQTqk99Ize6OrWt4wYsERkjUrA'><b>МАХ</b></a></li>
+			<li>Наш канал в МАХ: <a href='https://max.ru/join/GxzK5-ARrRwCzwYLnkQTqk99Ize6OrWt4wYsERkjUrA'><b>МАХ</b></a></li>
 			<li>Наш E-mail: <b>voopik-irk@mail.ru</b></li>
 			<li>Наши социальные сети: <a href='https://vk.com/voopiik_irk'><b>ВКонтакте</b></a></li>
-			<li>Наш телеграм канал: <a href='https://t.me/RodnyeStavni'><b>Родные ставни</a></b></li>
+			<li>Наш телеграм канал: <a href='https://t.me/RodnyeStavni'><b>Родные ставни</b></a> <!-- исправлен порядок закрывающих тегов --></li>
 		<p><a id="navtBtn" class="navBtn" href="#navBar">	&#8593; Наверх </a></p> <!-- Кнопка наверх -->			
 		</div> 		
 

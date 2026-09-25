@@ -17,12 +17,14 @@
 	}));
 	
 	
+	// Тайлы OSM переведены на HTTPS: по http браузер блокирует загрузку на сайте с https (mixed content).
+	// Поддомены {s}.tile.openstreetmap.org устарели, OSM рекомендует единый адрес tile.openstreetmap.org.
 	// create openstreetmap base layer  убрать .grayscale для обычной OSM
-	var osmG = new L.tileLayer.grayscale('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	var osmG = new L.tileLayer.grayscale('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	map.addLayer(osmG);
 	
-	var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	var osm = new L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	//map.addLayer(osm);
 	
