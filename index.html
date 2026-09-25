@@ -1,4 +1,6 @@
-    <html>
+<!DOCTYPE html>
+<!-- DOCTYPE и lang="ru" добавлены: стандартный режим отрисовки и корректный язык страницы для браузеров и поисковиков -->
+    <html lang="ru">
     <head>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WEG5BB6SD6"></script>
@@ -22,11 +24,9 @@
 		
 		<title>Объекты культурного наследия города Иркутска</title>
      
-		<meta name="description" content="Карта ОКН позволит вам узнать где в Иркутске находится памятники архитектуры. Их называние, архитектурный стиль,охранный статус, материал постройки. Посмотреть 3D модели некоторых памятников"/>
+		<!-- Исправлены опечатки в описании для поисковиков -->
+		<meta name="description" content="Карта ОКН позволит вам узнать, где в Иркутске находятся памятники архитектуры, их название, архитектурный стиль, охранный статус, материал постройки. Посмотреть 3D модели некоторых памятников"/>
       	  
-		<div id="titelMap" class="titelMap" >
-			<h2><span>Сохраним наследие <img src="favicon.svg" alt="что-то пошло не так" id="img" class= "headimg"/> <span></h2>
-		</div>
 
 		<!-- leaflet library -->  
 		<link rel="stylesheet" href="leaflet/leaflet.css" />
@@ -35,7 +35,7 @@
 		<!-- jquery library -->
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 		
-		<!-- I don't know what is this -->
+		<!-- Font Awesome 4.7: библиотека иконок -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /><!-- разобраться на счет иконки -->
 		
 		<!-- Geolocation--> 			
@@ -76,9 +76,9 @@
 		<script src="js/leaflet-tag-filter-button.js"></script>
 		<!--tag filter-->
 				
-		<!-- ligtbox2 for images -->
+		<!-- lightbox2 for images -->
 		<link rel="stylesheet" href="css/lightbox.css" />
-		<!-- ligtbox2 for images -->
+		<!-- lightbox2 for images -->
 		
 		<!-- fullscreen -->
 		<link rel="stylesheet" href="css/leaflet.fullscreen.css" />
@@ -90,19 +90,19 @@
 		<script src="js/leaflet.pattern-src.js"></script>
 		<!--Штриховка полигонов SVG-->
 
-		<!-- Castom legend tree -->
+		<!-- Custom legend tree -->
 		<link rel="stylesheet" href="css/L.Control.Layers.Tree.css" />
 		<script src="js/L.Control.Layers.Tree.js"></script>
-		<!-- Castom legend tree -->
+		<!-- Custom legend tree -->
 	
 		<!-- Guides on start  -->
 		<link rel="stylesheet" href="css/guides.css" />
 		<script src="js/guides.js"></script>
 		<!-- Guides on start -->
 		
-		<!-- Hiden marker-->
+		<!-- Hidden marker-->
 		<script src="js/leaflet-zoom-show-hide.js"></script>
-		<!-- Hiden marker-->
+		<!-- Hidden marker-->
 
 		<!-- 3D model popup window -->
 		<link rel="stylesheet" href="css/modelpanel.css">
@@ -141,6 +141,10 @@
 
     </head>
     <body>
+		<!-- Заголовок перенесён из <head> в <body>: видимые элементы внутри <head> недопустимы по стандарту HTML. Исправлен незакрытый <span> -->
+		<div id="titelMap" class="titelMap" >
+			<h2><span>Сохраним наследие <img src="favicon.svg" alt="Сохраним наследие" id="img" class= "headimg"/></span></h2>
+		</div>
 	 	<div class="navBar" id="navBar">
 			<p><a id="demo" class="navBtn" href="" >Инструкция</a></p>		<!-- Запуск инструкции -->	
 			<p><a id="navBtn" class="navBtn" href="#connect">Контакты</a></p> <!-- Ссылка для перехода по странице -->
@@ -175,17 +179,17 @@
 
 		</div>
 
-		<hr class="line" align="center" id="lll" width="60" size="4" color="#696969" />
+		<hr class="line" style="width:60px; height:4px; background-color:#696969; border:none; margin:0 auto;" /> <!-- устаревшие атрибуты align/width/size/color заменены на CSS; удалён id="lll", повторявшийся трижды (id должен быть уникальным) -->
 		 
 		<div class="gallery">
 		<div align="center" >
-		<a class="image-link" href="images/irkutsk-1869.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1869г"><img class="example-image" src="images/irkutsk-1869.jpg" style=max-height:150 /></a>
-		<a class="image-link" href="images/irkutsk-1880.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1880г с плана 1872г"><img class="example-image" src="images/irkutsk-1880.jpg" style=max-height:150 /></a>
-		<a class="image-link" href="images/irkutsk-1940.jpg" data-lightbox="example" data-title="План города Иркутска 1940г"><img class="example-image" src="images/irkutsk-1940.jpg" style=max-height:150 /></a>
+		<a class="image-link" href="images/irkutsk-1869.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1869г"><img class="example-image" src="images/irkutsk-1869.jpg" style="max-height:150px" /> <!-- значение атрибута взято в кавычки, добавлены единицы px --></a>
+		<a class="image-link" href="images/irkutsk-1880.jpg" data-lightbox="example" data-title="Планъ губернскаго города Иркутска 1880г с плана 1872г"><img class="example-image" src="images/irkutsk-1880.jpg" style="max-height:150px" /> <!-- значение атрибута взято в кавычки, добавлены единицы px --></a>
+		<a class="image-link" href="images/irkutsk-1940.jpg" data-lightbox="example" data-title="План города Иркутска 1940г"><img class="example-image" src="images/irkutsk-1940.jpg" style="max-height:150px" /> <!-- значение атрибута взято в кавычки, добавлены единицы px --></a>
 		</div>
 		</div>
 		 
-		<hr class="line" align="center" id="lll" width="60" size="4" color="#696969" />
+		<hr class="line" style="width:60px; height:4px; background-color:#696969; border:none; margin:0 auto;" /> <!-- устаревшие атрибуты align/width/size/color заменены на CSS; удалён id="lll", повторявшийся трижды (id должен быть уникальным) -->
 		 
 		<script src="js/main.js"></script>
 		
@@ -198,37 +202,49 @@
 			Эта карта для вас! Дорогие Иркутяне и гости города! Она покажет вам где сконцентрированы объекты культурного наследия в нашем городе, какого года постройки они, имеет ли тот или иной дом охранный статус, в каком стиле он выполнен, а на некоторые объекты есть описание, чем уникальны для нашей культуры именно они, на 100 памятников, вы даже найдете объемную модель, в точности повторяющую оригинал. Эти модели сняты со зданий, по нашему мнению, находящихся в категории риска, поэтому пусть вас не смущает их плачевное состояние.
 			</p>
 			<p>
-			Информация пеедставленная на карте носит ознакомительный характер, и получена из открытых источников. Для получения точных данных рекомендуем обратится к официальным порталам. </p>
+			Информация, представленная на карте, носит ознакомительный характер, и получена из открытых источников. Для получения точных данных рекомендуем обратиться к официальным порталам. </p>
+			<!-- элементы <li> обёрнуты в <ul>: по стандарту пункт списка должен находиться внутри списка -->
+			<ul>
 			<li> <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области </a></li>
 			<li> <a href="https://opendata.mkrf.ru/opendata/7705851331-egrkn/">Портал открытых данных Министерства Культуры Российской Федерации </a></li>
+			</ul>
 			
 		</div>
 		
 		<div class="contentTitle" id="peoples">Команда проекта</div>
 		<div class="content">
 			<p align="left"> Карта реализуется Иркутским региональным отделением Всероссийского общества охраны памятников истории и культуры. При поддержке Фонда Президентских Грантов</p>
-			<li align="left"> <b>Руководитель проекта:</b> Матель Екатерина</li>
-			<li align="left"> <b>Научный руководитель:</b> Чертилов Алексей Константинович</li>
-			<li align="left"> <b>GIS специалист:</b> Колтович Данил</li>
-			<li align="left"> <b>Программист консультант:</b> Мыльников Григорий</li>
+			<!-- элементы <li> обёрнуты в <ul>: по стандарту пункт списка должен находиться внутри списка; удалён устаревший атрибут align -->
+			<ul>
+			<li> <b>Руководитель проекта:</b> Матель Екатерина</li>
+			<li> <b>Научный руководитель:</b> Чертилов Алексей Константинович</li>
+			<li> <b>GIS специалист:</b> Колтович Данил</li>
+			<li> <b>Программист консультант:</b> Мыльников Григорий</li>
+			</ul>
 		</div>		
 		
 		<div class="contentTitle" id="Another">Другие населенные пункты</div>
 		<div class="content">
+			<!-- элементы <li> обёрнуты в <ul>: по стандарту пункт списка должен находиться внутри списка -->
+			<ul>
 			<li><a href='https://vhl.historymap.online/'>Качугский муниципальный округ, село Верхоленск</a></li>
+			</ul>
 		</div>			
 		
 		<div class="contentTitle" id="connect" >Контакты</div>
 		<div class="content">
-			<li>Наши канал в МАХ: <a href='https://max.ru/join/GxzK5-ARrRwCzwYLnkQTqk99Ize6OrWt4wYsERkjUrA'><b>МАХ</b></a></li>
+			<!-- элементы <li> обёрнуты в <ul>: по стандарту пункт списка должен находиться внутри списка -->
+			<ul>
+			<li>Наш канал в МАХ: <a href='https://max.ru/join/GxzK5-ARrRwCzwYLnkQTqk99Ize6OrWt4wYsERkjUrA'><b>МАХ</b></a></li>
 			<li>Наш E-mail: <b>voopik-irk@mail.ru</b></li>
 			<li>Наши социальные сети: <a href='https://vk.com/voopiik_irk'><b>ВКонтакте</b></a></li>
-			<li>Наш телеграм канал: <a href='https://t.me/RodnyeStavni'><b>Родные ставни</a></b></li>
-		<p><a id="navtBtn" class="navBtn" href="#navBar">	&#8593; Наверх </a></p> <!-- Кнопка наверх -->			
+			<li>Наш телеграм канал: <a href='https://t.me/RodnyeStavni'><b>Родные ставни</b></a> <!-- исправлен порядок закрывающих тегов --></li>
+			</ul>
+		<p><a id="navUpBtn" class="navBtn" href="#navBar">	&#8593; Наверх </a></p> <!-- Кнопка наверх. id изменён с navtBtn на navUpBtn: такой id уже был у ссылки «О проекте» -->			
 		</div> 		
 
 		
-		<hr class="line" align="center" id="lll" width="60" size="4" color="#696969" />
+		<hr class="line" style="width:60px; height:4px; background-color:#696969; border:none; margin:0 auto;" /> <!-- устаревшие атрибуты align/width/size/color заменены на CSS; удалён id="lll", повторявшийся трижды (id должен быть уникальным) -->
 			
 
     </body>
