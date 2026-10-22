@@ -28,13 +28,13 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	//map.addLayer(osm);
 	
-	var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	/* var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	});
+	}); */
 
-	var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+	/* var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-	});
+	}); */
 	
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	//map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
@@ -50,8 +50,8 @@
 	var baseLayers = {
 	"Серая карта": osmG,	
 	"OpenStreetMap": osm,
-	"Спутник": satelliteLayer,
-	"Темная карта": darkLayer
+	/* "Спутник": satelliteLayer,
+	"Темная карта": darkLayer */
 	};
 	
 // layer quartals stripes
@@ -345,32 +345,65 @@ map.addLayer(holidayStreet2025); */
 
 
 
- /*Подсветка при наведении- ломает фильтр*/
+ /* ===================== ПОДСВЕТКА ПРИ НАВЕДЕНИИ =====================
+   Почему раньше подсветка «ломала фильтр» и не снималась:
+   старая функция resetHighlight вызывала oldNameStreet.resetStyle(e.target).
+   Метод resetStyle в Leaflet ЗАМЕНЯЕТ объект layer.options копией исходных
+   настроек слоя. Теги фильтров (layer.options.tags) записываются в options
+   уже после этого, в onEachFeature, поэтому в копии их нет:
+     - объект терял теги, и фильтр его больше не видел (он оставался на карте
+       при любом фильтре);
+     - к полигону ОКН применялся стиль ДРУГОГО слоя (oldNameStreet —
+       коричневая линия), поэтому казалось, что подсветка осталась.
+   Теперь исходный стиль каждого объекта запоминается при создании
+   (rememberStyle), а после наведения возвращается через setStyle
+   (restoreStyle). setStyle меняет только параметры оформления и не трогает
+   layer.options.tags, поэтому фильтр продолжает работать.
+   ===================================================================== */
 
+// Параметры оформления, которые меняет подсветка и которые нужно вернуть
+var STYLE_KEYS = ['color', 'weight', 'opacity', 'dashArray', 'fill', 'fillColor', 'fillOpacity'];
+
+// Запомнить исходный стиль объекта (вызывается в onEachFeature)
+function rememberStyle(layer) {
+	layer._baseStyle = {};
+	for (var i = 0; i < STYLE_KEYS.length; i++) {
+		layer._baseStyle[STYLE_KEYS[i]] = layer.options[STYLE_KEYS[i]];
+	}
+}
+
+// Вернуть объекту исходный стиль.
+// Если объект сейчас выделен поиском (highlightedLayer), жёлтый контур
+// сохраняется: наведение мыши не должно снимать выделение поиска
+function restoreStyle(layer) {
+	if (!layer._baseStyle) return;
+	layer.setStyle(layer._baseStyle);
+	if (layer === highlightedLayer) layer.setStyle({color: 'yellow'});
+}
+
+// Подсветка при наведении мыши
 function highlightFeature(e) {
-		var layer = e.target;
+	var layer = e.target;
 
-		layer.setStyle({
-			weight: 7,
-			opacity: .9,
-			color: 'Chocolate',
-			dashArray: '',
-			fillOpacity: 1
-		});
+	layer.setStyle({
+		weight: 7,
+		opacity: .9,
+		color: 'Chocolate',
+		dashArray: '',
+		fillOpacity: 1
+	});
 
-		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-			layer.bringToFront();
-		}
-
+	if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+		layer.bringToFront();
+	}
 }
 
-
+// Снятие подсветки, когда мышь ушла с объекта.
+// Работает для любого слоя: берёт сохранённый стиль самого объекта,
+// а не стиль слоя oldNameStreet, как было раньше
 function resetHighlight(e) {
-	oldNameStreet.resetStyle(e.target);
+	restoreStyle(e.target);
 }
-
-
-
 
 function zoomToFeature(e) {
 	map.fitBounds(e.target.getBounds());
@@ -401,19 +434,29 @@ function zoomToFeature(e) {
 				+(feature.properties['1940streetName'] !="-"? "<dt>"+"&#9899 "+"План города Иркутска 1940г:"+"</dt>"+"<dd>"+"<b>"+feature.properties['1940streetName'] +"</b>"+"</dd>":"")
 					,popupOptions);
 				
-				 /* layer.setText(feature.properties['1869streetName']); */
-				
-					layer.on({
-					mouseover: highlightFeature,
-					mouseout: resetHighlight
-				});
-				
-				layer.on('mouseover', function () {
-					this.setText('     '+feature.properties['1869streetName']+'     ', {repeat: true, attributes:  { style: "fill: White; font-family: system-ui; font-size: 18; stroke: Maroon; font-weight: bold; stroke-width: 1;" }});
+				// Запоминаем исходный стиль линии, чтобы вернуть его после наведения
+				rememberStyle(layer);
+
+				/* Название улицы вдоль линии при наведении.
+				   Почему раньше название оставалось на карте:
+				   1) текст рисуется поверх линии и перехватывал мышь. Курсор «уходил»
+				      с линии на текст, срабатывали mouseout/mouseover по очереди, и
+				      события могли прийти не парами;
+				   2) если mouseover срабатывал дважды подряд, плагин leaflet.textpath
+				      создавал второй текст, а ссылку на первый терял — первый текст
+				      оставался на карте навсегда, setText(null) удалял только второй.
+				   Исправление:
+				   - pointer-events: none — текст больше не перехватывает мышь;
+				   - перед показом текста старый текст всегда удаляется (setText(null)). */
+				layer.on('mouseover', function (e) {
+					highlightFeature(e);
+					this.setText(null);
+					this.setText('     '+feature.properties['1869streetName']+'     ', {repeat: true, attributes:  { style: "fill: White; font-family: system-ui; font-size: 18; stroke: Maroon; font-weight: bold; stroke-width: 1; pointer-events: none;" }});
 				});
 
-				layer.on('mouseout', function () {
-					this.setText(null);
+				layer.on('mouseout', function (e) {
+					this.setText(null);   // убрать название
+					resetHighlight(e);    // вернуть исходный вид линии
 				});
 				
 				},
@@ -468,12 +511,15 @@ function zoomToFeature(e) {
 				var searchTree = layer.feature.properties;
 				searchTree.streetHouseName = searchTree.Name + " " + searchTree.street + " " + searchTree.house;
 				
-				/*
+				// Подсветка ОКН при наведении мыши.
+				// rememberStyle вызывается после записи тегов и стиля: запоминается
+				// именно исходный вид объекта. После ухода мыши restoreStyle
+				// возвращает этот вид, теги фильтров при этом не теряются
+				rememberStyle(layer);
 				layer.on({
 					mouseover: highlightFeature,
 					mouseout: resetHighlight
 				});
-				*/
 				
 				//geojsonStateProtection.options.time = feature.properties.time;
 				},
@@ -649,13 +695,19 @@ zsh.addLayer(minForm);
        - при закрытии его попапа;
        - при новом поиске (снимается с предыдущего найденного объекта);
        - при закрытии панели поиска. */
+  // Объявлена через var, поэтому доступна и в restoreStyle выше по коду
   var highlightedLayer = null;
 
   // Вернуть подсвеченному объекту обычный стиль (goStyle)
+  // Исправлено: раньше здесь тоже был resetStyle, который стирал теги фильтров
+  // у найденного объекта (см. комментарий к блоку «Подсветка при наведении»).
+  // Теперь сначала обнуляется highlightedLayer, затем restoreStyle возвращает
+  // исходный стиль (иначе restoreStyle снова покрасил бы объект в жёлтый)
   function clearSearchHighlight() {
 	if (highlightedLayer) {
-	  geojsonStateProtection.resetStyle(highlightedLayer);
+	  var layer = highlightedLayer;
 	  highlightedLayer = null;
+	  restoreStyle(layer);
 	}
   }
 
