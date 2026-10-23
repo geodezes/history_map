@@ -28,14 +28,6 @@
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
 	//map.addLayer(osm);
 	
-	/* var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	}); */
-
-	/* var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-	}); */
-	
 	map.attributionControl.addAttribution('При поддержке <a href="https://xn--80afcdbalict6afooklqi5o.xn--p1ai/">Фонд Президентских грантов</a>');
 	//map.attributionControl.addAttribution('&copy <a href="https://irkobl.ru/sites/oknio/">Служба по охране объектов культурного наследия Иркутской области</a>');
 	//map.attributionControl.addAttribution('&copy <a href="http://labs.easyblog.it/stefano-cudini/">Stefano Cudini</a>');
@@ -50,8 +42,6 @@
 	var baseLayers = {
 	"Серая карта": osmG,	
 	"OpenStreetMap": osm,
-	/* "Спутник": satelliteLayer,
-	"Темная карта": darkLayer */
 	};
 	
 // layer quartals stripes
@@ -388,7 +378,7 @@ function highlightFeature(e) {
 	layer.setStyle({
 		weight: 7,
 		opacity: .9,
-		color: 'Chocolate',
+		color: 'yellow',
 		dashArray: '',
 		fillOpacity: 1
 	});
@@ -528,17 +518,35 @@ function zoomToFeature(e) {
  //map.addLayer(geojsonStateProtection);
 	//////////////////////////////////////////////////////////////
 	
+	//Архитекторы
 	
+	var arch_los = new L.geoJson.ajax("layers/architect/arch_los.geojson",{
+				//layer style
+					stroke: true,
+					dashed: true,
+					weight: 4.3,
+					color: "seagreen",					
+	});
+	//map.addLayer(arch_los)
+	
+	var arch_razg = new L.geoJson.ajax("layers/architect/arch_razg.geojson",{
+				//layer style
+					stroke: true,
+					dashed: true,
+					weight: 4.3,
+					color: "steelblue",					
+	});
+	//map.addLayer(arch_razg)
 	
 	/* Праздник 2026 */
-var arch_day_2026_line = new L.geoJson.ajax("layers/arch_day_2026_line.geojson",{
+/* var arch_day_2026_line = new L.geoJson.ajax("layers/arch_day_2026_line.geojson",{
 				//layer style
 					stroke: true,
 					dashed: true,
 					weight: 4.3,
 					color: "#731824",					
 	});
-/* map.addLayer(arch_day_2026_line) */
+//map.addLayer(arch_day_2026_line)
 
 
 var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson",{
@@ -568,9 +576,9 @@ var arch_day_2026_point = new L.geoJson.ajax("layers/arch_day_2026_point.geojson
 				}
 				
 });
-/* map.addLayer(arch_day_2026_point) */
+//map.addLayer(arch_day_2026_point)
 
-var arch_day_2026 = L.layerGroup([arch_day_2026_point, arch_day_2026_line]);
+var arch_day_2026 = L.layerGroup([arch_day_2026_point, arch_day_2026_line]); */
 	
 	
 	/* ===================== Малые архитектурные формы ===================== */
@@ -651,7 +659,7 @@ zsh.addLayer(minForm);
 	
 	
 	var dopFilterButton = L.control.tagFilterButton({
-	  data: [/* 'Фото' ,*/'3d модель'/*, 'Описание' */],
+	  data: ['3d модель'],
 	  icon: "<p>"+"3D"+"</p>",
 	  filterOnEveryClick: true
 	}).addTo(map);
@@ -776,9 +784,12 @@ zsh.addLayer(minForm);
 						{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> Выставка в экстерьере', layer: holidayStreet2025},
 						{label: '<img src="images/icon/holidayCaffe2025.svg" style="width:15px;height:15px;"> Выставка в интерьере', layer: holidayCaffe2025},
 						]}, */
-						{label: 'День архитектурного наследия', collapsed: true, children: [
+						/* {label: 'День архитектурного наследия', collapsed: true, children: [
 							{label: '<img src="images/icon/holidayStreet2025.svg" style="width:15px;height:15px;"> 2026', layer: arch_day_2026},
-							/* {label: '<img src="images/icon/holidayCaffe2025.svg" style="width:15px;height:15px;"> Выставка в интерьере', layer: holidayCaffe2025}, */
+						]}, */
+						{label: 'Архитекторы', collapsed: true, children: [
+							{label: '<img src="images/icon/arch_los.svg" style="width:15px;height:15px;"> Лосев А.И. ', layer: arch_los},
+							{label: '<img src="images/icon/arch_razg.svg" style="width:15px;height:15px;"> Разгильдеев А.Е. ', layer: arch_razg},
 						]},
 						{label: 'ГИКЭ', collapsed: true, children: [
 							{label: 'ГИК экспертизы 2024', collapsed: true, children: [
